@@ -105,3 +105,11 @@ venv.bak/
 
 # database
 *.db
+
+# pycharm
+.idea/
+.idea
+*.xml
+*.iml
+
+
