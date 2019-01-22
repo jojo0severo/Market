@@ -1,8 +1,13 @@
+"""This modules contains the initial screen that will always be running."""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class InitialScreen(QtWidgets.QWidget):
+    """Screen that will be always running and redirect to other selected screens."""
+
     def __init__(self):
+        """Constructor."""
         super().__init__()
 
         # Buttons
@@ -14,20 +19,20 @@ class InitialScreen(QtWidgets.QWidget):
         # Initialization
         self.open = None
         self.setup_ui()
-        self.retranslate_ui()
+        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
-        """Handle all the styling of the components"""
-
+        """Handle all the styling of the components."""
         # Window
         self.setObjectName("Dois Irmãos")
         self.resize(1166, 1067)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
-        self.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred,
+                                            QtWidgets.QSizePolicy.Preferred)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
+        self.setSizePolicy(size_policy)
         self.setStyleSheet("gridline-color: rgb(192, 255, 231);\n"
                            "selection-color: rgb(218, 255, 202);\n"
                            "background-color: rgb(255, 255, 255);")
@@ -36,11 +41,12 @@ class InitialScreen(QtWidgets.QWidget):
 
         # Button to go to the screen RegisterValuesScreen
         self.goto_register.setGeometry(QtCore.QRect(800, 110, 261, 131))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.goto_register.sizePolicy().hasHeightForWidth())
-        self.goto_register.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
+                                            QtWidgets.QSizePolicy.Maximum)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.goto_register.sizePolicy().hasHeightForWidth())
+        self.goto_register.setSizePolicy(size_policy)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.goto_register.setFont(font)
@@ -70,11 +76,12 @@ class InitialScreen(QtWidgets.QWidget):
 
         # Button to go to the screen ProfitScreen
         self.goto_profit.setGeometry(QtCore.QRect(800, 320, 261, 131))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.goto_profit.sizePolicy().hasHeightForWidth())
-        self.goto_profit.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum,
+                                            QtWidgets.QSizePolicy.Minimum)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.goto_profit.sizePolicy().hasHeightForWidth())
+        self.goto_profit.setSizePolicy(size_policy)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.goto_profit.setFont(font)
@@ -104,11 +111,12 @@ class InitialScreen(QtWidgets.QWidget):
 
         # Button to go to the screen GraphicsScreen
         self.goto_graph.setGeometry(QtCore.QRect(800, 530, 261, 131))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.goto_graph.sizePolicy().hasHeightForWidth())
-        self.goto_graph.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Expanding)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.goto_graph.sizePolicy().hasHeightForWidth())
+        self.goto_graph.setSizePolicy(size_policy)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.goto_graph.setFont(font)
@@ -128,21 +136,21 @@ class InitialScreen(QtWidgets.QWidget):
                                       "color: white;\n"
                                       "font-weight: bold;\n"
                                       "}"
-                                       "QPushButton:pressed"
-                                       "{"
-                                       "background-color: #6b7ce6;\n"
-                                       "color: white;\n"
-                                       "font-weight: bold;\n"
-                                       "}")
+                                      "QPushButton:pressed"
+                                      "{"
+                                      "background-color: #6b7ce6;\n"
+                                      "color: white;\n"
+                                      "font-weight: bold;\n"
+                                      "}")
 
         # Button to go to the Screen DeleteRegistersScreen
         self.goto_delete.setGeometry(QtCore.QRect(800, 740, 261, 131))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
-                                           QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.goto_delete.sizePolicy().hasHeightForWidth())
-        self.goto_delete.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
+                                            QtWidgets.QSizePolicy.MinimumExpanding)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.goto_delete.sizePolicy().hasHeightForWidth())
+        self.goto_delete.setSizePolicy(size_policy)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.goto_delete.setFont(font)
@@ -170,9 +178,8 @@ class InitialScreen(QtWidgets.QWidget):
                                        "}"
                                        )
 
-    def retranslate_ui(self):
-        """Assign names and formats to the components"""
-
+    def translate_ui(self):
+        """Assign names and formats to the components."""
         self.setWindowTitle("Dois irmãos")
 
         # ======================== Button Stylesheet ===============================
@@ -183,27 +190,32 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_delete.setText("Apagar Registros")
 
     def set_functions(self):
+        """Assign functions to each button."""
         self.goto_register.clicked.connect(self.register_function)
         self.goto_profit.clicked.connect(self.profit_function)
         self.goto_graph.clicked.connect(self.graph_function)
         self.goto_delete.clicked.connect(self.delete_function)
 
     def register_function(self):
+        """Open the screen RegisterValues."""
         from interface.screens.register_values import RegisterValuesScreen
         self.open = RegisterValuesScreen()
         self.open.showFullScreen()
 
     def profit_function(self):
+        """Open the screen Profit."""
         from interface.screens.profit import ProfitScreen
         self.open = ProfitScreen()
         self.open.showFullScreen()
 
     def graph_function(self):
-        from interface.screens.graphics import GraphicsScreen
-        self.open = GraphicsScreen()
+        """Open the screen Graphic."""
+        from interface.screens.graphic import GraphicScreen
+        self.open = GraphicScreen()
         self.open.showFullScreen()
 
     def delete_function(self):
+        """Open the screen DeleteRegisters."""
         from interface.screens.delete_registers import DeleteRegistersScreen
         self.open = DeleteRegistersScreen()
         self.open.showFullScreen()

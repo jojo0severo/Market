@@ -1,9 +1,14 @@
-from handler import main_handler
+"""This module contains the components to show the delete screen to the user."""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+from handler import main_handler
 
 
 class DeleteRegistersScreen(QtWidgets.QWidget):
+    """Screen that will show the options to delete register from database."""
+
     def __init__(self):
+        """Constructor."""
         super().__init__()
 
         # Inputs
@@ -22,12 +27,11 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
         # Initialization
         self.open = None
         self.setup_ui()
-        self.retranslate_ui()
+        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
-        """Handle all the styling of the components"""
-
+        """Handle all the styling of the components."""
         # Window
         self.resize(2050, 1119)
         self.setStyleSheet("gridline-color: rgb(192, 255, 231);\n"
@@ -55,7 +59,8 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
                                      "      font-size: 18px;\n"
                                      "      icon-size: 36px, 36px;\n"
                                      "    icon-color: white;\n"
-                                     "      background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);\n"
+                                     "      background-color: qlineargradient(x1:0, y1:0, x2:0, "
+                                     "y2:1, stop: 0 #cccccc, stop: 1 #333333);\n"
                                      "  }\n"
                                      "\n"
                                      "  QCalendarWidget QMenu {\n"
@@ -103,7 +108,8 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
                                    "      font-size: 18px;\n"
                                    "      icon-size: 36px, 36px;\n"
                                    "    icon-color: white;\n"
-                                   "      background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #cccccc, stop: 1 #333333);\n"
+                                   "      background-color: qlineargradient(x1:0, y1:0, x2:0, "
+                                   "y2:1, stop: 0 #cccccc, stop: 1 #333333);\n"
                                    "  }\n"
                                    "\n"
                                    "  QCalendarWidget QMenu {\n"
@@ -149,12 +155,12 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
 
         # Button to delete the registers
         self.delete.setGeometry(QtCore.QRect(120, 860, 231, 111))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
-                                           QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.delete.sizePolicy().hasHeightForWidth())
-        self.delete.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
+                                            QtWidgets.QSizePolicy.MinimumExpanding)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.delete.sizePolicy().hasHeightForWidth())
+        self.delete.setSizePolicy(size_policy)
         font = QtGui.QFont()
         font.setPointSize(-1)
         self.delete.setFont(font)
@@ -238,18 +244,21 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
                                   "font-weight: bold;\n"
                                   "}")
 
-    def retranslate_ui(self):
-        """Assign names and formats to the components"""
-
+    def translate_ui(self):
+        """Assign names and formats to the components."""
         # Window
         self.setWindowTitle("Dois Irmãos")
 
         # ======================== Label Stylesheet ===============================
 
         self.label_from_date.setText(
-            "<html><head/><body><p>Selecione o início da data que deve ser apagada</p><p><br/></p></body></html>")
+            "<html><head/><body><p>Selecione o início da data que deve ser "
+            "apagada</p><p><br/></p></body></html>"
+        )
         self.label_to_date.setText(
-            "<html><head/><body><p>Selecione o fim da data que deve ser apagada</p><p><br/></p></body></html>")
+            "<html><head/><body><p>Selecione o fim da data que deve ser "
+            "apagada</p><p><br/></p></body></html>"
+        )
 
         # ======================== Button Stylesheet ===============================
 
@@ -258,29 +267,28 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
         self.cancel.setText("Cancelar")
 
     def set_functions(self):
-        """Assign functions to the buttons"""
-
+        """Assign functions to the buttons."""
         self.delete.clicked.connect(self.delete_function)
         self.cancel.clicked.connect(self.cancel_function)
         self.back.clicked.connect(self.back_function)
 
     def delete_function(self):
+        """Delete the register from the selected date."""
         start = self.from_date.selectedDate().toString('dd/MM/yyyy')
         end = self.to_date.selectedDate().toString('dd/MM/yyyy')
         self.show_message(main_handler.delete_from_to_period(start, end))
 
     def cancel_function(self):
+        """Restore the deleted register."""
         self.show_message(main_handler.restore_cache())
 
     def back_function(self):
+        """Go back one screen."""
         self.close()
 
     def show_message(self, message):
-        """Show the returned result to the user"""
-
+        """Show the returned result to the user."""
         message = "\n" + message + "\t\t\n"
         aux = QtWidgets.QMessageBox(self)
         aux.setText(message)
         aux.exec()
-
-

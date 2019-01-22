@@ -1,9 +1,14 @@
-from handler import main_handler
+"""This module contains the components to show the register screen to the user."""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+from handler import main_handler
 
 
 class RegisterValuesScreen(QtWidgets.QWidget):
+    """Screen that will show the options to create new registers and saves it."""
+
     def __init__(self):
+        """Constructor."""
         super().__init__()
 
         # Inputs
@@ -24,12 +29,11 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         # Initialization
         self.open = None
         self.setup_ui()
-        self.retranslate_ui()
+        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
-        """Handle all the styling of the components"""
-
+        """Handle all the styling of the components."""
         # Window
         self.resize(2109, 1141)
         self.setFocusPolicy(QtCore.Qt.ClickFocus)
@@ -43,11 +47,12 @@ class RegisterValuesScreen(QtWidgets.QWidget):
 
         # Entries for the values of sales
         self.sales_text.setGeometry(QtCore.QRect(410, 320, 331, 51))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.sales_text.sizePolicy().hasHeightForWidth())
-        self.sales_text.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
+                                            QtWidgets.QSizePolicy.Expanding)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.sales_text.sizePolicy().hasHeightForWidth())
+        self.sales_text.setSizePolicy(size_policy)
         self.sales_text.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.sales_text.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.sales_text.setStyleSheet("""
@@ -67,11 +72,12 @@ class RegisterValuesScreen(QtWidgets.QWidget):
 
         # Entry to the value of the purchases
         self.purchases_text.setGeometry(QtCore.QRect(1130, 320, 331, 51))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.purchases_text.sizePolicy().hasHeightForWidth())
-        self.purchases_text.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
+                                            QtWidgets.QSizePolicy.Expanding)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.purchases_text.sizePolicy().hasHeightForWidth())
+        self.purchases_text.setSizePolicy(size_policy)
         self.purchases_text.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.purchases_text.setFocusPolicy(QtCore.Qt.ClickFocus)
         self.purchases_text.setStyleSheet("""
@@ -209,34 +215,48 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.sales_text.acceptRichText()
         self.purchases_text.acceptRichText()
 
-    def retranslate_ui(self):
-        """Assign names and formats to the components"""
+    def translate_ui(self):
+        """Assign names and formats to the components."""
         # Window
         self.setWindowTitle("Dois Irmãos")
 
         # ======================== Inputs Stylesheet ===============================
 
         self.sales_text.setHtml(
-            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+            "\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
             "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
             "p, li { white-space: pre-wrap; }\n"
-            "</style></head><body style=\" font-family:\'Dubai\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-size:7.8pt;\"><br /></p></body></html>")
+            "</style></head><body style=\" font-family:\'Dubai\'; font-size:18pt; "
+            "font-weight:400; font-style:normal;\">\n"
+            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+            "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+            "font-family:\'MS Shell Dlg 2\'; font-size:7.8pt;\"><br /></p></body></html>"
+        )
 
         self.purchases_text.setHtml(
-            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+            "\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
             "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
             "p, li { white-space: pre-wrap; }\n"
-            "</style></head><body style=\" font-family:\'Dubai\'; font-size:18pt; font-weight:400; font-style:normal;\">\n"
-            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'MS Shell Dlg 2\'; font-size:7.8pt;\"><br /></p></body></html>")
+            "</style></head><body style=\" font-family:\'Dubai\'; font-size:18pt; "
+            "font-weight:400; font-style:normal;\">\n"
+            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+            "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; "
+            "font-family:\'MS Shell Dlg 2\'; font-size:7.8pt;\"><br /></p></body></html>"
+        )
 
         # ======================== Labels Stylesheet ===============================
 
         self.label_sales_coin.setText("<html><head/><body><p>R$</p></body></html>")
         self.label_purchases.setText(
-            "<html><head/><body><p>Insira o valor <span style=\" color:#e86464;\">gasto</span> no dia</p></body></html>")
+            "<html><head/><body><p>Insira o valor <span style=\" "
+            "color:#e86464;\">gasto</span> no dia</p></body></html>"
+        )
         self.label_sales.setText(
-            "<html><head/><body><p>Insira o valor <span style=\" color:#66bd57;\">ganho</span> no dia</p><p><br/></p></body></html>")
+            "<html><head/><body><p>Insira o valor <span style=\" "
+            "color:#66bd57;\">ganho</span> no dia</p><p><br/></p></body></html>"
+        )
         self.label_purchases_coin.setText("<html><head/><body><p>R$</p></body></html>")
 
         # ======================== Buttons Stylesheet ===============================
@@ -246,22 +266,26 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.register.setText("Cadastrar")
 
     def set_functions(self):
-        """Assign functions to the buttons"""
+        """Assign functions to the buttons."""
         self.register.clicked.connect(self.register_function)
         self.cancel.clicked.connect(self.cancel_function)
         self.back.clicked.connect(self.back_function)
 
     def register_function(self):
-        self.show_message(main_handler.insert(self.sales_text.toPlainText(), self.purchases_text.toPlainText()))
+        """Show the result of the insertion to the user."""
+        self.show_message(
+            main_handler.insert(self.sales_text.toPlainText(), self.purchases_text.toPlainText()))
 
     def cancel_function(self):
+        """Remove the last inserted register."""
         self.show_message(main_handler.delete_last_insert())
 
     def back_function(self):
+        """Go back one screen."""
         self.close()
 
     def show_message(self, message):
-        """Show the returned result to the user"""
+        """Show the returned result to the user."""
         message = "\n" + message + "\t\t\n"
         aux = QtWidgets.QMessageBox(self)
         aux.setText(message)

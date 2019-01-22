@@ -1,9 +1,14 @@
+"""This module contains the components to show the profit screen to the user."""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from handler import main_handler
 
 
 class ProfitScreen(QtWidgets.QWidget):
+    """Screen that will show the profit of the month."""
+
     def __init__(self):
+        """Constructor."""
         super().__init__()
 
         # Dynamic Text
@@ -22,12 +27,11 @@ class ProfitScreen(QtWidgets.QWidget):
         self.profit = response[0]
         self.custom_label = [response[1], response[2]]
         self.setup_ui()
-        self.retranslate_ui()
+        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
-        """Handle all the styling of the components"""
-
+        """Handle all the styling of the components."""
         # Window
         self.setWindowOpacity(3.0)
         font = QtGui.QFont()
@@ -93,9 +97,8 @@ class ProfitScreen(QtWidgets.QWidget):
                                 "}"
                                 )
 
-    def retranslate_ui(self):
-        """Assign names and formats to the components"""
-
+    def translate_ui(self):
+        """Assign names and formats to the components."""
         # Window
         self.setWindowTitle("Dois irmãos")
 
@@ -105,7 +108,8 @@ class ProfitScreen(QtWidgets.QWidget):
 
         # ======================== Label Stylesheet ===============================
 
-        self.profit_label.setText("Lucro obtido no mês de " + self.custom_label[0] + " de " + self.custom_label[1])
+        self.profit_label.setText(
+            "Lucro obtido no mês de " + self.custom_label[0] + " de " + self.custom_label[1])
         self.label_coin.setText("<html><head/><body><p>R$</p></body></html>")
 
         # ======================== Button Stylesheet ===============================
@@ -113,8 +117,9 @@ class ProfitScreen(QtWidgets.QWidget):
         self.back.setText("Voltar")
 
     def set_functions(self):
-        """Assign functions to the buttons"""
+        """Assign functions to the buttons."""
         self.back.clicked.connect(self.back_function)
 
     def back_function(self):
+        """Go back one screen."""
         self.close()

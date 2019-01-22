@@ -1,8 +1,11 @@
+"""This module handles all the inputs to send to the database."""
+
 from handler import formatter
 from executor import main_executor
 
 
 def load():
+    """Remove the old cache and load the database."""
     try:
         import os
         os.remove('handler/_cache/cache')
@@ -14,13 +17,11 @@ def load():
     if main_executor.init() < 3:
         return '\nCarregamento completo!\n'
 
-    else:
-        return '\nCarregamento falhou\n'
+    return '\nCarregamento falhou\n'
 
 
 def insert(sales_value, purchases_value):
-    """Insert into tables ANO, MES and COMPRA/VENDA values based on insert date and values given"""
-
+    """Insert into tables ANO, MES and COMPRA/VENDA values based on insert date and values given."""
     sales_value = str(sales_value).replace(',', '.')
     purchases_value = str(purchases_value).replace(',', '.')
 
@@ -62,6 +63,7 @@ def insert(sales_value, purchases_value):
 
 
 def delete_last_insert():
+    """Remove the last inserted values."""
     cache = open('handler/_cache/cache', 'w', encoding='utf-8')
     query = 'SELECT * FROM venda WHERE id = (SELECT MAX(id) FROM venda);'
     response = main_executor.direct_query(query)
@@ -89,10 +91,16 @@ def delete_last_insert():
 
 
 def delete_from_to_period(from_date, to_date):
+    """Declare future method.
+
+    FOR I IN RANGE(DISTANCE BETWEEN DATES)
+        DELETE FROM TABLE VENDA/COMPRA.
+    """
     return 'Metodo ainda nao implementado'
 
 
 def restore_cache():
+    """Restore the cache stored from the last insert/delete."""
     try:
         cache = open('handler/_cache/cache', 'r', encoding='utf-8').read().split('\n')
         sales = cache[0].split(' - ')
@@ -119,14 +127,17 @@ def restore_cache():
 
 
 def consult_profit(info=None):
-    if info:
-        return '\n' + formatter.format_number(main_executor.select_profit(info)) + '\n'
-    else:
-        info = formatter.format_consult(1)
-        return formatter.format_number(main_executor.select_profit(info)), info['month'], info['year']
+    """Consults the profit of the current month."""
+    info = formatter.format_consult(1)
+
+    return formatter.format_number(main_executor.select_profit(info)), info['month'], info['year']
 
 
 def consult_profit_x_month():
+    """Return labels by profits of the last possible months.
+
+    Possible months are: from now, every month in the past 12 months that has any record.
+    """
     x_labels = formatter.format_x_labels()
     y_consults = formatter.format_y_consult(x_labels)
     y_labels = []
@@ -145,12 +156,15 @@ def consult_profit_x_month():
     x_labels.reverse()
     y_labels.reverse()
 
-    return x_labels, y_labels, formatter.format_number(sum([float(x) for x in y_labels])/len(y_labels))
+    return x_labels, y_labels, formatter.format_number(
+        sum([float(x) for x in y_labels]) / len(y_labels))
 
 
 def drop_all():
+    """Drop all tables, DEVELOPMENT ONLY."""
     return main_executor.drop_all()
 
 
 def close():
+    """Close the database."""
     main_executor.close()

@@ -1,11 +1,16 @@
-from handler import main_handler
+"""This module contains the components to show the graphic screen to the user."""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from handler import main_handler
 
 
-class GraphicsScreen(QtWidgets.QWidget):
+class GraphicScreen(QtWidgets.QWidget):
+    """Screen that will show the graphic with X: Months and Y: Profit."""
+
     def __init__(self):
+        """Constructor."""
         super().__init__()
 
         # Dynamic text
@@ -23,12 +28,11 @@ class GraphicsScreen(QtWidgets.QWidget):
         # Initialization
         self.open = None
         self.setup_ui()
-        self.retranslate_ui()
+        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
-        """Handle all the styling of the components"""
-
+        """Handle all the styling of the components."""
         # Window
         self.resize(1883, 1027)
         self.setStyleSheet("gridline-color: rgb(192, 255, 231);\n"
@@ -102,16 +106,17 @@ class GraphicsScreen(QtWidgets.QWidget):
                                 "font-weight: bold;\n"
                                 "}")
 
-    def retranslate_ui(self):
-        """Assign names and formats to the components"""
-
+    def translate_ui(self):
+        """Assign names and formats to the components."""
         # Window
         self.setWindowTitle("Dois irmãos")
 
         # ======================== Label Stylesheet ===============================
 
         self.label_graphic.setText(
-            "<html><head/><body><p>Gráfico com a relação de lucro por mês</p><p><br/></p></body></html>")
+            "<html><head/><body><p>Gráfico com a relação de lucro por "
+            "mês</p><p><br/></p></body></html>"
+        )
 
         self.label_mean.setText('Média do período de 12 meses')
         self.label_mean_coin.setText('R$')
@@ -122,24 +127,27 @@ class GraphicsScreen(QtWidgets.QWidget):
 
         # ======================== Dynamic Stylesheet ===============================
 
-        x, y, z = main_handler.consult_profit_x_month()
+        x_labels, y_labels, mean = main_handler.consult_profit_x_month()
 
-        self.mpl.canvas.ax.plot(x, y)
+        self.mpl.canvas.axis.plot(x_labels, y_labels)
         self.mpl.canvas.draw()
 
-        self.mean.setText(z)
+        self.mean.setText(mean)
 
     def set_functions(self):
-        """Assign functions to the buttons"""
-
+        """Assign functions to the buttons."""
         self.back.clicked.connect(self.back_function)
 
     def back_function(self):
+        """Go back one screen."""
         self.close()
 
 
 class MplWidget(QtWidgets.QWidget):
+    """Blank widget that will have the graphic."""
+
     def __init__(self, parent=None):
+        """Constructor."""
         QtWidgets.QWidget.__init__(self, parent)
         self.canvas = MplCanvas()
         self.vbl = QtWidgets.QVBoxLayout()
@@ -148,15 +156,18 @@ class MplWidget(QtWidgets.QWidget):
 
 
 class MplCanvas(FigureCanvas):
+    """This class create and add style to the graphic shown in the widget."""
+
     def __init__(self):
+        """Set some style to the graphic."""
         self.fig = plt.Figure()
         plt.style.use('bmh')
         plt.rcParams['xtick.labelsize'] = 14
         plt.rcParams['ytick.labelsize'] = 14
 
-        self.ax = self.fig.add_subplot(111)
+        self.axis = self.fig.add_subplot(111)
 
         FigureCanvas.__init__(self, self.fig)
-        FigureCanvas.setSizePolicy(self, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        FigureCanvas.setSizePolicy(self, QtWidgets.QSizePolicy.Expanding,
+                                   QtWidgets.QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
-
