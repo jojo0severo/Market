@@ -52,37 +52,27 @@ def drop_all():
 
 def select_list(info):
     """Select the value from the given table in the given month of the given year."""
-    query = 'select valor from ' + info['table'] + ' \ninner join mes \n\ton mes.nome_mes = ' + \
-            info['table'] + '.nome_mes and mes.nome_ano = ' + info['table'] + '.nome_ano' \
-                                                                              ' \n\tinner join ' \
-                                                                              'ano \n\t\ton ' \
-                                                                              'ano.nome_ano = ' \
-                                                                              'mes.nome_ano' \
-                                                                              '\nwhere ' \
-                                                                              'mes.nome_mes = ' + \
-            info[
-                'mes'] + ' and ano.nome_ano = ' + info['ano'] + ';'
+    query = 'select valor from "%s" inner join mes on mes.nome_mes = "%s".nome_mes and ' \
+            'mes.nome_ano = "%s".nome_ano inner join ano on ano.nome_ano = mes.nome_ano where ' \
+            'mes.nome_mes = "%s" and ano.nome_ano = "%s";'
 
     cursor = DB.cursor()
-    return cursor.execute(query).fetchall()
+    return cursor.execute(
+            query, (info['table'], info['table'], info['table'], info['month'], info['year'])
+    ).fetchall()
 
 
 def select_total(info):
     """Select the total of the given table."""
-    query = 'select sum(valor) from ' + info['table'] + ' \ninner join mes \n\ton mes.nome_mes = ' \
-                                                        '' + \
-            info['table'] + '.nome_mes and mes.nome_ano = ' + info['table'] + '.nome_ano' \
-                                                                              ' \n\tinner join ' \
-                                                                              'ano \n\t\ton ' \
-                                                                              'ano.nome_ano = ' \
-                                                                              'mes.nome_ano' \
-                                                                              '\nwhere ' \
-                                                                              'mes.nome_mes = ' + \
-            info[
-                'mes'] + ' and ano.nome_ano = ' + info['ano'] + ';'
+    query = 'select sum(valor) from "%s" inner join mes on mes.nome_mes = "%s".nome_mes and ' \
+            'mes.nome_ano = "%s".nome_ano inner join ano on ano.nome_ano = mes.nome_ano where ' \
+            'mes.nome_mes = "%s"  and ano.nome_ano = "%s";'
 
     cursor = DB.cursor()
-    return cursor.execute(query).fetchall()[0][0]
+
+    return cursor.execute(
+            query, (info['table'], info['table'], info['table'], info['month'], info['year'])
+    ).fetchall()[0][0]
 
 
 def select_profit(info):
@@ -95,19 +85,19 @@ def select_profit(info):
     query_compras = 'select sum(valor) from compra inner join mes ' \
                     ' on mes.nome_mes = compra.nome_mes and mes.nome_ano = compra.nome_ano' \
                     ' inner join ano on ano.nome_ano = mes.nome_ano' \
-                    ' where mes.nome_mes = ' + info['month'] + ' and ano.nome_ano = ' + info[
-                        'year'] + ';'
+                    ' where mes.nome_mes = "%s" and ano.nome_ano = "%s";'
 
     query_vendas = 'select sum(valor) from venda inner join mes ' \
                    ' on mes.nome_mes = venda.nome_mes and mes.nome_ano = venda.nome_ano' \
                    ' inner join ano on ano.nome_ano = mes.nome_ano' \
-                   ' where mes.nome_mes = ' + info['month'] + ' and ano.nome_ano = ' + info[
-                       'year'] + ';'
+                   ' where mes.nome_mes = "%s" and ano.nome_ano = "%s";'
 
     cursor = DB.cursor()
     try:
-        return Decimal(cursor.execute(query_vendas).fetchall()[0][0]) \
-               - Decimal(cursor.execute(query_compras).fetchall()[0][0])
+        return Decimal(cursor.execute(query_vendas, (info['month'], info['year'])).fetchall()[0][
+                           0]) \
+               - Decimal(
+                cursor.execute(query_compras, info['month', info['year']]).fetchall()[0][0])
     except TypeError:
         return 0
     except:
