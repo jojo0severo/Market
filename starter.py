@@ -5,9 +5,6 @@ from PyQt5 import QtWidgets
 from interface.screens.initial import InitialScreen
 from handler import main_handler
 
-# Número de linhas do projeto
-# 1442
-
 
 def wrapper():
     """
