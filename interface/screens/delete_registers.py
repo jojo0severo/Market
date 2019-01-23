@@ -162,7 +162,6 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
         size_policy.setHeightForWidth(self.delete.sizePolicy().hasHeightForWidth())
         self.delete.setSizePolicy(size_policy)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.delete.setFont(font)
         self.delete.setStyleSheet("QPushButton\n"
                                   "{\n"
@@ -190,7 +189,6 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
         # Button to go back one window
         self.back.setGeometry(QtCore.QRect(1050, 600, 231, 111))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.back.setFont(font)
         self.back.setStyleSheet("QPushButton\n"
                                 "{\n"
@@ -218,7 +216,6 @@ class DeleteRegistersScreen(QtWidgets.QWidget):
         # Button to cancel the registration
         self.cancel.setGeometry(QtCore.QRect(290, 600, 231, 111))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.cancel.setFont(font)
         self.cancel.setStyleSheet("QPushButton\n"
                                   "{\n"

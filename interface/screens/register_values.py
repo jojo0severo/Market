@@ -131,7 +131,6 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         # Button to register the data to the database
         self.register.setGeometry(QtCore.QRect(80, 600, 231, 111))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.register.setFont(font)
         self.register.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.register.setFocusPolicy(QtCore.Qt.WheelFocus)
@@ -187,7 +186,6 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         # Button to go back one window
         self.back.setGeometry(QtCore.QRect(1050, 600, 231, 111))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.back.setFont(font)
         self.back.setStyleSheet("QPushButton\n"
                                 "{\n"

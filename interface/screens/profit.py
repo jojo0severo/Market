@@ -71,7 +71,6 @@ class ProfitScreen(QtWidgets.QWidget):
         # Button to go back one window
         self.back.setGeometry(QtCore.QRect(1050, 600, 231, 111))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.back.setFont(font)
         self.back.setStyleSheet("QPushButton\n"
                                 "{\n"

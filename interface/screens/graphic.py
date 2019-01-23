@@ -54,7 +54,7 @@ class GraphicScreen(QtWidgets.QWidget):
         # ======================== Label Stylesheet ===============================
 
         # Title to the graph
-        self.label_graphic.setGeometry(QtCore.QRect(35, 50, 671, 81))
+        self.label_graphic.setGeometry(QtCore.QRect(35, 50, 801, 81))
         font = QtGui.QFont()
         font.setFamily("Segoe UI Light")
         font.setPointSize(26)
@@ -81,7 +81,6 @@ class GraphicScreen(QtWidgets.QWidget):
         # Button to go back one window
         self.back.setGeometry(QtCore.QRect(1050, 600, 231, 111))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.back.setFont(font)
         self.back.setStyleSheet("QPushButton\n"
                                 "{\n"
