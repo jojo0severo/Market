@@ -85,7 +85,7 @@ def format_consult(profit, table=None):
 
 def format_x_labels():
     """Return the last 12 months from now concatenated with the correct year in descending order."""
-    current_month = datetime.now().month - 2
+    current_month = datetime.now().month
     current_year = datetime.now().year
 
     months = []
@@ -113,7 +113,7 @@ def format_y_consult(x_labels):
     months = [MONTH_LABELS.index(x_label.split('\n')[0]) + 1 for x_label in x_labels]
 
     # Get the possible years (cannot be more than two years since the limit of time is 12 months)
-    years = list((x_labels[0].split('\n')[0], x_labels[-1].split('\n')[0]))
+    years = list((x_labels[0].split('\n')[1], x_labels[-1].split('\n')[1]))
 
     query = "{"
 
