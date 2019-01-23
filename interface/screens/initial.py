@@ -1,10 +1,14 @@
 """This modules contains the initial screen that will always be running."""
 
+import subprocess
+import os
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interface.screens.register_values import RegisterValuesScreen
-from interface.screens.profit import ProfitScreen	
+from interface.screens.profit import ProfitScreen
 from interface.screens.graphic import GraphicScreen
 from interface.screens.delete_registers import DeleteRegistersScreen
+from handler import main_handler
+
 
 class InitialScreen(QtWidgets.QWidget):
     """Screen that will be always running and redirect to other selected screens."""
@@ -18,13 +22,15 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_graph = QtWidgets.QPushButton(self)
         self.goto_profit = QtWidgets.QPushButton(self)
         self.goto_delete = QtWidgets.QPushButton(self)
+        self.close_program = QtWidgets.QPushButton(self)
+        self.turn_off = QtWidgets.QPushButton(self)
 
-	   # Load screens to RAM
+        # Load screens to RAM
         self.register_screen = RegisterValuesScreen()
         self.delete_screen = DeleteRegistersScreen()
         self.profit_screen = ProfitScreen()
         self.graphic_screen = GraphicScreen()
- 	   
+
         # Initialization
         self.open = None
         self.setup_ui()
@@ -57,7 +63,6 @@ class InitialScreen(QtWidgets.QWidget):
         size_policy.setHeightForWidth(self.goto_register.sizePolicy().hasHeightForWidth())
         self.goto_register.setSizePolicy(size_policy)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.goto_register.setFont(font)
         self.goto_register.setStyleSheet("QPushButton\n"
                                          "{\n"
@@ -92,7 +97,6 @@ class InitialScreen(QtWidgets.QWidget):
         size_policy.setHeightForWidth(self.goto_profit.sizePolicy().hasHeightForWidth())
         self.goto_profit.setSizePolicy(size_policy)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.goto_profit.setFont(font)
         self.goto_profit.setStyleSheet("QPushButton\n"
                                        "{\n"
@@ -127,7 +131,6 @@ class InitialScreen(QtWidgets.QWidget):
         size_policy.setHeightForWidth(self.goto_graph.sizePolicy().hasHeightForWidth())
         self.goto_graph.setSizePolicy(size_policy)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.goto_graph.setFont(font)
         self.goto_graph.setStyleSheet("QPushButton\n"
                                       "{\n"
@@ -161,7 +164,6 @@ class InitialScreen(QtWidgets.QWidget):
         size_policy.setHeightForWidth(self.goto_delete.sizePolicy().hasHeightForWidth())
         self.goto_delete.setSizePolicy(size_policy)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.goto_delete.setFont(font)
         self.goto_delete.setStyleSheet("QPushButton\n"
                                        "{\n"
@@ -187,6 +189,60 @@ class InitialScreen(QtWidgets.QWidget):
                                        "}"
                                        )
 
+        # Button to close the program
+        self.close_program.setGeometry(QtCore.QRect(960, 600, 231, 111))
+        font = QtGui.QFont()
+        self.close_program.setFont(font)
+        self.close_program.setStyleSheet("QPushButton\n"
+                                "{\n"
+                                "  background-color: white;\n"
+                                "  color: black; \n"
+                                "  border: none;\n"
+                                "  margin: 4px 2px;\n"
+                                "  text-align: center;\n"
+                                "  font-size: 24px;\n"
+                                "}\n"
+                                "\n"
+                                "QPushButton:hover:!pressed\n"
+                                "{\n"
+                                "background-color: #989898;\n"
+                                "color: white;\n"
+                                "font-weight: bold;\n"
+                                "}"
+                                "QPushButton:pressed"
+                                "{"
+                                "background-color: #989898;\n"
+                                "color: white;\n"
+                                "font-weight: bold;\n"
+                                "}")
+
+        # Button to turn off computer
+        self.turn_off.setGeometry(QtCore.QRect(1200, 600, 231, 111))
+        font = QtGui.QFont()
+        self.turn_off.setFont(font)
+        self.turn_off.setStyleSheet("QPushButton\n"
+                                "{\n"
+                                "  background-color: white;\n"
+                                "  color: black; \n"
+                                "  border: none;\n"
+                                "  margin: 4px 2px;\n"
+                                "  text-align: center;\n"
+                                "  font-size: 24px;\n"
+                                "}\n"
+                                "\n"
+                                "QPushButton:hover:!pressed\n"
+                                "{\n"
+                                "background-color: #989898;\n"
+                                "color: white;\n"
+                                "font-weight: bold;\n"
+                                "}"
+                                "QPushButton:pressed"
+                                "{"
+                                "background-color: #989898;\n"
+                                "color: white;\n"
+                                "font-weight: bold;\n"
+                                "}")
+
     def translate_ui(self):
         """Assign names and formats to the components."""
         self.setWindowTitle("Dois irmãos")
@@ -197,6 +253,8 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_graph.setText("Ver Gráfico")
         self.goto_profit.setText("Ver Lucro")
         self.goto_delete.setText("Apagar Registros")
+        self.close_program.setText("Sair")
+        self.turn_off.setText("Desligar")
 
     def set_functions(self):
         """Assign functions to each button."""
@@ -204,6 +262,8 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_profit.clicked.connect(self.profit_function)
         self.goto_graph.clicked.connect(self.graph_function)
         self.goto_delete.clicked.connect(self.delete_function)
+        self.close_program.clicked.connect(self.close_function)
+        self.turn_off.clicked.connect(self.turn_off_function)
 
     def register_function(self):
         """Open the screen RegisterValues."""
@@ -220,3 +280,17 @@ class InitialScreen(QtWidgets.QWidget):
     def delete_function(self):
         """Open the screen DeleteRegisters."""
         self.delete_screen.showFullScreen()
+
+    def close_function(self):
+        """Close the program"""
+        main_handler.close()
+        raise SystemExit
+
+    def turn_off_function(self):
+        """Turn off the computer"""
+        if os.name == 'nt':
+            subprocess.call(["shutdown", "/s", "/t", "0"])
+        else:
+            subprocess.call(["shutdown", "-h", "now"])
+        pass
+
