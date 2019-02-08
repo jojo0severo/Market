@@ -46,7 +46,7 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         # ======================== Inputs Stylesheet ===============================
 
         # Entries for the values of sales
-        self.sales_text.setGeometry(QtCore.QRect(130, 270, 331, 51))
+        self.sales_text.setGeometry(QtCore.QRect(170, 300, 331, 51))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
                                             QtWidgets.QSizePolicy.Expanding)
         size_policy.setHorizontalStretch(0)
@@ -71,7 +71,7 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.sales_text.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
 
         # Entry to the value of the purchases
-        self.purchases_text.setGeometry(QtCore.QRect(860, 270, 331, 51))
+        self.purchases_text.setGeometry(QtCore.QRect(920, 300, 331, 51))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
                                             QtWidgets.QSizePolicy.Expanding)
         size_policy.setHorizontalStretch(0)
@@ -105,7 +105,7 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.label_purchases.setFont(font)
 
         # Label of the purchases with the correct coin
-        self.label_purchases_coin.setGeometry(QtCore.QRect(860, 270, 51, 71))
+        self.label_purchases_coin.setGeometry(QtCore.QRect(860, 290, 51, 71))
         font = QtGui.QFont()
         font.setFamily("Dubai")
         font.setPointSize(18)
@@ -120,7 +120,7 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.label_sales.setFont(font)
 
         # Label to the sales with the correct coin
-        self.label_sales_coin.setGeometry(QtCore.QRect(100, 270, 51, 71))
+        self.label_sales_coin.setGeometry(QtCore.QRect(100, 290, 51, 71))
         font = QtGui.QFont()
         font.setFamily("Dubai")
         font.setPointSize(18)

@@ -99,7 +99,7 @@ def select_profit(info):
                - Decimal(
                 cursor.execute(query_compras, (info['month'], info['year'])).fetchall()[0][0])
     except TypeError:
-        return 0
+        return -999
     except:
         return 'Erro'
 

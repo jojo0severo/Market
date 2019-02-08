@@ -113,7 +113,7 @@ def format_y_consult(x_labels):
     months = [MONTH_LABELS.index(x_label.split('\n')[0]) + 1 for x_label in x_labels]
 
     # Get the possible years (cannot be more than two years since the limit of time is 12 months)
-    years = list((x_labels[0].split('\n')[0], x_labels[-1].split('\n')[0]))
+    years = list((x_labels[0].split('\n')[1], x_labels[-1].split('\n')[1]))
 
     query = "{"
 
@@ -123,7 +123,7 @@ def format_y_consult(x_labels):
 
         query += "\"consult_" + str(i + 1) + "\":"
         query += "{\"month\":\"" + str(months[i]) + "\","
-        query += "\"year\":\"" + str(years[len(years) - 1]) + "\"},"
+        query += "\"year\":\"" + str(years[0]) + "\"},"
 
     query = query[:-1]
     query += "}"

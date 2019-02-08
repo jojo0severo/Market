@@ -90,15 +90,6 @@ def delete_last_insert():
     return '\nFalha para apagar os dados.\n'
 
 
-def delete_from_to_period(from_date, to_date):
-    """Declare future method.
-
-    FOR I IN RANGE(DISTANCE BETWEEN DATES)
-        DELETE FROM TABLE VENDA/COMPRA.
-    """
-    return 'Metodo ainda nao implementado'
-
-
 def restore_cache():
     """Restore the cache stored from the last insert/delete."""
     try:
@@ -140,11 +131,11 @@ def consult_profit_x_month():
     """
     x_labels = formatter.format_x_labels()
     y_consults = formatter.format_y_consult(x_labels)
-    y_labels = []
 
+    y_labels = []
     for i in y_consults:
         profit = main_executor.select_profit(y_consults[i])
-        if profit:
+        if profit != -999:
             y_labels.append(profit)
         else:
             break

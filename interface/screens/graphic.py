@@ -28,7 +28,6 @@ class GraphicScreen(QtWidgets.QWidget):
         # Initialization
         self.open = None
         self.setup_ui()
-        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
@@ -117,7 +116,7 @@ class GraphicScreen(QtWidgets.QWidget):
             "mês</p><p><br/></p></body></html>"
         )
 
-        self.label_mean.setText('Média do período de 12 meses')
+        self.label_mean.setText('Lucro médio de 12 meses')
         self.label_mean_coin.setText('R$')
 
         # ======================== Button Stylesheet ===============================
