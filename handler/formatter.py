@@ -123,7 +123,7 @@ def format_y_consult(x_labels):
 
         query += "\"consult_" + str(i + 1) + "\":"
         query += "{\"month\":\"" + str(months[i]) + "\","
-        query += "\"year\":\"" + str(years[len(years) - 1]) + "\"},"
+        query += "\"year\":\"" + str(years[0]) + "\"},"
 
     query = query[:-1]
     query += "}"

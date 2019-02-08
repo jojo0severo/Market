@@ -144,7 +144,7 @@ def consult_profit_x_month():
 
     for i in y_consults:
         profit = main_executor.select_profit(y_consults[i])
-        if profit:
+        if profit != -999:
             y_labels.append(profit)
         else:
             break
@@ -168,3 +168,4 @@ def drop_all():
 def close():
     """Close the database."""
     main_executor.close()
+
