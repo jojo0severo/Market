@@ -23,11 +23,7 @@ class ProfitScreen(QtWidgets.QWidget):
 
         # Initializations
         self.open = None
-        response = main_handler.consult_profit()
-        self.profit = response[0]
-        self.custom_label = [response[1], response[2]]
         self.setup_ui()
-        self.translate_ui()
         self.set_functions()
 
     def setup_ui(self):
@@ -98,17 +94,20 @@ class ProfitScreen(QtWidgets.QWidget):
 
     def translate_ui(self):
         """Assign names and formats to the components."""
+
+        response = main_handler.consult_profit()
+
         # Window
         self.setWindowTitle("Dois irmãos")
 
         # ======================== Dynamic Label Stylesheet ===============================
 
-        self.profit_text.setText(self.profit)
+        self.profit_text.setText(response[0])
 
         # ======================== Label Stylesheet ===============================
 
         self.profit_label.setText(
-            "Lucro obtido no mês de " + self.custom_label[0] + " de " + self.custom_label[1])
+            "Lucro obtido no mês de " + response[1] + " de " + response[2])
         self.label_coin.setText("<html><head/><body><p>R$</p></body></html>")
 
         # ======================== Button Stylesheet ===============================

@@ -133,6 +133,14 @@ def format_y_consult(x_labels):
 
 def format_number(number):
     """Format the number to show as R$ 100.000,00."""
+    if number == -999:
+        return "0"
+
+    is_negative = False
+    if number < 0:
+        number = str(number)[1:]
+        is_negative = True
+
     coins = str(0)
     number = str(number)
     try:
@@ -164,4 +172,11 @@ def format_number(number):
     else:
         formatted_number.append(',00')
 
+    formatted_number.reverse()
+    if is_negative:
+        formatted_number.append('-')
+
+    formatted_number.reverse()
+
     return ''.join(formatted_number)
+

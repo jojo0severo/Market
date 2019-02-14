@@ -22,8 +22,8 @@ def load():
 
 def insert(sales_value, purchases_value):
     """Insert into tables ANO, MES and COMPRA/VENDA values based on insert date and values given."""
-    sales_value = str(sales_value).replace(',', '.')
-    purchases_value = str(purchases_value).replace(',', '.')
+    sales_value = str(sales_value).replace(',', '.').replace(' ', '')
+    purchases_value = str(purchases_value).replace(',', '.').replace(' ', '')
 
     info = formatter.format_insert(sales_value, purchases_value)
 
@@ -64,7 +64,7 @@ def insert(sales_value, purchases_value):
 
 def delete_last_insert():
     """Remove the last inserted values."""
-    cache = open('handler/_cache/cache', 'w', encoding='utf-8')
+    cache = open('handler/_cache/cache', 'w+', encoding='utf-8')
     query = 'SELECT * FROM venda WHERE id = (SELECT MAX(id) FROM venda);'
     response = main_executor.direct_query(query)
     if response:
@@ -117,7 +117,7 @@ def restore_cache():
     return '\nFalha na recuperação de dados.\n'
 
 
-def consult_profit(info=None):
+def consult_profit():
     """Consults the profit of the current month."""
     info = formatter.format_consult(1)
 

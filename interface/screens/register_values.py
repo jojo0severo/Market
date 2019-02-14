@@ -273,6 +273,8 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         """Show the result of the insertion to the user."""
         self.show_message(
             main_handler.insert(self.sales_text.toPlainText(), self.purchases_text.toPlainText()))
+        self.sales_text.setText('')
+        self.purchases_text.setText('')
 
     def cancel_function(self):
         """Remove the last inserted register."""

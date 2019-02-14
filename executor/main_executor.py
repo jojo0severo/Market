@@ -2,8 +2,8 @@
 
 import sqlite3
 
-
-DB = sqlite3.connect("database_data/mercearia.db")
+database_path = '/media/severo/Seagate Expansion Drive/Database/mercearia.db'
+DB = sqlite3.connect(database_path)
 
 
 def init():

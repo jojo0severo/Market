@@ -228,10 +228,13 @@ class InitialScreen(QtWidgets.QWidget):
 
     def register_function(self):
         """Open the screen RegisterValues."""
+        self.register_screen.sales_text.setText('')
+        self.register_screen.purchases_text.setText('')
         self.register_screen.showFullScreen()
 
     def profit_function(self):
         """Open the screen Profit."""
+        self.profit_screen.translate_ui()
         self.profit_screen.showFullScreen()
 
     def graph_function(self):
