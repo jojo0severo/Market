@@ -27,10 +27,14 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.back = QtWidgets.QPushButton(self)
 
         # Initialization
-        self.open = None
         self.setup_ui()
         self.translate_ui()
         self.set_functions()
+
+        # Controls
+        self.can_click = True
+        self.old_sales_text = ''
+        self.old_purchases_text = ''
 
     def setup_ui(self):
         """Handle all the styling of the components."""
@@ -69,6 +73,7 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.sales_text.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.sales_text.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.sales_text.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.sales_text.textChanged.connect(self.limit_text)
 
         # Entry to the value of the purchases
         self.purchases_text.setGeometry(QtCore.QRect(920, 300, 331, 51))
@@ -93,6 +98,7 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.purchases_text.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.purchases_text.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.purchases_text.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.purchases_text.textChanged.connect(self.limit_text)
 
         # ======================== Labels Stylesheet ===============================
 
@@ -263,6 +269,19 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         self.back.setText("Voltar")
         self.register.setText("Cadastrar")
 
+    def limit_text(self):
+        if len(self.sales_text.toPlainText()) == 9:
+            self.old_sales_text = self.sales_text.toPlainText()
+
+        elif len(self.sales_text.toPlainText()) >= 10:
+            self.sales_text.setText(self.old_sales_text)
+
+        if len(self.purchases_text.toPlainText()) == 9:
+            self.old_purchases_text = self.sales_text.toPlainText()
+
+        elif len(self.purchases_text.toPlainText()) >= 10:
+            self.purchases_text.setText(self.old_purchases_text)
+
     def set_functions(self):
         """Assign functions to the buttons."""
         self.register.clicked.connect(self.register_function)
@@ -271,14 +290,18 @@ class RegisterValuesScreen(QtWidgets.QWidget):
 
     def register_function(self):
         """Show the result of the insertion to the user."""
-        self.show_message(
-            main_handler.insert(self.sales_text.toPlainText(), self.purchases_text.toPlainText()))
-        self.sales_text.setText('')
-        self.purchases_text.setText('')
+        if self.can_click:
+            self.can_click = False
+            self.show_message(
+                main_handler.insert(self.sales_text.toPlainText(), self.purchases_text.toPlainText()))
+            self.sales_text.setText('')
+            self.purchases_text.setText('')
 
     def cancel_function(self):
         """Remove the last inserted register."""
-        self.show_message(main_handler.delete_last_insert())
+        if self.can_click:
+            self.can_click = False
+            self.show_message(main_handler.delete_last_insert())
 
     def back_function(self):
         """Go back one screen."""
@@ -288,5 +311,29 @@ class RegisterValuesScreen(QtWidgets.QWidget):
         """Show the returned result to the user."""
         message = "\n" + message + "\t\t\n"
         aux = QtWidgets.QMessageBox(self)
+        aux.setWindowTitle(" ")
         aux.setText(message)
+        aux.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
+        aux.setStyleSheet(""" 
+                            QMessageBox{
+                                border: 2px solid black;
+                                padding: 5px;
+                            }
+                            QPushButton{
+                                border: 1px solid black;
+                                padding: 10px;
+                                padding-right: 30px;
+                                padding-left: 30px;
+                                margin: 0;
+                            }
+                            QLabel{
+                                margin-right: 25px;
+                            }
+                            QPushButton:hover{
+                                background-color: #F3F3F3;
+                            }
+                            """)
+
+        aux.children()[3].setCursor(QtCore.Qt.PointingHandCursor)
         aux.exec()
+        self.can_click = True

@@ -1,11 +1,12 @@
 """This modules contains the initial screen that will always be running."""
 
 import subprocess
-import os
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interface.screens.register_values import RegisterValuesScreen
 from interface.screens.profit import ProfitScreen
 from interface.screens.graphic import GraphicScreen
+from interface.screens.view_values import ViewValuesScreen
 from handler import main_handler
 
 
@@ -20,6 +21,7 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_register = QtWidgets.QPushButton(self)
         self.goto_graph = QtWidgets.QPushButton(self)
         self.goto_profit = QtWidgets.QPushButton(self)
+        self.goto_view_values = QtWidgets.QPushButton(self)
         self.close_program = QtWidgets.QPushButton(self)
         self.turn_off = QtWidgets.QPushButton(self)
 
@@ -27,9 +29,9 @@ class InitialScreen(QtWidgets.QWidget):
         self.register_screen = RegisterValuesScreen()
         self.profit_screen = ProfitScreen()
         self.graphic_screen = GraphicScreen()
+        self.view_values_screen = ViewValuesScreen()
 
         # Initialization
-        self.open = None
         self.setup_ui()
         self.translate_ui()
         self.set_functions()
@@ -52,7 +54,7 @@ class InitialScreen(QtWidgets.QWidget):
         # ======================== Button Stylesheet ===============================
 
         # Button to go to the screen RegisterValuesScreen
-        self.goto_register.setGeometry(QtCore.QRect(500, 40, 261, 131))
+        self.goto_register.setGeometry(QtCore.QRect(480, 40, 281, 131))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum,
                                             QtWidgets.QSizePolicy.Maximum)
         size_policy.setHorizontalStretch(0)
@@ -86,7 +88,7 @@ class InitialScreen(QtWidgets.QWidget):
                                          "}")
 
         # Button to go to the screen ProfitScreen
-        self.goto_profit.setGeometry(QtCore.QRect(500, 190, 261, 131))
+        self.goto_profit.setGeometry(QtCore.QRect(480, 190, 281, 131))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum,
                                             QtWidgets.QSizePolicy.Minimum)
         size_policy.setHorizontalStretch(0)
@@ -120,7 +122,7 @@ class InitialScreen(QtWidgets.QWidget):
                                        )
 
         # Button to go to the screen GraphicsScreen
-        self.goto_graph.setGeometry(QtCore.QRect(500, 340, 261, 131))
+        self.goto_graph.setGeometry(QtCore.QRect(480, 340, 281, 131))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
                                             QtWidgets.QSizePolicy.Expanding)
         size_policy.setHorizontalStretch(0)
@@ -152,59 +154,93 @@ class InitialScreen(QtWidgets.QWidget):
                                       "font-weight: bold;\n"
                                       "}")
 
+        # Button to go to the screen ViewValuesScreen
+        self.goto_view_values.setGeometry(QtCore.QRect(480, 490, 281, 131))
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                                            QtWidgets.QSizePolicy.Expanding)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.goto_view_values.sizePolicy().hasHeightForWidth())
+        self.goto_view_values.setSizePolicy(size_policy)
+        font = QtGui.QFont()
+        self.goto_view_values.setFont(font)
+        self.goto_view_values.setStyleSheet("QPushButton\n"
+                                            "{\n"
+                                            "  background-color:  white;\n"
+                                            "  color: black; \n"
+                                            "  margin: 4px 2px;\n"
+                                            "  text-align: center;\n"
+                                            "  font-size: 24px;\n"
+                                            "  border: 2px solid #C86BCB;\n"
+                                            "}\n"
+                                            "\n"
+                                            "QPushButton:hover:!pressed\n"
+                                            "{\n"
+                                            "background-color: #C86BCB;\n"
+                                            "color: white;\n"
+                                            "font-weight: bold;\n"
+                                            "}"
+                                            "QPushButton:pressed"
+                                            "{"
+                                            "background-color: #C86BCB;\n"
+                                            "color: white;\n"
+                                            "font-weight: bold;\n"
+                                            "}")
+
         # Button to close the program
-        self.close_program.setGeometry(QtCore.QRect(860, 600, 231, 111))
+        self.close_program.setGeometry(QtCore.QRect(1100, 600, 231, 111))
         font = QtGui.QFont()
         self.close_program.setFont(font)
         self.close_program.setStyleSheet("QPushButton\n"
-                                "{\n"
-                                "  background-color: white;\n"
-                                "  color: black; \n"
-                                "  border: none;\n"
-                                "  margin: 4px 2px;\n"
-                                "  text-align: center;\n"
-                                "  font-size: 24px;\n"
-                                "}\n"
-                                "\n"
-                                "QPushButton:hover:!pressed\n"
-                                "{\n"
-                                "background-color: #989898;\n"
-                                "color: white;\n"
-                                "font-weight: bold;\n"
-                                "}"
-                                "QPushButton:pressed"
-                                "{"
-                                "background-color: #989898;\n"
-                                "color: white;\n"
-                                "font-weight: bold;\n"
-                                "}")
+                                         "{\n"
+                                         "  background-color: white;\n"
+                                         "  color: black; \n"
+                                         "  border: none;\n"
+                                         "  margin: 4px 2px;\n"
+                                         "  text-align: center;\n"
+                                         "  font-size: 24px;\n"
+                                         "}\n"
+                                         "\n"
+                                         "QPushButton:hover:!pressed\n"
+                                         "{\n"
+                                         "background-color: #989898;\n"
+                                         "color: white;\n"
+                                         "font-weight: bold;\n"
+                                         "}"
+                                         "QPushButton:pressed"
+                                         "{"
+                                         "background-color: #989898;\n"
+                                         "color: white;\n"
+                                         "font-weight: bold;\n"
+                                         "}")
 
         # Button to turn off computer
-        self.turn_off.setGeometry(QtCore.QRect(1100, 600, 231, 111))
+        self.turn_off.setGeometry(QtCore.QRect(860, 600, 231, 111))
         font = QtGui.QFont()
         self.turn_off.setFont(font)
         self.turn_off.setStyleSheet("QPushButton\n"
-                                "{\n"
-                                "  background-color: white;\n"
-                                "  color: black; \n"
-                                "  border: none;\n"
-                                "  margin: 4px 2px;\n"
-                                "  text-align: center;\n"
-                                "  font-size: 24px;\n"
-                                "}\n"
-                                "\n"
-                                "QPushButton:hover:!pressed\n"
-                                "{\n"
-                                "background-color: #989898;\n"
-                                "color: white;\n"
-                                "font-weight: bold;\n"
-                                "}"
-                                "QPushButton:pressed"
-                                "{"
-                                "background-color: #989898;\n"
-                                "color: white;\n"
-                                "font-weight: bold;\n"
-                                "}")
+                                    "{\n"
+                                    "  background-color: white;\n"
+                                    "  color: black; \n"
+                                    "  border: none;\n"
+                                    "  margin: 4px 2px;\n"
+                                    "  text-align: center;\n"
+                                    "  font-size: 24px;\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton:hover:!pressed\n"
+                                    "{\n"
+                                    "background-color: #989898;\n"
+                                    "color: white;\n"
+                                    "font-weight: bold;\n"
+                                    "}"
+                                    "QPushButton:pressed"
+                                    "{"
+                                    "background-color: #989898;\n"
+                                    "color: white;\n"
+                                    "font-weight: bold;\n"
+                                    "}")
+        self.turn_off.setDisabled(True)
 
     def translate_ui(self):
         """Assign names and formats to the components."""
@@ -215,6 +251,7 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_register.setText("Cadastrar Valores")
         self.goto_graph.setText("Ver Gráfico")
         self.goto_profit.setText("Ver Lucro")
+        self.goto_view_values.setText("Ver Vendas e Compras")
         self.close_program.setText("Sair")
         self.turn_off.setText("Desligar")
 
@@ -223,13 +260,14 @@ class InitialScreen(QtWidgets.QWidget):
         self.goto_register.clicked.connect(self.register_function)
         self.goto_profit.clicked.connect(self.profit_function)
         self.goto_graph.clicked.connect(self.graph_function)
+        self.goto_view_values.clicked.connect(self.view_values_function)
         self.close_program.clicked.connect(self.close_function)
         self.turn_off.clicked.connect(self.turn_off_function)
 
     def register_function(self):
         """Open the screen RegisterValues."""
-        self.register_screen.sales_text.setText('')
-        self.register_screen.purchases_text.setText('')
+        self.register_screen.sales_text.setText("")
+        self.register_screen.purchases_text.setText("")
         self.register_screen.showFullScreen()
 
     def profit_function(self):
@@ -242,16 +280,22 @@ class InitialScreen(QtWidgets.QWidget):
         self.graphic_screen.translate_ui()
         self.graphic_screen.showFullScreen()
 
+    def view_values_function(self):
+        self.view_values_screen.update_tables()
+        self.view_values_screen.showFullScreen()
+
     def close_function(self):
         """Close the program"""
         main_handler.close()
+        self.close()
         raise SystemExit
 
     def turn_off_function(self):
         """Turn off the computer"""
-        if os.name == 'nt':
+        main_handler.close()
+        self.close()
+
+        if sys.platform == 'win32':
             subprocess.call(["shutdown", "/s", "/t", "0"])
         else:
             subprocess.call(["shutdown", "-h", "now"])
-        pass
-

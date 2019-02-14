@@ -26,7 +26,6 @@ class GraphicScreen(QtWidgets.QWidget):
         self.back = QtWidgets.QPushButton(self)
 
         # Initialization
-        self.open = None
         self.setup_ui()
         self.set_functions()
 

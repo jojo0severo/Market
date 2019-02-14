@@ -5,12 +5,14 @@ import json
 
 
 # ================================ Patterns ====================================
-# insert       = {'table': table_name, 'values'  : [field1, field2, etc]}
-# select list  = {'table': table_name, 'month'   : month_name, 'year': year_name}
-# select total = {'table': table_name, 'month'   : month_name, 'year': year_name}
-# select lucro = {'month': month_name, 'year'    : year_name}
+# insert       = {'table': table_name, 'values': [field1, field2, etc]}
+# select list  = {'table': table_name, 'month' : month_name, 'year': year_name}
+# select total = {'table': table_name, 'month' : month_name, 'year': year_name}
+# select lucro = {'month': month_name, 'year'  : year_name}
 
 MONTH_LABELS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+FULL_MONTH_LABELS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+                     'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
 
 def format_insert(sales, purchases, month=None, year=None):
@@ -31,11 +33,11 @@ def format_insert(sales, purchases, month=None, year=None):
         },
         'insert_3': {
             'table': 'Compra',
-            'values': [str(purchases), str(month), str(year)]
+            'values': [str(purchases), str(datetime.now().day), str(month), str(year)]
         },
         'insert_4': {
             'table': 'Venda',
-            'values': [str(sales), str(month), str(year)]
+            'values': [str(sales), str(datetime.now().day), str(month), str(year)]
         }
     }
 
@@ -54,11 +56,11 @@ def format_cache(sales, purchases):
     info = {
         'insert_1': {
             'table': 'Compra',
-            'values': [purchases[0], purchases[1], purchases[2]]
+            'values': [purchases[0], purchases[1], purchases[2], purchases[3]]
         },
         'insert_2': {
             'table': 'Venda',
-            'values': [sales[0], sales[1], sales[2]]
+            'values': [sales[0], sales[1], sales[2], sales[3]]
         }
     }
 
@@ -133,7 +135,7 @@ def format_y_consult(x_labels):
 
 def format_number(number):
     """Format the number to show as R$ 100.000,00."""
-    if number == -999:
+    if number == -999.999:
         return "0"
 
     is_negative = False
@@ -180,3 +182,27 @@ def format_number(number):
 
     return ''.join(formatted_number)
 
+
+def format_consult_with_limit(table, limit):
+    if table == 'sales':
+        table_name = 'venda'
+    else:
+        table_name = 'compra'
+
+    return {
+        'table': table_name,
+        'limit': str(limit)
+    }
+
+
+def format_list_x(values):
+    total = 0
+    formatted_values = []
+    formatted_dates = []
+
+    for value, day, month in values:
+        total += value
+        formatted_values.append(str(format_number(value)))
+        formatted_dates.append(str(day) + ' de ' + str(FULL_MONTH_LABELS[month-1]))
+
+    return total, formatted_values, formatted_dates

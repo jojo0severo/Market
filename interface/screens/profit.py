@@ -22,7 +22,6 @@ class ProfitScreen(QtWidgets.QWidget):
         self.back = QtWidgets.QPushButton(self)
 
         # Initializations
-        self.open = None
         self.setup_ui()
         self.set_functions()
 

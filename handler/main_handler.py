@@ -1,5 +1,6 @@
 """This module handles all the inputs to send to the database."""
 
+import re
 from handler import formatter
 from executor import main_executor
 
@@ -22,8 +23,25 @@ def load():
 
 def insert(sales_value, purchases_value):
     """Insert into tables ANO, MES and COMPRA/VENDA values based on insert date and values given."""
-    sales_value = str(sales_value).replace(',', '.').replace(' ', '')
-    purchases_value = str(purchases_value).replace(',', '.').replace(' ', '')
+
+    if not sales_value:
+        sales_value = 0
+
+    if not purchases_value:
+        purchases_value = 0
+
+    try:
+
+        sales_value = re.search(
+                '[\s]*([,.\d]+)[\s]*', str(sales_value)).groups()[0].replace(',', '.')
+        purchases_value = re.search(
+                '[\s]*([,.\d]+)[\s]*', str(purchases_value)).groups()[0].replace(',', '.')
+        sales = float(sales_value)
+        purchases = float(purchases_value)
+        if sales < 0 or purchases < 0:
+            return '\nFalha para inserir os dados.\n'
+    except:
+        return '\nErro de digitação\n'
 
     info = formatter.format_insert(sales_value, purchases_value)
 
@@ -64,24 +82,6 @@ def insert(sales_value, purchases_value):
 
 def delete_last_insert():
     """Remove the last inserted values."""
-    cache = open('handler/_cache/cache', 'w+', encoding='utf-8')
-    query = 'SELECT * FROM venda WHERE id = (SELECT MAX(id) FROM venda);'
-    response = main_executor.direct_query(query)
-    if response:
-        cache.write(' - '.join([str(x) for x in response[1:]]))
-        cache.write('\n')
-    else:
-        return 'Erro'
-
-    query = 'SELECT * FROM compra WHERE id = (SELECT MAX(id) FROM compra);'
-    response = main_executor.direct_query(query)
-    if response:
-        cache.write(' - '.join([str(x) for x in response[1:]]))
-        cache.flush()
-        cache.close()
-    else:
-        return 'Erro'
-
     response = main_executor.delete_last_insert()
 
     if response == 1:
@@ -135,7 +135,7 @@ def consult_profit_x_month():
     y_labels = []
     for i in y_consults:
         profit = main_executor.select_profit(y_consults[i])
-        if profit != -999:
+        if str(profit) != str(-999.999):
             y_labels.append(profit)
         else:
             break
@@ -149,6 +149,12 @@ def consult_profit_x_month():
 
     return x_labels, y_labels, formatter.format_number(
         sum([float(x) for x in y_labels]) / len(y_labels))
+
+
+def consult_x_by_day(table_name, limit=30):
+    info = formatter.format_consult_with_limit(table_name, limit)
+    response = main_executor.select_list_with_limit(info)
+    return formatter.format_list_x(response)
 
 
 def drop_all():
