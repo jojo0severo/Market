@@ -11,8 +11,7 @@ CREATE TABLE Mes (
 );
 
 CREATE TABLE Venda (
-  id       INTEGER PRIMARY KEY AUTOINCREMENT,
-  valor    NUMBER    NOT NULL,
+  valor    NUMBER    PRIMARY KEY,
   nome_mes NUMBER(2) NOT NULL,
   nome_ano NUMBER(4) NOT NULL,
   CONSTRAINT fk_compra_mes FOREIGN KEY (nome_mes, nome_ano) REFERENCES Mes (nome_mes, nome_ano)
@@ -20,15 +19,9 @@ CREATE TABLE Venda (
 );
 
 CREATE TABLE Compra (
-  id       INTEGER PRIMARY KEY AUTOINCREMENT,
-  valor    int       NOT NULL,
+  valor    NUMBER    PRIMARY KEY,
   nome_mes NUMBER(2) NOT NULL,
   nome_ano NUMBER(4) NOT NULL,
   CONSTRAINT fk_compra_mes FOREIGN KEY (nome_mes, nome_ano) REFERENCES Mes (nome_mes, nome_ano)
     ON DELETE CASCADE
 );
-
-CREATE UNIQUE INDEX id
-  ON Venda (id);
-CREATE UNIQUE INDEX id
-  ON Compra (id);
