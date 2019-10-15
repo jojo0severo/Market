@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1046</width>
-    <height>757</height>
+    <width>926</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -482,7 +482,7 @@
        <locale language="Portuguese" country="Brazil"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="initial_page">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -2138,7 +2138,7 @@ p, li { white-space: pre-wrap; }
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color:rgb(238, 238, 236);</string>
+           <string notr="true"/>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
            <item>
@@ -2498,7 +2498,7 @@ QPushButton:pressed {
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>75</height>
+            <height>100</height>
            </size>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -2729,10 +2729,173 @@ QPushButton:pressed {
       </widget>
       <widget class="QWidget" name="lists_page">
        <layout class="QGridLayout" name="gridLayout_6">
+        <item row="0" column="1">
+         <widget class="QWidget" name="verticalWidget" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="from_date_label">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Desde</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="from_date_option">
+             <property name="date">
+              <date>
+               <year>2018</year>
+               <month>1</month>
+               <day>1</day>
+              </date>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="to_date_label">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>70</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Até</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="to_date_option">
+             <property name="date">
+              <date>
+               <year>2018</year>
+               <month>2</month>
+               <day>1</day>
+              </date>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>460</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="0" column="0">
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QWidget" name="gridWidget" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_11">
+           <item row="0" column="0">
+            <widget class="QLabel" name="purchases_label">
+             <property name="text">
+              <string>Compras</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="sales_label">
+             <property name="text">
+              <string>Vendas</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTableWidget" name="purchases_table"/>
+           </item>
+           <item row="1" column="2">
+            <widget class="QTableWidget" name="sales_table">
+             <property name="maximumSize">
+              <size>
+               <width>400</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="spacer_9">
           <property name="text">
-           <string>PushButton</string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="back_button_4">
+          <property name="minimumSize">
+           <size>
+            <width>180</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>180</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	background-color: white;
+	color: black;
+	border: 2px solid #C1C0C0;
+}
+
+QPushButton : hover : !pressed {
+	background-color: #C1C0C0;
+	color: white;
+	font-weight: bold;
+}
+
+QPushButton:pressed {
+	background-color: #C1C0C0;
+	color: white;
+	font-weight: bold;
+}</string>
+          </property>
+          <property name="text">
+           <string>Voltar</string>
           </property>
          </widget>
         </item>
@@ -2741,9 +2904,12 @@ QPushButton:pressed {
       <widget class="QWidget" name="profit_graphic_page">
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QGraphicsView" name="graphicsView"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pushButton">
           <property name="text">
-           <string>PushButton</string>
+           <string>Voltar</string>
           </property>
          </widget>
         </item>
