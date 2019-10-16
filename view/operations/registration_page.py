@@ -1,11 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from datetime import datetime
+from controller.registration_controller import RegistrationController
 
 
 class RegistrationPage(QtWidgets.QWidget):
     def __init__(self, back_signal, *args):
         super(RegistrationPage, self).__init__(*args)
 
+        self.controller = RegistrationController()
         self.back_signal = back_signal
+        self.dialog = QtWidgets.QMessageBox(self)
+        self.dialog.setWindowTitle('Aviso')
 
         # Declaring main objects
         self.grid_layout = QtWidgets.QGridLayout(self)
@@ -38,8 +43,8 @@ class RegistrationPage(QtWidgets.QWidget):
         self.product_name_option = QtWidgets.QTextEdit(self.form)
         self.date_option = QtWidgets.QDateEdit(self.form)
         self.value_option = QtWidgets.QTextEdit(self.coin_input_horizontalWidget)
-        self.sale_option = QtWidgets.QRadioButton(self.purchase_sale_horizontalWidget)
         self.purchase_option = QtWidgets.QRadioButton(self.purchase_sale_horizontalWidget)
+        self.sale_option = QtWidgets.QRadioButton(self.purchase_sale_horizontalWidget)
 
         # Building UI
         self.setup_ui()
@@ -111,8 +116,8 @@ class RegistrationPage(QtWidgets.QWidget):
         self.date_option.setMinimumSize(QtCore.QSize(120, 0))
         self.date_option.setMaximumSize(QtCore.QSize(180, 50))
         self.date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.date_option.setDate(QtCore.QDate(2018, 1, 1))
+        self.date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(1990, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
         self.date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
 
         size_policy.setHeightForWidth(self.value_option.sizePolicy().hasHeightForWidth())
@@ -142,8 +147,8 @@ class RegistrationPage(QtWidgets.QWidget):
         self.product_name_label.setText(_translate("MainWindow", "Informe o nome do produto:"))
         self.coin_label.setText(_translate("MainWindow", "R$"))
         self.value_option.setPlaceholderText(_translate("MainWindow", "0,00"))
-        self.sale_option.setText(_translate("MainWindow", "Compra"))
-        self.purchase_option.setText(_translate("MainWindow", "Venda"))
+        self.purchase_option.setText(_translate("MainWindow", "Compra"))
+        self.sale_option.setText(_translate("MainWindow", "Venda"))
 
     def create_structure(self):
         self.purchase_sale_layout.addWidget(self.purchase_option)
@@ -171,13 +176,55 @@ class RegistrationPage(QtWidgets.QWidget):
         self.grid_layout.addWidget(self.bottom_buttons_horizontalWidget, 2, 1, 1, 1)
 
     def define_actions(self):
+        self.register_button.clicked.connect(self.register_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
 
+    def register_transaction(self):
+        info = {}
 
-if __name__ == '__main__':
-    import sys
+        if self.purchase_option.isChecked():
+            info['transaction_type'] = 'purchase'
 
-    APP = QtWidgets.QApplication(sys.argv)
-    app = RegistrationPage()
-    app.show()
-    sys.exit(APP.exec())
+        elif self.sale_option.isChecked():
+            info['transaction_type'] = 'sale'
+
+        else:
+            self.dialog.setText('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_date'] = self.date_option.text()
+
+        product_name = self.product_name_option.toPlainText()
+        if not product_name:
+            self.dialog.setText('\nNenhum nome foi dado para o produto comprado/vendido. Insira um nome e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['product_name'] = product_name
+
+        value = self.value_option.toPlainText()
+        if not value:
+            self.dialog.setText('\nNenhum valor foi atribuído à transação. Insira um valor e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_value'] = value
+
+        message = self.controller.register(info)
+        self.dialog.setText('\n{}\t\t\n'.format(message))
+        self.dialog.exec()
+
+    def clear(self):
+        self.sale_option.setAutoExclusive(False)
+        self.purchase_option.setAutoExclusive(False)
+
+        self.sale_option.setChecked(False)
+        self.purchase_option.setChecked(False)
+
+        self.sale_option.setAutoExclusive(True)
+        self.purchase_option.setAutoExclusive(True)
+
+        self.product_name_option.clear()
+        self.value_option.clear()
+        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))

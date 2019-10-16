@@ -1,11 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from datetime import datetime
+from controller.deletion_controller import DeletionController
 
 
 class DeletionPage(QtWidgets.QWidget):
     def __init__(self, back_signal, *args):
         super(DeletionPage, self).__init__(*args)
 
+        self.controller = DeletionController()
         self.back_signal = back_signal
+        self.dialog = QtWidgets.QMessageBox(self)
+        self.dialog.setWindowTitle('Aviso')
 
         # Main
         self.grid_layout = QtWidgets.QGridLayout(self)
@@ -123,7 +128,7 @@ class DeletionPage(QtWidgets.QWidget):
         self.date_option.setMaximumSize(QtCore.QSize(180, 50))
         self.date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
         self.date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.date_option.setDate(QtCore.QDate(2018, 1, 1))
+        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
         self.date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
 
     def translate_ui(self):
@@ -163,13 +168,46 @@ class DeletionPage(QtWidgets.QWidget):
         self.grid_layout.addWidget(self.bottom_buttons_horizontalWidget, 2, 0, 1, 1)
 
     def define_actions(self):
+        self.delete_button.clicked.connect(self.delete_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
 
+    def delete_transaction(self):
+        info = {}
 
-if __name__ == '__main__':
-    import sys
+        if self.purchase_option.isChecked():
+            info['transaction_type'] = 'purchase'
 
-    APP = QtWidgets.QApplication(sys.argv)
-    app = DeletionPage(None)
-    app.show()
-    sys.exit(APP.exec())
+        elif self.sale_option.isChecked():
+            info['transaction_type'] = 'sale'
+
+        else:
+            self.dialog.setText('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_date'] = self.date_option.text()
+
+        value = self.value_option.toPlainText()
+        if not value:
+            self.dialog.setText('\nNenhum valor de transação foi informado. Insira um valor e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_value'] = value
+
+        message = self.controller.delete(info)
+        self.dialog.setText('\n{}\t\t\n'.format(message))
+        self.dialog.exec()
+
+    def clear(self):
+        self.sale_option.setAutoExclusive(False)
+        self.purchase_option.setAutoExclusive(False)
+
+        self.sale_option.setChecked(False)
+        self.purchase_option.setChecked(False)
+
+        self.sale_option.setAutoExclusive(True)
+        self.purchase_option.setAutoExclusive(True)
+
+        self.value_option.clear()
+        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))

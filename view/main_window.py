@@ -27,13 +27,15 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
         # Declaring pages
         self.initial_page = InitialPage(self.navigation_signal)
-        self.registration_page = RegistrationPage(self.back_signal)
-        self.edition_page = EditionPage(self.back_signal)
-        self.deletion_page = DeletionPage(self.back_signal)
-        self.lists_page = ListsPage(self.back_signal)
-        self.profit_graphic_page = ProfitGraphicPage(self.back_signal)
-        self.purchases_graphic_page = PurchasesGraphicPage(self.back_signal)
-        self.sales_graphic_page = SalesGraphicPage(self.back_signal)
+        self.pages = [
+            RegistrationPage(self.back_signal),
+            EditionPage(self.back_signal),
+            DeletionPage(self.back_signal),
+            ListsPage(self.back_signal),
+            ProfitGraphicPage(self.back_signal),
+            PurchasesGraphicPage(self.back_signal),
+            SalesGraphicPage(self.back_signal)
+        ]
 
         # Building UI
         self.setup_ui()
@@ -57,19 +59,16 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
     def create_structure(self):
         self.stacked_widget.addWidget(self.initial_page)
-        self.stacked_widget.addWidget(self.registration_page)
-        self.stacked_widget.addWidget(self.edition_page)
-        self.stacked_widget.addWidget(self.deletion_page)
-        self.stacked_widget.addWidget(self.lists_page)
-        self.stacked_widget.addWidget(self.profit_graphic_page)
-        self.stacked_widget.addWidget(self.purchases_graphic_page)
-        self.stacked_widget.addWidget(self.sales_graphic_page)
+        for page in self.pages:
+            self.stacked_widget.addWidget(page)
+
         self.grid_layout.addWidget(self.stacked_widget, 0, 1, 1, 1)
         self.setCentralWidget(self.central_widget)
         self.stacked_widget.setCurrentIndex(0)
 
     @QtCore.pyqtSlot(int)
     def open_page(self, page):
+        self.pages[page-1].clear()
         self.stacked_widget.setCurrentIndex(page)
 
     @QtCore.pyqtSlot()

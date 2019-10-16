@@ -1,11 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from datetime import datetime
+from controller.edition_controller import EditionController
 
 
 class EditionPage(QtWidgets.QWidget):
     def __init__(self, back_signal, *args):
         super(EditionPage, self).__init__(*args)
 
+        self.controller = EditionController()
         self.back_signal = back_signal
+        self.dialog = QtWidgets.QMessageBox(self)
+        self.dialog.setWindowTitle('Aviso')
 
         # Declaring main objects
         self.gridLayout = QtWidgets.QGridLayout(self)
@@ -132,7 +137,7 @@ class EditionPage(QtWidgets.QWidget):
         self.date_option.setSizePolicy(size_policy)
         self.date_option.setMinimumSize(QtCore.QSize(120, 0))
         self.date_option.setMaximumSize(QtCore.QSize(180, 50))
-        self.date_option.setDate(QtCore.QDate(2018, 1, 1))
+        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
         self.date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
 
         self.old_value_option.setMaximumSize(QtCore.QSize(160, 35))
@@ -188,14 +193,55 @@ class EditionPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.bottom_buttons_horizontalWidget, 12, 0, 1, 1)
 
     def define_actions(self):
+        self.edit_button.clicked.connect(self.edit_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
 
+    def edit_transaction(self):
+        info = {}
 
-if __name__ == '__main__':
-    import sys
+        if self.purchase_option.isChecked():
+            info['transaction_type'] = 'purchase'
 
-    APP = QtWidgets.QApplication(sys.argv)
-    app = EditionPage(None)
-    app.show()
-    sys.exit(APP.exec())
+        elif self.sale_option.isChecked():
+            info['transaction_type'] = 'sale'
 
+        else:
+            self.dialog.setText('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_date'] = self.date_option.text()
+
+        old_value = self.old_value_option.toPlainText()
+        if not old_value:
+            self.dialog.setText('\nNenhum valor antigo foi informado. Insira o valor cadastrado atualmente e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_old_value'] = old_value
+
+        new_value = self.new_value_option.toPlainText()
+        if not new_value:
+            self.dialog.setText('\nNenhum valor novo foi informado. Insira o novo valor e tente novamente.\t\t\n')
+            self.dialog.exec()
+            return
+
+        info['transaction_new_value'] = new_value
+
+        message = self.controller.edit(info)
+        self.dialog.setText('\n{}\t\t\n'.format(message))
+        self.dialog.exec()
+
+    def clear(self):
+        self.sale_option.setAutoExclusive(False)
+        self.purchase_option.setAutoExclusive(False)
+
+        self.sale_option.setChecked(False)
+        self.purchase_option.setChecked(False)
+
+        self.sale_option.setAutoExclusive(True)
+        self.purchase_option.setAutoExclusive(True)
+
+        self.old_value_option.clear()
+        self.new_value_option.clear()
+        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))

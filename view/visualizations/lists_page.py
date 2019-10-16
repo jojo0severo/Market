@@ -131,8 +131,7 @@ class ListsPage(QtWidgets.QWidget):
         self.date_input_layout.addWidget(self.from_date_option)
         self.date_input_layout.addWidget(self.to_date_label)
         self.date_input_layout.addWidget(self.to_date_option)
-        self.date_input_layout.addItem(
-            QtWidgets.QSpacerItem(20, 460, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred))
+        self.date_input_layout.addItem(QtWidgets.QSpacerItem(20, 460, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred))
 
         self.total_purchases_layout.addWidget(self.total_purchases_label)
         self.total_purchases_layout.addWidget(self.total_purchases_value_label)
@@ -142,19 +141,15 @@ class ListsPage(QtWidgets.QWidget):
         self.tables_layout.addWidget(self.purchases_label, 0, 0, 1, 1)
         self.tables_layout.addWidget(self.purchases_table, 1, 0, 1, 1)
         self.tables_layout.addWidget(self.total_purchases_horizontalWidget, 2, 0, 1, 1)
-        self.tables_layout.addItem(
-            QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum), 1, 1, 1, 1)
+        self.tables_layout.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum), 1, 1, 1, 1)
         self.tables_layout.addWidget(self.sales_label, 0, 2, 1, 1)
         self.tables_layout.addWidget(self.sales_table, 1, 2, 1, 1)
         self.tables_layout.addWidget(self.total_sales_horizontalWidget, 2, 2, 1, 1)
 
         self.grid_layout.addWidget(self.tables_gridWidget, 0, 0, 1, 1)
         self.grid_layout.addWidget(self.date_input_verticalWidget, 0, 1, 1, 1)
-        self.grid_layout.addItem(
-            QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred), 1, 0, 1,
-            1)
-        self.grid_layout.addItem(
-            QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred), 2, 0, 1, 1)
+        self.grid_layout.addItem(QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred), 1, 0, 1, 1)
+        self.grid_layout.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred), 2, 0, 1, 1)
         self.grid_layout.addWidget(self.back_button, 2, 1, 1, 1)
 
     def define_actions(self):
@@ -165,12 +160,3 @@ class ListsPage(QtWidgets.QWidget):
 
     def get_sales_total(self):
         return '0,00'
-
-
-if __name__ == '__main__':
-    import sys
-
-    APP = QtWidgets.QApplication(sys.argv)
-    app = ListsPage()
-    app.show()
-    sys.exit(APP.exec())

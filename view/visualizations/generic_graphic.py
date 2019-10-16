@@ -4,11 +4,11 @@ from PyQt5 import QtWidgets
 
 
 class Widget(QtWidgets.QWidget):
-    def __init__(self, *args):
-        QtWidgets.QWidget.__init__(self, *args)
+    def __init__(self, parent):
+        QtWidgets.QWidget.__init__(self, parent)
         self.canvas = Canvas()
         self.vbl = QtWidgets.QVBoxLayout()
-        self.vbl.addWidget(self.canvas, *args)
+        self.vbl.addWidget(self.canvas, parent)
         self.setLayout(self.vbl)
 
 

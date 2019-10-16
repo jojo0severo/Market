@@ -10,7 +10,7 @@ class ProfitGraphicPage(QtWidgets.QWidget):
 
         # Main
         self.grid_layout = QtWidgets.QGridLayout(self)
-        self.graphics_view = QtWidgets.QGraphicsView(self)
+        self.graphic = Widget(self)
 
         # Buttons
         self.back_button = QtWidgets.QPushButton(self)

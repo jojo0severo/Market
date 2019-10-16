@@ -463,10 +463,3 @@ class InitialPage(QtWidgets.QWidget):
 
         self.quit_button.clicked.connect((lambda: sys.exit(0)))
         self.turn_off_button.clicked.connect((lambda: sys.exit(0)))
-
-
-if __name__ == '__main__':
-    APP = QtWidgets.QApplication(sys.argv)
-    app = InitialPage()
-    app.show()
-    sys.exit(APP.exec())
