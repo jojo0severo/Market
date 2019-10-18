@@ -22,15 +22,21 @@ class ProfitGraphicPage(QtWidgets.QWidget):
         self.define_actions()
 
     def setup_ui(self):
-        pass
+        x_labels = ['a', 'b', 'c', 'd']
+        y_labels = [1, 2, 3, 4]
+        self.graphic.canvas.axis.plot(x_labels, y_labels)
+        self.graphic.canvas.draw()
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.back_button.setText(_translate("MainWindow", "Voltar"))
 
     def create_structure(self):
-        self.grid_layout.addWidget(self.graphics_view, 0, 0, 1, 1)
+        self.grid_layout.addWidget(self.graphic, 0, 0, 1, 1)
         self.grid_layout.addWidget(self.back_button, 1, 0, 1, 1)
 
     def define_actions(self):
         self.back_button.clicked.connect(self.back_signal.emit)
+
+    def clear(self):
+        pass
