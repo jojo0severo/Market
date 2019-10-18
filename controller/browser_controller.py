@@ -1,14 +1,33 @@
+import pathlib
+from selenium.webdriver import Firefox
+from model.database_password_recover import DatabasePasswordRecover
 
 
 class BrowserController:
     def __init__(self):
-        pass
+        self.executable = str((pathlib.Path(__file__).parents[1] / 'resources' / 'driver.exe').absolute())
+        self.database_passwords_recover = DatabasePasswordRecover()
 
     def open_gmail(self):
-        pass
+        username, password = self.database_passwords_recover.get_username_password('gmail')
+
+        url = 'https://accounts.google.com/signin/v2/identifier?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin'
+        driver = Firefox(executable_path=self.executable)
+        driver.maximize_window()
+        driver.get(url)
+        driver.find_element_by_id('identifierId').send_keys(username)
+        driver.find_element_by_id('identifierNext').click()
+        driver.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input').send_keys(password)
+        driver.find_element_by_id('passwordNext').click()
 
     def open_facebook(self):
-        pass
+        url = 'https://www.facebook.com/'
+        driver = Firefox(executable_path=self.executable)
+        driver.maximize_window()
+        driver.get(url)
 
     def open_google(self):
-        pass
+        url = 'http://www.google.com/'
+        driver = Firefox(executable_path=self.executable)
+        driver.maximize_window()
+        driver.get(url)
