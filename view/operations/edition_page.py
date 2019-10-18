@@ -1,3 +1,6 @@
+import re
+import locale
+locale.setlocale(locale.LC_MONETARY, '')
 from PyQt5 import QtCore, QtGui, QtWidgets
 from datetime import datetime
 from controller.edition_controller import EditionController
@@ -81,8 +84,12 @@ class EditionPage(QtWidgets.QWidget):
         self.coin_label_2.setSizePolicy(size_policy)
 
         # Buttons
-        self.edit_button.setMinimumSize(QtCore.QSize(150, 50))
-        self.edit_button.setMaximumSize(QtCore.QSize(180, 70))
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(12)
+        self.edit_button.setFont(font)
+        self.edit_button.setMinimumSize(QtCore.QSize(160, 50))
+        self.edit_button.setMaximumSize(QtCore.QSize(180, 80))
         self.edit_button.setStyleSheet("QPushButton {\n"
                                        "    background-color: white;\n"
                                        "    color: black;\n"
@@ -101,8 +108,9 @@ class EditionPage(QtWidgets.QWidget):
                                        "    font-weight: bold;\n"
                                        "}")
 
-        self.back_button.setMinimumSize(QtCore.QSize(150, 50))
-        self.back_button.setMaximumSize(QtCore.QSize(180, 70))
+        self.back_button.setFont(font)
+        self.back_button.setMinimumSize(QtCore.QSize(160, 50))
+        self.back_button.setMaximumSize(QtCore.QSize(180, 80))
         self.back_button.setStyleSheet("QPushButton {\n"
                                        "    background-color: white;\n"
                                        "    color: black;\n"
@@ -140,11 +148,11 @@ class EditionPage(QtWidgets.QWidget):
         self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
         self.date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
 
-        self.old_value_option.setMaximumSize(QtCore.QSize(160, 35))
+        self.old_value_option.setMaximumSize(QtCore.QSize(220, 35))
         self.old_value_option.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.old_value_option.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
-        self.new_value_option.setMaximumSize(QtCore.QSize(160, 35))
+        self.new_value_option.setMaximumSize(QtCore.QSize(220, 35))
         self.new_value_option.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.new_value_option.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
@@ -193,8 +201,40 @@ class EditionPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.bottom_buttons_horizontalWidget, 12, 0, 1, 1)
 
     def define_actions(self):
+        self.old_value_option.keyPressEvent = self.handle_key_pressed
+        self.new_value_option.keyPressEvent = self.handle_key_pressed
         self.edit_button.clicked.connect(self.edit_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
+
+    def handle_key_pressed(self, event):
+        text = self.value_option.toPlainText().replace('.', '').replace(',', '')
+        text = re.sub('\A0*', '', text)
+        key = event.key()
+        if 57 >= key >= 48:
+            new_char = chr(key)
+            self.format(text, new_char)
+
+        elif key == QtCore.Qt.Key_Backspace or key == QtCore.Qt.Key_Delete:
+            text = text[1:]
+            self.format(text, '')
+
+    def format(self, text, new_char):
+        text = text + new_char
+
+        if len(text) == 0:
+            text = '0.0'
+
+        elif len(text) == 1:
+            text = '0.0' + text
+
+        elif len(text) == 2:
+            text = '0.' + text
+
+        else:
+            text = text[:-2] + '.' + text[-2:]
+
+        a = locale.currency(float(text), grouping=True).split(' ')[1]
+        self.value_option.setText(a)
 
     def edit_transaction(self):
         info = {}
@@ -213,20 +253,22 @@ class EditionPage(QtWidgets.QWidget):
         info['transaction_date'] = self.date_option.text()
 
         old_value = self.old_value_option.toPlainText()
-        if not old_value:
+        old_value = re.sub('\A0*', '0', old_value.replace('.', '').replace(',', '.'))
+        if not old_value or old_value == '0.0':
             self.dialog.setText('\nNenhum valor antigo foi informado. Insira o valor cadastrado atualmente e tente novamente.\t\t\n')
             self.dialog.exec()
             return
 
-        info['transaction_old_value'] = old_value
+        info['transaction_old_value'] = float(old_value)
 
         new_value = self.new_value_option.toPlainText()
-        if not new_value:
+        new_value = re.sub('\A0*', '0', new_value.replace('.', '').replace(',', '.'))
+        if not new_value or new_value == '0.0':
             self.dialog.setText('\nNenhum valor novo foi informado. Insira o novo valor e tente novamente.\t\t\n')
             self.dialog.exec()
             return
 
-        info['transaction_new_value'] = new_value
+        info['transaction_new_value'] = float(new_value)
 
         message = self.controller.edit(info)
         self.dialog.setText('\n{}\t\t\n'.format(message))

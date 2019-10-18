@@ -39,23 +39,33 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
         # Building UI
         self.setup_ui()
+        self.translate_ui()
         self.create_structure()
 
     def setup_ui(self):
         self.setObjectName('MainWindow')
-        self.setWindowTitle('Dois irmãos')
         self.setStyleSheet('background-color:white;')
 
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("market_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("resources/market_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
         self.setTabShape(QtWidgets.QTabWidget.Rounded)
 
         font = QtGui.QFont()
-        font.setFamily("Sans Serif")
-        font.setPointSize(13)
+        font.setFamily("Helvetica")
+        font.setPointSize(14)
+        self.initial_page.setFont(font)
+        self.initial_page.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
+        for page in self.pages:
+            page.setFont(font)
+            page.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
+
         self.setFont(font)
         self.setLocale(QtCore.QLocale(QtCore.QLocale.Portuguese, QtCore.QLocale.Brazil))
+
+    def translate_ui(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate('MainWindow', 'Dois irmãos'))
 
     def create_structure(self):
         self.stacked_widget.addWidget(self.initial_page)

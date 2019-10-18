@@ -1,5 +1,4 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from view.visualizations.generic_graphic import Widget
 
 
 class ListsPage(QtWidgets.QWidget):
@@ -78,8 +77,12 @@ class ListsPage(QtWidgets.QWidget):
         self.total_sales_value_label.setMaximumSize(QtCore.QSize(16777215, 70))
 
         # Buttons
-        self.back_button.setMinimumSize(QtCore.QSize(150, 50))
-        self.back_button.setMaximumSize(QtCore.QSize(180, 70))
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(12)
+        self.back_button.setFont(font)
+        self.back_button.setMinimumSize(QtCore.QSize(160, 50))
+        self.back_button.setMaximumSize(QtCore.QSize(190, 80))
         self.back_button.setStyleSheet("QPushButton {\n"
                                        "    background-color: white;\n"
                                        "    color: black;\n"
@@ -160,3 +163,6 @@ class ListsPage(QtWidgets.QWidget):
 
     def get_sales_total(self):
         return '0,00'
+
+    def clear(self):
+        pass

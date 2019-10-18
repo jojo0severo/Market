@@ -64,6 +64,10 @@ class InitialPage(QtWidgets.QWidget):
         self.setup_spacers()
 
     def setup_main_objects(self):
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(14)
+
         self.operations_verticalWidget.setMinimumSize(QtCore.QSize(200, 270))
         self.operations_verticalWidget.setStyleSheet("background-color: rgb(243, 243, 243);")
 
@@ -86,13 +90,16 @@ class InitialPage(QtWidgets.QWidget):
         self.others_label.setMaximumSize(QtCore.QSize(300, 70))
 
     def setup_buttons(self):
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(12)
+
+        self.register_button.setFont(font)
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        size_policy.setHorizontalStretch(0)
-        size_policy.setVerticalStretch(0)
         size_policy.setHeightForWidth(self.register_button.sizePolicy().hasHeightForWidth())
         self.register_button.setSizePolicy(size_policy)
-        self.register_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.register_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.register_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.register_button.setMaximumSize(QtCore.QSize(260, 80))
         self.register_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.register_button.setStyleSheet("QPushButton {\n"
                                            "    background-color: white;\n"
@@ -112,10 +119,11 @@ class InitialPage(QtWidgets.QWidget):
                                            "    font-weight: bold;\n"
                                            "}")
 
+        self.edit_button.setFont(font)
         size_policy.setHeightForWidth(self.edit_button.sizePolicy().hasHeightForWidth())
         self.edit_button.setSizePolicy(size_policy)
-        self.edit_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.edit_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.edit_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.edit_button.setMaximumSize(QtCore.QSize(260, 80))
         self.edit_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.edit_button.setStyleSheet("QPushButton {\n"
                                        "    background-color: white;\n"
@@ -135,10 +143,11 @@ class InitialPage(QtWidgets.QWidget):
                                        "    font-weight: bold;\n"
                                        "}")
 
+        self.delete_button.setFont(font)
         size_policy.setHeightForWidth(self.delete_button.sizePolicy().hasHeightForWidth())
         self.delete_button.setSizePolicy(size_policy)
-        self.delete_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.delete_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.delete_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.delete_button.setMaximumSize(QtCore.QSize(260, 80))
         self.delete_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.delete_button.setStyleSheet("QPushButton {\n"
                                          "    background-color: white;\n"
@@ -158,10 +167,11 @@ class InitialPage(QtWidgets.QWidget):
                                          "    font-weight: bold;\n"
                                          "}")
 
+        self.list_purchases_button.setFont(font)
         size_policy.setHeightForWidth(self.list_purchases_button.sizePolicy().hasHeightForWidth())
         self.list_purchases_button.setSizePolicy(size_policy)
-        self.list_purchases_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.list_purchases_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.list_purchases_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.list_purchases_button.setMaximumSize(QtCore.QSize(260, 80))
         self.list_purchases_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.list_purchases_button.setStyleSheet("QPushButton {\n"
                                                  "    background-color: white;\n"
@@ -181,10 +191,11 @@ class InitialPage(QtWidgets.QWidget):
                                                  "    font-weight: bold;\n"
                                                  "}")
 
+        self.profit_graphic_button.setFont(font)
         size_policy.setHeightForWidth(self.profit_graphic_button.sizePolicy().hasHeightForWidth())
         self.profit_graphic_button.setSizePolicy(size_policy)
-        self.profit_graphic_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.profit_graphic_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.profit_graphic_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.profit_graphic_button.setMaximumSize(QtCore.QSize(260, 80))
         self.profit_graphic_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.profit_graphic_button.setStyleSheet("QPushButton {\n"
                                                  "    background-color: white;\n"
@@ -204,10 +215,11 @@ class InitialPage(QtWidgets.QWidget):
                                                  "    font-weight: bold;\n"
                                                  "}")
 
+        self.purchases_graphic_button.setFont(font)
         size_policy.setHeightForWidth(self.purchases_graphic_button.sizePolicy().hasHeightForWidth())
         self.purchases_graphic_button.setSizePolicy(size_policy)
-        self.purchases_graphic_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.purchases_graphic_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.purchases_graphic_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.purchases_graphic_button.setMaximumSize(QtCore.QSize(260, 80))
         self.purchases_graphic_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.purchases_graphic_button.setStyleSheet("QPushButton {\n"
                                                     "    background-color: white;\n"
@@ -227,10 +239,11 @@ class InitialPage(QtWidgets.QWidget):
                                                     "    font-weight: bold;\n"
                                                     "}")
 
+        self.sales_graphic_button.setFont(font)
         size_policy.setHeightForWidth(self.sales_graphic_button.sizePolicy().hasHeightForWidth())
         self.sales_graphic_button.setSizePolicy(size_policy)
-        self.sales_graphic_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.sales_graphic_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.sales_graphic_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.sales_graphic_button.setMaximumSize(QtCore.QSize(260, 80))
         self.sales_graphic_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.sales_graphic_button.setStyleSheet("QPushButton {\n"
                                                 "    background-color: white;\n"
@@ -250,10 +263,11 @@ class InitialPage(QtWidgets.QWidget):
                                                 "    font-weight: bold;\n"
                                                 "}")
 
+        self.enter_gmail_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_gmail_button.sizePolicy().hasHeightForWidth())
         self.enter_gmail_button.setSizePolicy(size_policy)
-        self.enter_gmail_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.enter_gmail_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.enter_gmail_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.enter_gmail_button.setMaximumSize(QtCore.QSize(260, 80))
         self.enter_gmail_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.enter_gmail_button.setStyleSheet("QPushButton {\n"
                                               "    background-color: white;\n"
@@ -273,10 +287,11 @@ class InitialPage(QtWidgets.QWidget):
                                               "    font-weight: bold;\n"
                                               "}")
 
+        self.enter_facebook_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_facebook_button.sizePolicy().hasHeightForWidth())
         self.enter_facebook_button.setSizePolicy(size_policy)
-        self.enter_facebook_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.enter_facebook_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.enter_facebook_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.enter_facebook_button.setMaximumSize(QtCore.QSize(260, 80))
         self.enter_facebook_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.enter_facebook_button.setStyleSheet("QPushButton {\n"
                                                  "    background-color: white;\n"
@@ -296,10 +311,11 @@ class InitialPage(QtWidgets.QWidget):
                                                  "    font-weight: bold;\n"
                                                  "}")
 
+        self.enter_google_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_google_button.sizePolicy().hasHeightForWidth())
         self.enter_google_button.setSizePolicy(size_policy)
-        self.enter_google_button.setMinimumSize(QtCore.QSize(190, 60))
-        self.enter_google_button.setMaximumSize(QtCore.QSize(240, 70))
+        self.enter_google_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.enter_google_button.setMaximumSize(QtCore.QSize(260, 80))
         self.enter_google_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.enter_google_button.setStyleSheet("QPushButton {\n"
                                                "    background-color: white;\n"
@@ -318,10 +334,12 @@ class InitialPage(QtWidgets.QWidget):
                                                "    color: white;\n"
                                                "    font-weight: bold;\n"
                                                "}")
+
+        self.quit_button.setFont(font)
         size_policy.setHeightForWidth(self.quit_button.sizePolicy().hasHeightForWidth())
         self.quit_button.setSizePolicy(size_policy)
-        self.quit_button.setMinimumSize(QtCore.QSize(100, 60))
-        self.quit_button.setMaximumSize(QtCore.QSize(180, 70))
+        self.quit_button.setMinimumSize(QtCore.QSize(120, 60))
+        self.quit_button.setMaximumSize(QtCore.QSize(190, 80))
         self.quit_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.quit_button.setStyleSheet("QPushButton {\n"
                                        "    background-color: white;\n"
@@ -341,6 +359,7 @@ class InitialPage(QtWidgets.QWidget):
                                        "    font-weight: bold;\n"
                                        "}")
 
+        self.turn_off_button.setFont(font)
         size_policy.setHeightForWidth(self.turn_off_button.sizePolicy().hasHeightForWidth())
         self.turn_off_button.setSizePolicy(size_policy)
         self.turn_off_button.setMinimumSize(QtCore.QSize(100, 60))

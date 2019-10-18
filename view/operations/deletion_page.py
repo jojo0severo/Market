@@ -1,3 +1,6 @@
+import re
+import locale
+locale.setlocale(locale.LC_MONETARY, '')
 from PyQt5 import QtCore, QtGui, QtWidgets
 from datetime import datetime
 from controller.deletion_controller import DeletionController
@@ -72,8 +75,12 @@ class DeletionPage(QtWidgets.QWidget):
         self.value_label.setMaximumSize(QtCore.QSize(350, 70))
 
         # Buttons
-        self.delete_button.setMinimumSize(QtCore.QSize(150, 50))
-        self.delete_button.setMaximumSize(QtCore.QSize(180, 70))
+        font = QtGui.QFont()
+        font.setFamily("Helvetica")
+        font.setPointSize(12)
+        self.delete_button.setFont(font)
+        self.delete_button.setMinimumSize(QtCore.QSize(160, 50))
+        self.delete_button.setMaximumSize(QtCore.QSize(180, 80))
         self.delete_button.setStyleSheet("QPushButton {\n"
                                          "    background-color: white;\n"
                                          "    color: black;\n"
@@ -92,8 +99,9 @@ class DeletionPage(QtWidgets.QWidget):
                                          "    font-weight: bold;\n"
                                          "}")
 
-        self.back_button.setMinimumSize(QtCore.QSize(150, 50))
-        self.back_button.setMaximumSize(QtCore.QSize(180, 70))
+        self.back_button.setFont(font)
+        self.back_button.setMinimumSize(QtCore.QSize(160, 50))
+        self.back_button.setMaximumSize(QtCore.QSize(180, 80))
         self.back_button.setStyleSheet("QPushButton {\n"
                                        "    background-color: white;\n"
                                        "    color: black;\n"
@@ -168,8 +176,39 @@ class DeletionPage(QtWidgets.QWidget):
         self.grid_layout.addWidget(self.bottom_buttons_horizontalWidget, 2, 0, 1, 1)
 
     def define_actions(self):
+        self.value_option.keyPressEvent = self.handle_key_pressed
         self.delete_button.clicked.connect(self.delete_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
+
+    def handle_key_pressed(self, event):
+        text = self.value_option.toPlainText().replace('.', '').replace(',', '')
+        text = re.sub('\A0*', '', text)
+        key = event.key()
+        if 57 >= key >= 48:
+            new_char = chr(key)
+            self.format(text, new_char)
+
+        elif key == QtCore.Qt.Key_Backspace or key == QtCore.Qt.Key_Delete:
+            text = text[1:]
+            self.format(text, '')
+
+    def format(self, text, new_char):
+        text = text + new_char
+
+        if len(text) == 0:
+            text = '0.0'
+
+        elif len(text) == 1:
+            text = '0.0' + text
+
+        elif len(text) == 2:
+            text = '0.' + text
+
+        else:
+            text = text[:-2] + '.' + text[-2:]
+
+        a = locale.currency(float(text), grouping=True).split(' ')[1]
+        self.value_option.setText(a)
 
     def delete_transaction(self):
         info = {}
@@ -188,12 +227,13 @@ class DeletionPage(QtWidgets.QWidget):
         info['transaction_date'] = self.date_option.text()
 
         value = self.value_option.toPlainText()
-        if not value:
+        value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
+        if not value or value == '0.0':
             self.dialog.setText('\nNenhum valor de transação foi informado. Insira um valor e tente novamente.\t\t\n')
             self.dialog.exec()
             return
 
-        info['transaction_value'] = value
+        info['transaction_value'] = float(value)
 
         message = self.controller.delete(info)
         self.dialog.setText('\n{}\t\t\n'.format(message))
