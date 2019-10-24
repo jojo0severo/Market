@@ -1,12 +1,12 @@
 import pathlib
 from selenium.webdriver import Firefox
-from model.database_password_recover import DatabasePasswordRecover
+from model.database_keys import DatabaseKeys
 
 
 class BrowserController:
     def __init__(self):
         self.executable = str((pathlib.Path(__file__).parents[1] / 'resources' / 'driver.exe').absolute())
-        self.database_passwords_recover = DatabasePasswordRecover()
+        self.database_passwords_recover = DatabaseKeys()
 
     def open_gmail(self):
         username, password = self.database_passwords_recover.get_username_password('gmail')
@@ -21,10 +21,16 @@ class BrowserController:
         driver.find_element_by_id('passwordNext').click()
 
     def open_facebook(self):
+        username, password = self.database_passwords_recover.get_username_password('facebook')
+
         url = 'https://www.facebook.com/'
         driver = Firefox(executable_path=self.executable)
         driver.maximize_window()
         driver.get(url)
+
+        driver.find_element_by_id('email').send_keys(username)
+        driver.find_element_by_id('pass').send_keys(password)
+        driver.find_element_by_id('u_0_b').click()
 
     def open_google(self):
         url = 'http://www.google.com/'

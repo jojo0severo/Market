@@ -16,6 +16,8 @@ class DatabaseEditor:
         if not month:
             return False
 
+        month = month[0][0]
+
         if info['transaction_type'] == 'purchase':
             result = self.edit_purchase(info['transaction_old_value'], info['transaction_new_value'], date[0], month)
 
@@ -24,8 +26,6 @@ class DatabaseEditor:
 
         else:
             raise ValueError('Wrong information sent. Check the input formatting method')
-
-        print(result[1])
 
         return result[0]
 
@@ -49,11 +49,18 @@ class DatabaseEditor:
         return cursor.fetchall()
 
     def edit_sale(self, old_value, new_value, day, month):
-        query = f'UPDATE SALE SET value={new_value} WHERE value={old_value} AND day={day} AND id_month={month};'
-
         try:
             cursor = self.conn.cursor()
-            cursor.execute(query)
+
+            get_query = f'SELECT id_sale FROM SALE WHERE value={old_value} AND day={day} AND id_month={month};'
+            resp = cursor.execute(get_query).fetchall()
+            if not resp:
+                return False, 'Value not found'
+
+            id_sale = resp[0][0]
+
+            update_query = f'UPDATE SALE SET value={new_value} WHERE id_sale={id_sale};'
+            cursor.execute(update_query)
             self.conn.commit()
             return True, None
 
@@ -61,11 +68,18 @@ class DatabaseEditor:
             return False, e
 
     def edit_purchase(self, old_value, new_value, day, month):
-        query = f'UPDATE PURCHASE SET value={new_value} WHERE value={old_value} AND day={day} AND id_month={month};'
-
         try:
             cursor = self.conn.cursor()
-            cursor.execute(query)
+
+            get_query = f'SELECT id_purchase FROM PURCHASE WHERE value={old_value} AND day={day} AND id_month={month};'
+            resp = cursor.execute(get_query).fetchall()
+            if not resp:
+                return False, 'Value not found'
+
+            id_purchase = resp[0][0]
+
+            update_query = f'UPDATE PURCHASE SET value={new_value} WHERE id_purchase={id_purchase}'
+            cursor.execute(update_query)
             self.conn.commit()
             return True, None
 

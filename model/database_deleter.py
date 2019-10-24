@@ -16,6 +16,7 @@ class DatabaseDeleter:
         if not month:
             return False
 
+        month = month[0][0]
         if info['transaction_type'] == 'purchase':
             result = self.delete_purchase(info['transaction_value'], date[0], month)
 
@@ -24,8 +25,6 @@ class DatabaseDeleter:
 
         else:
             raise ValueError('Wrong information sent. Check the input formatting method')
-
-        print(result[1])
 
         return result[0]
 

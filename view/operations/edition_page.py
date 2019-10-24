@@ -201,24 +201,36 @@ class EditionPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.bottom_buttons_horizontalWidget, 12, 0, 1, 1)
 
     def define_actions(self):
-        self.old_value_option.keyPressEvent = self.handle_key_pressed
-        self.new_value_option.keyPressEvent = self.handle_key_pressed
+        self.old_value_option.keyPressEvent = self.handle_key_pressed_old_option
+        self.new_value_option.keyPressEvent = self.handle_key_pressed_new_option
         self.edit_button.clicked.connect(self.edit_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
 
-    def handle_key_pressed(self, event):
-        text = self.value_option.toPlainText().replace('.', '').replace(',', '')
+    def handle_key_pressed_old_option(self, event):
+        text = self.old_value_option.toPlainText().replace('.', '').replace(',', '')
         text = re.sub('\A0*', '', text)
         key = event.key()
         if 57 >= key >= 48:
             new_char = chr(key)
-            self.format(text, new_char)
+            self.format(text, new_char, self.old_value_option)
 
         elif key == QtCore.Qt.Key_Backspace or key == QtCore.Qt.Key_Delete:
             text = text[1:]
-            self.format(text, '')
+            self.format(text, '', self.old_value_option)
 
-    def format(self, text, new_char):
+    def handle_key_pressed_new_option(self, event):
+        text = self.new_value_option.toPlainText().replace('.', '').replace(',', '')
+        text = re.sub('\A0*', '', text)
+        key = event.key()
+        if 57 >= key >= 48:
+            new_char = chr(key)
+            self.format(text, new_char, self.new_value_option)
+
+        elif key == QtCore.Qt.Key_Backspace or key == QtCore.Qt.Key_Delete:
+            text = text[1:]
+            self.format(text, '', self.new_value_option)
+
+    def format(self, text, new_char, variable):
         text = text + new_char
 
         if len(text) == 0:
@@ -234,7 +246,7 @@ class EditionPage(QtWidgets.QWidget):
             text = text[:-2] + '.' + text[-2:]
 
         a = locale.currency(float(text), grouping=True).split(' ')[1]
-        self.value_option.setText(a)
+        variable.setText(a)
 
     def edit_transaction(self):
         info = {}
