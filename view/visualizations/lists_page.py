@@ -140,7 +140,7 @@ class ListsPage(QtWidgets.QWidget):
         self.to_date_option.setMinimumSize(QtCore.QSize(170, 50))
         self.to_date_option.setMaximumSize(QtCore.QSize(190, 70))
         self.to_date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.to_date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0))
+        self.to_date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
         self.to_date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
         self.to_date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
 
@@ -194,11 +194,11 @@ class ListsPage(QtWidgets.QWidget):
         return locale.currency(float(value), grouping=True).split(' ')[1]
 
     def clear(self):
-        purchases, _ = self.controller.get_purchases_by_month(self.from_date_option.text(), self.to_date_option.text())
-        sales, _ = self.controller.get_sales_by_month(self.from_date_option.text(), self.to_date_option.text())
+        result, purchases, _, message = self.controller.get_purchases_by_month(self.from_date_option.text(), self.to_date_option.text())
+        if not result or not purchases:
+            return
 
         self.total_purchases_value_label.setText(self.format(sum([value for _, value, _ in purchases])))
-        self.total_sales_value_label.setText(self.format(sum([value for _, value, _ in sales])))
 
         self.purchases_table.setRowCount(len(purchases))
         for idx, (name, value, date) in enumerate(purchases):
@@ -213,6 +213,12 @@ class ListsPage(QtWidgets.QWidget):
             date_item = QtWidgets.QTableWidgetItem('/'.join(map(str, date)))
             date_item.setTextAlignment(QtCore.Qt.AlignCenter)
             self.purchases_table.setItem(idx, 2, date_item)
+
+        result, sales, _, message = self.controller.get_sales_by_month(self.from_date_option.text(), self.to_date_option.text())
+        if not result or not sales:
+            return
+
+        self.total_sales_value_label.setText(self.format(sum([value for _, value, _ in sales])))
 
         self.sales_table.setRowCount(len(sales))
         for idx, (name, value, date) in enumerate(sales):

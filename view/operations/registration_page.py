@@ -253,8 +253,6 @@ class RegistrationPage(QtWidgets.QWidget):
 
         info['transaction_value'] = float(value)
 
-        print(info)
-
         message = self.controller.register(info)
         self.dialog.setText('\n{}\t\t\n'.format(message))
         self.dialog.exec()
