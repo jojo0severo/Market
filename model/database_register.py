@@ -18,15 +18,13 @@ class DatabaseRegister:
 
         month = self.get_month(date)[0][0]
         if info['transaction_type'] == 'purchase':
-            result = self.insert_purchase(info['product_name'], info['transaction_value'], date[0], month)
+            self.insert_purchase(info['product_name'], info['transaction_value'], date[0], month)
 
         elif info['transaction_type'] == 'sale':
-            result = self.insert_sale(info['product_name'], info['transaction_value'], date[0], month)
+            self.insert_sale(info['product_name'], info['transaction_value'], date[0], month)
 
         else:
             raise ValueError('Wrong information sent. Check the input formatting method')
-
-        return result[0]
 
     def get_month(self, date):
         month_number = date[1]
@@ -52,14 +50,9 @@ class DatabaseRegister:
 
         query = f'INSERT INTO YEAR_TABLE (year_number) VALUES ("{year_number}");'
 
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(query)
-            self.conn.commit()
-            return True, None
-
-        except sqlite3.OperationalError as e:
-            return False, e
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        self.conn.commit()
 
     def insert_month(self, date):
         month_number = date[1]
@@ -67,35 +60,20 @@ class DatabaseRegister:
 
         query = f'INSERT INTO MONTH_TABLE (month_number, year_number) VALUES ("{month_number}", "{year_number}");'
 
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(query)
-            self.conn.commit()
-            return True, None
-
-        except sqlite3.OperationalError as e:
-            return False, e
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        self.conn.commit()
 
     def insert_sale(self, product_name, value, day, month):
         query = f'INSERT INTO SALE (product_name, value, day, id_month) VALUES ("{product_name}", {value}, {day}, {month});'
 
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(query)
-            self.conn.commit()
-            return True, None
-
-        except sqlite3.OperationalError as e:
-            return False, e
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        self.conn.commit()
 
     def insert_purchase(self, product_name, value, day, month):
         query = f'INSERT INTO PURCHASE (product_name, value, day, id_month) VALUES ("{product_name}", {value}, {day}, {month});'
 
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(query)
-            self.conn.commit()
-            return True, None
-
-        except sqlite3.OperationalError as e:
-            return False, e
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        self.conn.commit()
