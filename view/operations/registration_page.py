@@ -117,17 +117,17 @@ class RegistrationPage(QtWidgets.QWidget):
                                        "}")
 
         # Inputs
-        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        size_policy.setHeightForWidth(self.product_name_option.sizePolicy().hasHeightForWidth())
-        self.product_name_option.setSizePolicy(size_policy)
-        self.product_name_option.setMaximumSize(QtCore.QSize(16777215, 50))
-
         self.date_option.setMinimumSize(QtCore.QSize(120, 0))
         self.date_option.setMaximumSize(QtCore.QSize(180, 50))
         self.date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
         self.date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(1990, 1, 1), QtCore.QTime(0, 0, 0)))
         self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
         self.date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        size_policy.setHeightForWidth(self.product_name_option.sizePolicy().hasHeightForWidth())
+        self.product_name_option.setSizePolicy(size_policy)
+        self.product_name_option.setMaximumSize(QtCore.QSize(16777215, 50))
 
         size_policy.setHeightForWidth(self.value_option.sizePolicy().hasHeightForWidth())
         self.value_option.setSizePolicy(size_policy)
@@ -237,18 +237,20 @@ class RegistrationPage(QtWidgets.QWidget):
         info['transaction_date'] = self.date_option.text()
 
         product_name = self.product_name_option.toPlainText()
-        if not product_name:
+        if not product_name.replace('\t', '').replace(' ', ''):
             self.dialog.setText('\nNenhum nome foi dado para o produto comprado/vendido. Insira um nome e tente novamente.\t\t\n')
             self.dialog.exec()
+            self.product_name_option.setFocus(True)
             return
 
         info['product_name'] = product_name
 
         value = self.value_option.toPlainText()
         value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
-        if not value or value == '0.0':
+        if not re.sub('\A0*', '', value.replace('.', '')):
             self.dialog.setText('\nNenhum valor foi atribuído à transação. Insira um valor e tente novamente.\t\t\n')
             self.dialog.exec()
+            self.value_option.setFocus(True)
             return
 
         info['transaction_value'] = float(value)
