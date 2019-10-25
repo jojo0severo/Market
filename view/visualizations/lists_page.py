@@ -31,8 +31,8 @@ class ListsPage(QtWidgets.QWidget):
         self.total_sales_layout = QtWidgets.QHBoxLayout(self.total_sales_horizontalWidget)
 
         # Labels
-        self.from_date_label = QtWidgets.QLabel(self.date_input_verticalWidget)
         self.to_date_label = QtWidgets.QLabel(self.date_input_verticalWidget)
+        self.from_date_label = QtWidgets.QLabel(self.date_input_verticalWidget)
 
         self.purchases_label = QtWidgets.QLabel(self.tables_gridWidget)
         self.sales_label = QtWidgets.QLabel(self.tables_gridWidget)
@@ -45,10 +45,11 @@ class ListsPage(QtWidgets.QWidget):
 
         # Buttons
         self.back_button = QtWidgets.QPushButton(self)
+        self.update_list_button = QtWidgets.QPushButton(self)
 
         # Inputs
-        self.from_date_option = QtWidgets.QDateEdit(self.date_input_verticalWidget)
         self.to_date_option = QtWidgets.QDateEdit(self.date_input_verticalWidget)
+        self.from_date_option = QtWidgets.QDateEdit(self.date_input_verticalWidget)
 
         # Building UI
         self.setup_ui()
@@ -90,8 +91,8 @@ class ListsPage(QtWidgets.QWidget):
         self.total_sales_horizontalWidget.setMaximumSize(QtCore.QSize(500, 70))
 
         # Labels
-        self.from_date_label.setMaximumSize(QtCore.QSize(16777215, 70))
         self.to_date_label.setMaximumSize(QtCore.QSize(16777215, 70))
+        self.from_date_label.setMaximumSize(QtCore.QSize(16777215, 70))
         self.total_purchases_label.setMaximumSize(QtCore.QSize(16777215, 70))
         self.total_purchases_value_label.setMaximumSize(QtCore.QSize(16777215, 70))
         self.total_sales_label.setMaximumSize(QtCore.QSize(16777215, 70))
@@ -122,7 +123,16 @@ class ListsPage(QtWidgets.QWidget):
                                        "    font-weight: bold;\n"
                                        "}")
 
+        self.update_list_button.setFont(font)
+
         # Inputs
+        self.to_date_option.setMinimumSize(QtCore.QSize(170, 50))
+        self.to_date_option.setMaximumSize(QtCore.QSize(190, 70))
+        self.to_date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
+        self.to_date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.to_date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.to_date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
+
         self.from_date_option.setMinimumSize(QtCore.QSize(170, 50))
         self.from_date_option.setMaximumSize(QtCore.QSize(190, 70))
         self.from_date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
@@ -137,30 +147,25 @@ class ListsPage(QtWidgets.QWidget):
 
         self.from_date_option.setDate(QtCore.QDate(year, month, datetime.now().day))
 
-        self.to_date_option.setMinimumSize(QtCore.QSize(170, 50))
-        self.to_date_option.setMaximumSize(QtCore.QSize(190, 70))
-        self.to_date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.to_date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.to_date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
-        self.to_date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.from_date_label.setText(_translate("MainWindow", "Desde"))
         self.to_date_label.setText(_translate("MainWindow", "Até"))
+        self.from_date_label.setText(_translate("MainWindow", "Desde"))
         self.purchases_label.setText(_translate("MainWindow", "Compras"))
         self.sales_label.setText(_translate("MainWindow", "Vendas"))
         self.back_button.setText(_translate("MainWindow", "Voltar"))
+        self.update_list_button.setText(_translate("MainWindow", "Atualizar Lista"))
         self.total_purchases_label.setText(_translate("MainWindow", "Total de Compras:  R$"))
         self.total_purchases_value_label.setText("0,00")
         self.total_sales_label.setText(_translate("MainWindow", "Total de Vendas:  R$"))
         self.total_sales_value_label.setText("0,00")
 
     def create_structure(self):
-        self.date_input_layout.addWidget(self.from_date_label)
-        self.date_input_layout.addWidget(self.from_date_option)
         self.date_input_layout.addWidget(self.to_date_label)
         self.date_input_layout.addWidget(self.to_date_option)
+        self.date_input_layout.addWidget(self.from_date_label)
+        self.date_input_layout.addWidget(self.from_date_option)
+        self.date_input_layout.addWidget(self.update_list_button)
         self.date_input_layout.addItem(QtWidgets.QSpacerItem(20, 460, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred))
 
         self.total_purchases_layout.addWidget(self.total_purchases_label)
@@ -184,52 +189,60 @@ class ListsPage(QtWidgets.QWidget):
 
     def define_actions(self):
         self.back_button.clicked.connect(self.clear_and_go_back)
+        self.update_list_button.clicked.connect(self.clear)
 
     def clear_and_go_back(self):
         self.purchases_table.clear()
         self.sales_table.clear()
         self.back_signal.emit()
 
-    def format(self, value):
+    def format_value(self, value):
         return locale.currency(float(value), grouping=True).split(' ')[1]
 
+    def format_date(self, date):
+        date = list(map(str, date))
+
+        if len(date[0]) == 1:
+            date[0] = '0' + date[0]
+
+        if len(date[1]) == 1:
+            date[1] = '0' + date[1]
+
+        return '/'.join(date)
+
     def clear(self):
-        result, purchases, _, message = self.controller.get_purchases_by_month(self.from_date_option.text(), self.to_date_option.text())
-        if not result or not purchases:
-            return
+        result, purchases, message = self.controller.get_purchases(self.from_date_option.text(), self.to_date_option.text())
+        if result and purchases:
+            self.total_purchases_value_label.setText(self.format_value(sum([value for _, value, _ in purchases])))
 
-        self.total_purchases_value_label.setText(self.format(sum([value for _, value, _ in purchases])))
+            self.purchases_table.setRowCount(len(purchases))
+            for idx, (name, value, date) in enumerate(purchases[::-1]):
+                name_item = QtWidgets.QTableWidgetItem(name)
+                name_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.purchases_table.setItem(idx, 0, name_item)
 
-        self.purchases_table.setRowCount(len(purchases))
-        for idx, (name, value, date) in enumerate(purchases):
-            name_item = QtWidgets.QTableWidgetItem(name)
-            name_item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.purchases_table.setItem(idx, 0, name_item)
+                value_item = QtWidgets.QTableWidgetItem(self.format_value(value))
+                value_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.purchases_table.setItem(idx, 1, value_item)
 
-            value_item = QtWidgets.QTableWidgetItem(self.format(value))
-            value_item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.purchases_table.setItem(idx, 1, value_item)
+                date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
+                date_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.purchases_table.setItem(idx, 2, date_item)
 
-            date_item = QtWidgets.QTableWidgetItem('/'.join(map(str, date)))
-            date_item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.purchases_table.setItem(idx, 2, date_item)
+        result, sales, message = self.controller.get_sales(self.from_date_option.text(), self.to_date_option.text())
+        if result and sales:
+            self.total_sales_value_label.setText(self.format_value(sum([value for _, value, _ in sales])))
 
-        result, sales, _, message = self.controller.get_sales_by_month(self.from_date_option.text(), self.to_date_option.text())
-        if not result or not sales:
-            return
+            self.sales_table.setRowCount(len(sales))
+            for idx, (name, value, date) in enumerate(sales[::-1]):
+                name_item = QtWidgets.QTableWidgetItem(name)
+                name_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.sales_table.setItem(idx, 0, name_item)
 
-        self.total_sales_value_label.setText(self.format(sum([value for _, value, _ in sales])))
+                value_item = QtWidgets.QTableWidgetItem(self.format_value(value))
+                value_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.sales_table.setItem(idx, 1, value_item)
 
-        self.sales_table.setRowCount(len(sales))
-        for idx, (name, value, date) in enumerate(sales):
-            name_item = QtWidgets.QTableWidgetItem(name)
-            name_item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.sales_table.setItem(idx, 0, name_item)
-
-            value_item = QtWidgets.QTableWidgetItem(self.format(value))
-            value_item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.sales_table.setItem(idx, 1, value_item)
-
-            date_item = QtWidgets.QTableWidgetItem('/'.join(map(str, date)))
-            date_item.setTextAlignment(QtCore.Qt.AlignCenter)
-            self.sales_table.setItem(idx, 2, date_item)
+                date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
+                date_item.setTextAlignment(QtCore.Qt.AlignCenter)
+                self.sales_table.setItem(idx, 2, date_item)

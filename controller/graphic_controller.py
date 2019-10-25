@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from model.database_purchase_recover import DatabasePurchaseRecover
 from model.database_sale_recover import DatabaseSaleRecover
 
@@ -9,55 +10,69 @@ class GraphicController:
         self.months = {1: 'Jan', 2: 'Fev', 3: 'Mar', 4: 'Abr', 5: 'Mai', 6: 'Jun',
                        7: 'Jul', 8: 'Ago', 9: 'Set', 10: 'Out', 11: 'Nov', 12: 'Dez'}
 
-    def get_purchases_by_month(self, from_date, to_date):
+    def get_purchases(self, from_date, to_date):
+        purchases = self.purchase_recover.get_purchases(from_date.split('/'), to_date.split('/'))
+        return True, [tuple([item[0], item[1], item[2:]]) for item in purchases], ''
+
+    def get_sales(self, from_date, to_date):
+        sales = self.sale_recover.get_sales(from_date.split('/'), to_date.split('/'))
+        return True, [tuple([item[0], item[1], item[2:]]) for item in sales], ''
+
+    def get_purchases_by_date(self, from_date, to_date):
         try:
-            months = self.get_months(from_date, to_date)
-            purchases = self.purchase_recover.get_purchases(from_date.split('/'), to_date.split('/'))
-            purchases = [tuple([item[0], item[1], item[2:]]) for item in purchases]
-            return True, purchases, months, ''
+            result, purchases, message = self.get_purchases(from_date, to_date)
+            if not result:
+                return False, None, None, message
+
+            dates, values = self.get_dates([item[2] for item in purchases], [item[1] for item in purchases])
+
+            return result, values, dates, message
 
         except ValueError as e:
             return False, None, None, str(e)
 
-    def get_sales_by_month(self, from_date, to_date):
+    def get_sales_by_date(self, from_date, to_date):
         try:
-            months = self.get_months(from_date, to_date)
-            sales = self.sale_recover.get_sales(from_date.split('/'), to_date.split('/'))
-            sales = [tuple([item[0], item[1], item[2:]]) for item in sales]
+            result, sales, message = self.get_sales(from_date, to_date)
+            if not result:
+                return False, None, None, message
 
-            return True, sales, months, ''
+            dates, values = self.get_dates([item[2] for item in sales], [item[1] for item in sales])
+
+            return True, values, dates, ''
 
         except ValueError as e:
             return False, None, None, str(e)
 
-    def get_profit_by_month(self, from_date, to_date):
+    def get_profit_by_date(self, from_date, to_date):
         try:
-            months = self.get_months(from_date, to_date)
-            purchases = self.purchase_recover.get_purchases(from_date.split('/'), to_date.split('/'))
-            purchases = [item[1] for item in purchases]
+            result, purchases, message = self.get_purchases(from_date, to_date)
+            if not result:
+                return False, None, None, message
 
-            sales = self.sale_recover.get_sales(from_date.split('/'), to_date.split('/'))
-            sales = [item[1] for item in sales]
+            result, sales, message = self.get_sales(from_date, to_date)
+            if not result:
+                return False, None, None, message
 
-            profits = []
-            if len(sales) > len(purchases):
-                for sale, purchase in zip(sales[:len(purchases)], purchases):
-                    profits.append(sale - purchase)
+            purchase_sale_track = {}
+            for name, value, date in purchases:
+                if date not in purchase_sale_track:
+                    purchase_sale_track[date] = -value
+                else:
+                    purchase_sale_track[date] -= value
 
-                for sale in sales[len(purchases):]:
-                    profits.append(sale)
+            for name, value, date in sales:
+                if date not in purchase_sale_track:
+                    purchase_sale_track[date] = value
+                else:
+                    purchase_sale_track[date] += value
 
-            elif len(sales) < len(purchases):
-                for purchase, sale in zip(purchases[:len(sales)], sales):
-                    profits.append(sale - purchase)
+            dates = sorted(list(purchase_sale_track.keys()), key=lambda x: (x[2], x[1], x[0]))
+            profits = [purchase_sale_track[date] for date in dates]
 
-                for purchase in purchases[len(sales):]:
-                    profits.append(-purchase)
+            dates, values = self.get_dates(dates, profits)
 
-            else:
-                profits = [sale - purchase for sale, purchase in zip(sales, purchases)]
-
-            return True, profits, months, ''
+            return True, values, dates, ''
 
         except ValueError as e:
             return False, None, None, str(e)
@@ -76,24 +91,18 @@ class GraphicController:
 
         return sales - purchases
 
-    def get_months(self, from_date, to_date):
-        from_date = from_date.split('/')
-        to_date = to_date.split('/')
+    def get_dates(self, dates, values):
+        named_dates = []
+        if dates[0][1] == dates[-1][1]:
+            for date in dates:
+                named_dates.append(self.months[int(date[1])] + '/' + str(date[0]))
+            return named_dates, values
 
-        months = []
-        if from_date[2] < to_date[2]:
-            for i in range(int(from_date[1]), 13):
-                months.append(self.months[i])
+        month_dict = OrderedDict()
+        for idx, date in enumerate(dates):
+            if self.months[int(date[1])] not in month_dict:
+                month_dict[self.months[int(date[1])]] = values[idx]
+            else:
+                month_dict[self.months[int(date[1])]] += values[idx]
 
-            for i in range(1, int(to_date[1]) + 1):
-                months.append(self.months[i])
-
-        elif from_date[2] == to_date[2]:
-            for i in range(int(from_date[1]), int(to_date[1]) + 1):
-                months.append(self.months[i])
-
-        else:
-            raise ValueError('A data de início não pode ser maior do que a data de fim.')
-
-        months.reverse()
-        return months
+        return list(month_dict.keys()), list(month_dict.values())

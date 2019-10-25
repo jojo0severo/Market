@@ -15,8 +15,9 @@ class DatabaseSaleRecover:
                     MONTH_TABLE.month_number >= {} AND MONTH_TABLE.month_number <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {}
 	            ORDER BY
-		            SALE.day DESC,
-		            MONTH_TABLE.month_number DESC;
+	                YEAR_TABLE.year_number,
+		            MONTH_TABLE.month_number,
+		            SALE.day;
         """.format(from_date[1], to_date[1], from_date[2], to_date[2])
 
         cursor = self.conn.cursor()

@@ -103,24 +103,15 @@ class ProfitGraphicPage(QtWidgets.QWidget):
         return locale.currency(float(value), grouping=True)
 
     def clear(self):
-        year = datetime.now().year
-        month = datetime.now().month
-        for i in range(12):
-            month -= 1
-            if month == 0:
-                month = 12
-                year -= 1
+        from_date = '/'.join(map(str, [1, 1, datetime.now().year - 1]))
+        to_date = '/'.join(map(str, [31, datetime.now().month, datetime.now().year]))
 
-        from_date = '/'.join(map(str, [datetime.now().day, month, year]))
-        to_date = '/'.join(map(str, [datetime.now().day, datetime.now().month, datetime.now().year]))
-
-        result, y_labels, x_labels, message = self.controller.get_profit_by_month(from_date, to_date)
+        result, y_labels, x_labels, message = self.controller.get_profit_by_date(from_date, to_date)
         if not result or not x_labels:
             return
 
-        y_labels = [item[1] for item in y_labels]
-        self.graphic.canvas.axis.plot(x_labels[:len(y_labels)][::-1], y_labels[::-1])
+        self.graphic.canvas.axis.plot(x_labels, y_labels)
         self.graphic.canvas.draw()
 
         mean = sum(y_labels) / len(y_labels)
-        self.mean_value_label.setText(self.format(mean))
+        self.mean_value_label.setText(self.format(round(mean, 2)))
