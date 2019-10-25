@@ -1,3 +1,5 @@
+import logging
+import sqlite3
 from model.database_register import DatabaseRegister
 
 
@@ -8,14 +10,18 @@ class RegistrationController:
 
     def register(self, info):
         try:
-            if self.database_register.register(info):
-                self.last_registration = info
-                return 'Transação cadastrada com sucesso'
+            self.database_register.register(info)
+            self.last_registration = info
+            return 'Transação cadastrada com sucesso'
 
-            else:
-                return 'Transação não pode ser cadastrada'
+        except sqlite3.IntegrityError as e:
+            logging.error('IntegrityError on Registration\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
+            return 'Houve um erro interno na aplicação.\nPor favor contate o desenvolvedor.'
 
-        except Exception:
-            pass
+        except sqlite3.OperationalError as e:
+            logging.error('OperationalError on Registration\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
+            return 'Houve um erro interno na aplicação.\nPor favor contate o desenvolvedor.'
 
-        return 'Erro no cadastro da transação'
+        except Exception as e:
+            logging.error(str(e))
+            return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
