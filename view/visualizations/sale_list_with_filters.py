@@ -34,12 +34,13 @@ class SaleListPage(QtWidgets.QWidget):
         self.to_date_label = QtWidgets.QLabel(self.to_date_horizontalWidget)
         self.value_interval_label = QtWidgets.QLabel(self.filters_verticalWidget)
         self.comboBox_label = QtWidgets.QLabel(self.filters_verticalWidget)
+        self.total_sales_label = QtWidgets.QLabel(self)
 
         # Inputs
         self.product_name_input = QtWidgets.QLineEdit(self.filters_verticalWidget)
         self.from_date_input = QtWidgets.QDateEdit(self.from_date_horizontalWidget)
         self.to_date_input = QtWidgets.QDateEdit(self.to_date_horizontalWidget)
-        self.value_slider = QRangeSlider(self.filters_verticalWidget)
+        self.value_slider = QRangeSlider(10, 100, self.filters_verticalWidget)
         self.order_by_comboBox = QtWidgets.QComboBox(self.filters_verticalWidget)
 
         # Buttons
@@ -79,6 +80,9 @@ class SaleListPage(QtWidgets.QWidget):
 
         self.comboBox_label.setMinimumSize(QtCore.QSize(0, 35))
         self.comboBox_label.setMaximumSize(QtCore.QSize(16777215, 45))
+
+        self.total_sales_label.setMinimumSize(QtCore.QSize(0, 35))
+        self.total_sales_label.setMaximumSize(QtCore.QSize(16777215, 45))
 
         # Inputs
         self.product_name_input.setMinimumSize(QtCore.QSize(0, 45))
@@ -176,6 +180,7 @@ class SaleListPage(QtWidgets.QWidget):
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.table_label.setText(_translate("MainWindow", "Vendas"))
+        self.total_sales_label.setText(_translate("MainWindow", "Total de vendas: R$ 0,00"))
         self.back_button.setText(_translate("MainWindow", "Voltar"))
         self.product_name_input.setPlaceholderText(_translate("Form", "Nome do produto"))
         self.from_date_label.setText(_translate("MainWindow", "Desde"))
@@ -223,8 +228,10 @@ class SaleListPage(QtWidgets.QWidget):
 
         self.gridLayout.addWidget(self.table_label, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.products_table, 1, 0, 1, 1)
-        self.gridLayout.addWidget(self.filters_verticalWidget, 1, 1)
-        self.gridLayout.addWidget(self.back_button, 2, 1, alignment=QtCore.Qt.AlignHCenter)
+        self.gridLayout.addWidget(self.total_sales_label, 2, 0, 1, 1)
+
+        self.gridLayout.addWidget(self.filters_verticalWidget, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.back_button, 3, 1, alignment=QtCore.Qt.AlignHCenter)
 
     def format_value(self, value):
         return locale.currency(float(value), grouping=True).split(' ')[1]
@@ -244,8 +251,7 @@ class SaleListPage(QtWidgets.QWidget):
         min_sale = self.controller.get_min_sale_value()
         max_sale = self.controller.get_max_sale_value()
 
-        # self.value_slider.setMinimum(min_sale)
-        # self.value_slider.setMaximum(max_sale)
+        self.value_slider.setMinMax(min_sale, max_sale)
 
         if self.order_by_comboBox.currentText().lower() == 'data':
             self.order_by_date(min_sale, max_sale)
@@ -260,7 +266,8 @@ class SaleListPage(QtWidgets.QWidget):
                                                                              self.from_date_input.text(),
                                                                              self.to_date_input.text())
         if result and sales:
-            # self.total_label.setText(self.format_value(sum([value for _, value, _ in sales])))
+            new_value_text = self.total_sales_label.text().split(':')[0] + ': R$ ' + self.format_value(sum([value for _, value, _ in sales]))
+            self.total_sales_label.setText(new_value_text)
 
             self.products_table.setRowCount(len(sales))
             for idx, (name, value, date) in enumerate(sales):
