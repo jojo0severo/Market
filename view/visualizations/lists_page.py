@@ -2,7 +2,7 @@ import locale
 locale.setlocale(locale.LC_MONETARY, '')
 from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
-from controller.graphic_controller import GraphicController
+from controller.consult_controller import ConsultController
 
 
 class ListsPage(QtWidgets.QWidget):
@@ -10,7 +10,7 @@ class ListsPage(QtWidgets.QWidget):
         super(ListsPage, self).__init__(*args)
 
         self.back_signal = back_signal
-        self.controller = GraphicController()
+        self.controller = ConsultController()
 
         # Main
         self.grid_layout = QtWidgets.QGridLayout(self)
@@ -200,7 +200,7 @@ class ListsPage(QtWidgets.QWidget):
         return locale.currency(float(value), grouping=True).split(' ')[1]
 
     def format_date(self, date):
-        date = list(map(str, date))
+        date = date.split('/')
 
         if len(date[0]) == 1:
             date[0] = '0' + date[0]
@@ -211,12 +211,15 @@ class ListsPage(QtWidgets.QWidget):
         return '/'.join(date)
 
     def clear(self):
-        result, purchases, message = self.controller.get_purchases(self.from_date_option.text(), self.to_date_option.text())
+        max_value = self.controller.get_max_purchase_value()
+        min_value = self.controller.get_min_purchase_value()
+
+        result, purchases, message = self.controller.get_purchases_by_value_and_date(min_value, max_value, self.from_date_option.text(), self.to_date_option.text())
         if result and purchases:
             self.total_purchases_value_label.setText(self.format_value(sum([value for _, value, _ in purchases])))
 
             self.purchases_table.setRowCount(len(purchases))
-            for idx, (name, value, date) in enumerate(purchases[::-1]):
+            for idx, (name, value, date) in enumerate(purchases):
                 name_item = QtWidgets.QTableWidgetItem(name)
                 name_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.purchases_table.setItem(idx, 0, name_item)
@@ -229,12 +232,15 @@ class ListsPage(QtWidgets.QWidget):
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.purchases_table.setItem(idx, 2, date_item)
 
-        result, sales, message = self.controller.get_sales(self.from_date_option.text(), self.to_date_option.text())
+        max_value = self.controller.get_max_sale_value()
+        min_value = self.controller.get_min_sale_value()
+
+        result, sales, message = self.controller.get_sales_by_value_and_date(min_value, max_value, self.from_date_option.text(), self.to_date_option.text())
         if result and sales:
             self.total_sales_value_label.setText(self.format_value(sum([value for _, value, _ in sales])))
 
             self.sales_table.setRowCount(len(sales))
-            for idx, (name, value, date) in enumerate(sales[::-1]):
+            for idx, (name, value, date) in enumerate(sales):
                 name_item = QtWidgets.QTableWidgetItem(name)
                 name_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.sales_table.setItem(idx, 0, name_item)

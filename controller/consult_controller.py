@@ -3,106 +3,71 @@ from model.database_purchase_recover import DatabasePurchaseRecover
 from model.database_sale_recover import DatabaseSaleRecover
 
 
-class GraphicController:
+class ConsultController:
     def __init__(self):
         self.purchase_recover = DatabasePurchaseRecover()
         self.sale_recover = DatabaseSaleRecover()
         self.months = {1: 'Jan', 2: 'Fev', 3: 'Mar', 4: 'Abr', 5: 'Mai', 6: 'Jun',
                        7: 'Jul', 8: 'Ago', 9: 'Set', 10: 'Out', 11: 'Nov', 12: 'Dez'}
 
-    def get_purchases(self, from_date, to_date):
-        purchases = self.purchase_recover.get_purchases(from_date.split('/'), to_date.split('/'))
-        return True, [tuple([item[0], item[1], item[2:]]) for item in purchases], ''
+    # =============================== Sales section ===============================
 
-    def get_sales(self, from_date, to_date):
-        sales = self.sale_recover.get_sales(from_date.split('/'), to_date.split('/'))
-        return True, [tuple([item[0], item[1], item[2:]]) for item in sales], ''
+    def get_min_sale_value(self):
+        return self.sale_recover.get_min_sale_value()[0][0]
 
-    def get_purchases_by_date(self, from_date, to_date):
-        try:
-            result, purchases, message = self.get_purchases(from_date, to_date)
-            if not result:
-                return False, None, None, message
+    def get_max_sale_value(self):
+        return self.sale_recover.get_max_sale_value()[0][0]
 
-            dates, values = self.get_dates([item[2] for item in purchases], [item[1] for item in purchases])
+    def get_sales_amount_by_value_and_date(self, min_value, max_value, from_date, to_date):
+        return self.sale_recover.get_sales_amount_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-            return result, values, dates, message
+    def get_sales_amount_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
+        return self.sale_recover.get_sales_amount_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-        except ValueError as e:
-            return False, None, None, str(e)
+    def get_sales_by_value_and_date(self, min_value, max_value, from_date, to_date):
+        result = self.sale_recover.get_sales_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        if result:
+            result = [(name, value, '/'.join(map(str, [day, month, year]))) for name, value, day, month, year in result]
+            return True, result, ''
 
-    def get_sales_by_date(self, from_date, to_date):
-        try:
-            result, sales, message = self.get_sales(from_date, to_date)
-            if not result:
-                return False, None, None, message
+        return False, [], 'Erro recuperando vendas'
 
-            dates, values = self.get_dates([item[2] for item in sales], [item[1] for item in sales])
+    def get_sales_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
+        return self.sale_recover.get_sales_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-            return True, values, dates, ''
+    def get_total_sales_by_value_and_date(self, min_value, max_value, from_date, to_date):
+        return self.sale_recover.get_total_sales_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-        except ValueError as e:
-            return False, None, None, str(e)
+    def get_total_sales_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
+        return self.sale_recover.get_total_sales_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-    def get_profit_by_date(self, from_date, to_date):
-        try:
-            result, purchases, message = self.get_purchases(from_date, to_date)
-            if not result:
-                return False, None, None, message
+    # =============================== Purchases section ===============================
 
-            result, sales, message = self.get_sales(from_date, to_date)
-            if not result:
-                return False, None, None, message
+    def get_min_purchase_value(self):
+        return self.purchase_recover.get_min_purchase_value()[0][0]
 
-            purchase_sale_track = {}
-            for name, value, date in purchases:
-                if date not in purchase_sale_track:
-                    purchase_sale_track[date] = -value
-                else:
-                    purchase_sale_track[date] -= value
+    def get_max_purchase_value(self):
+        return self.purchase_recover.get_max_purchase_value()[0][0]
 
-            for name, value, date in sales:
-                if date not in purchase_sale_track:
-                    purchase_sale_track[date] = value
-                else:
-                    purchase_sale_track[date] += value
+    def get_purchases_amount_by_value_and_date(self, min_value, max_value, from_date, to_date):
+        return self.purchase_recover.get_purchases_amount_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-            dates = sorted(list(purchase_sale_track.keys()), key=lambda x: (x[2], x[1], x[0]))
-            profits = [purchase_sale_track[date] for date in dates]
+    def get_purchases_amount_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
+        return self.purchase_recover.get_purchases_amount_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-            dates, values = self.get_dates(dates, profits)
+    def get_purchases_by_value_and_date(self, min_value, max_value, from_date, to_date):
+        result = self.purchase_recover.get_purchases_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        if result:
+            result = [(name, value, '/'.join(map(str, [day, month, year]))) for name, value, day, month, year in result]
+            return True, result, ''
 
-            return True, values, dates, ''
+        return False, [], 'Erro recuperando compras'
 
-        except ValueError as e:
-            return False, None, None, str(e)
+    def get_purchases_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
+        return self.purchase_recover.get_purchases_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-    def get_total_purchases(self, from_date, to_date):
-        purchases = self.purchase_recover.get_total_purchases(from_date.split('/'), to_date.split('/'))
-        return purchases
+    def get_total_purchases_by_value_and_date(self, min_value, max_value, from_date, to_date):
+        return self.purchase_recover.get_total_purchases_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
 
-    def get_total_sales(self, from_date, to_date):
-        sales = self.sale_recover.get_total_sales(from_date.split('/'), to_date.split('/'))
-        return sales
-
-    def get_total_profit(self, from_date, to_date):
-        purchases = self.purchase_recover.get_total_purchases(from_date.split('/'), to_date.split('/'))
-        sales = self.sale_recover.get_total_sales(from_date.split('/'), to_date.split('/'))
-
-        return sales - purchases
-
-    def get_dates(self, dates, values):
-        named_dates = []
-        if dates[0][1] == dates[-1][1]:
-            for date in dates:
-                named_dates.append(self.months[int(date[1])] + '/' + str(date[0]))
-            return named_dates, values
-
-        month_dict = OrderedDict()
-        for idx, date in enumerate(dates):
-            if self.months[int(date[1])] not in month_dict:
-                month_dict[self.months[int(date[1])]] = values[idx]
-            else:
-                month_dict[self.months[int(date[1])]] += values[idx]
-
-        return list(month_dict.keys()), list(month_dict.values())
+    def get_total_purchases_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
+        return self.purchase_recover.get_total_purchases_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
