@@ -62,7 +62,6 @@ class ListsPage(QtWidgets.QWidget):
         self.tables_gridWidget.setMinimumSize(QtCore.QSize(900, 470))
 
         self.purchases_table.setColumnCount(3)
-        self.purchases_table.setHorizontalHeaderLabels(('Nome', 'Valor', 'Data'))
         self.purchases_table.verticalHeader().setVisible(False)
         self.purchases_table.setMinimumSize(QtCore.QSize(400, 400))
         self.purchases_table.setMaximumSize(QtCore.QSize(450, 1080))
@@ -71,7 +70,6 @@ class ListsPage(QtWidgets.QWidget):
         self.purchases_table.horizontalHeader().setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
         self.sales_table.setColumnCount(3)
-        self.sales_table.setHorizontalHeaderLabels(('Nome', 'Valor', 'Data'))
         self.sales_table.verticalHeader().setVisible(False)
         self.sales_table.setMinimumSize(QtCore.QSize(400, 400))
         self.sales_table.setMaximumSize(QtCore.QSize(450, 1080))
@@ -211,8 +209,19 @@ class ListsPage(QtWidgets.QWidget):
         return '/'.join(date)
 
     def clear(self):
+        self.purchases_table.clear()
+        self.purchases_table.setRowCount(0)
+        self.purchases_table.setHorizontalHeaderLabels(('Nome', 'Valor', 'Data'))
+
+        self.sales_table.clear()
+        self.sales_table.setRowCount(0)
+        self.sales_table.setHorizontalHeaderLabels(('Nome', 'Valor', 'Data'))
+
         max_value = self.controller.get_max_purchase_value()
+        max_value = 0 if max_value is None else max_value
+
         min_value = self.controller.get_min_purchase_value()
+        min_value = 0 if min_value is None else min_value
 
         result, purchases, message = self.controller.get_purchases_by_value_and_date(min_value, max_value, self.from_date_option.text(), self.to_date_option.text())
         if result and purchases:
@@ -231,9 +240,14 @@ class ListsPage(QtWidgets.QWidget):
                 date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.purchases_table.setItem(idx, 2, date_item)
+        else:
+            self.total_purchases_value_label.setText(self.format_value(0))
 
         max_value = self.controller.get_max_sale_value()
+        max_value = 0 if max_value is None else max_value
+
         min_value = self.controller.get_min_sale_value()
+        min_value = 0 if min_value is None else min_value
 
         result, sales, message = self.controller.get_sales_by_value_and_date(min_value, max_value, self.from_date_option.text(), self.to_date_option.text())
         if result and sales:
@@ -252,3 +266,6 @@ class ListsPage(QtWidgets.QWidget):
                 date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.sales_table.setItem(idx, 2, date_item)
+
+        else:
+            self.total_sales_value_label.setText(self.format_value(0))

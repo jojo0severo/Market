@@ -36,9 +36,8 @@ class InitialPage(QtWidgets.QWidget):
         self.delete_button = QtWidgets.QPushButton(self.operations_verticalWidget)
 
         self.list_purchases_button = QtWidgets.QPushButton(self.visualizations_verticalWidget)
-        self.profit_graphic_button = QtWidgets.QPushButton(self.visualizations_verticalWidget)
-        self.purchases_graphic_button = QtWidgets.QPushButton(self.visualizations_verticalWidget)
-        self.sales_graphic_button = QtWidgets.QPushButton(self.visualizations_verticalWidget)
+        self.sales_list_button = QtWidgets.QPushButton(self.visualizations_verticalWidget)
+        self.purchases_list_button = QtWidgets.QPushButton(self.visualizations_verticalWidget)
 
         self.enter_gmail_button = QtWidgets.QPushButton(self.others_verticalWidget)
         self.enter_facebook_button = QtWidgets.QPushButton(self.others_verticalWidget)
@@ -49,6 +48,7 @@ class InitialPage(QtWidgets.QWidget):
 
         # Declaring spacers
         self.operations_spacer = QtWidgets.QLabel(self.operations_verticalWidget)
+        self.visualizations_spacer = QtWidgets.QLabel(self.visualizations_verticalWidget)
         self.others_spacer = QtWidgets.QLabel(self.others_verticalWidget)
 
         # Building UI
@@ -191,13 +191,13 @@ class InitialPage(QtWidgets.QWidget):
                                                  "    font-weight: bold;\n"
                                                  "}")
 
-        self.profit_graphic_button.setFont(font)
-        size_policy.setHeightForWidth(self.profit_graphic_button.sizePolicy().hasHeightForWidth())
-        self.profit_graphic_button.setSizePolicy(size_policy)
-        self.profit_graphic_button.setMinimumSize(QtCore.QSize(260, 60))
-        self.profit_graphic_button.setMaximumSize(QtCore.QSize(260, 80))
-        self.profit_graphic_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.profit_graphic_button.setStyleSheet("QPushButton {\n"
+        self.sales_list_button.setFont(font)
+        size_policy.setHeightForWidth(self.sales_list_button.sizePolicy().hasHeightForWidth())
+        self.sales_list_button.setSizePolicy(size_policy)
+        self.sales_list_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.sales_list_button.setMaximumSize(QtCore.QSize(260, 80))
+        self.sales_list_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.sales_list_button.setStyleSheet("QPushButton {\n"
                                                  "    background-color: white;\n"
                                                  "    color: black;\n"
                                                  "    border: 2px solid #54A4FF;\n"
@@ -215,13 +215,13 @@ class InitialPage(QtWidgets.QWidget):
                                                  "    font-weight: bold;\n"
                                                  "}")
 
-        self.purchases_graphic_button.setFont(font)
-        size_policy.setHeightForWidth(self.purchases_graphic_button.sizePolicy().hasHeightForWidth())
-        self.purchases_graphic_button.setSizePolicy(size_policy)
-        self.purchases_graphic_button.setMinimumSize(QtCore.QSize(260, 60))
-        self.purchases_graphic_button.setMaximumSize(QtCore.QSize(260, 80))
-        self.purchases_graphic_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.purchases_graphic_button.setStyleSheet("QPushButton {\n"
+        self.purchases_list_button.setFont(font)
+        size_policy.setHeightForWidth(self.purchases_list_button.sizePolicy().hasHeightForWidth())
+        self.purchases_list_button.setSizePolicy(size_policy)
+        self.purchases_list_button.setMinimumSize(QtCore.QSize(260, 60))
+        self.purchases_list_button.setMaximumSize(QtCore.QSize(260, 80))
+        self.purchases_list_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.purchases_list_button.setStyleSheet("QPushButton {\n"
                                                     "    background-color: white;\n"
                                                     "    color: black;\n"
                                                     "    border: 2px solid #3E74B2;\n"
@@ -238,30 +238,6 @@ class InitialPage(QtWidgets.QWidget):
                                                     "    color: white;\n"
                                                     "    font-weight: bold;\n"
                                                     "}")
-
-        self.sales_graphic_button.setFont(font)
-        size_policy.setHeightForWidth(self.sales_graphic_button.sizePolicy().hasHeightForWidth())
-        self.sales_graphic_button.setSizePolicy(size_policy)
-        self.sales_graphic_button.setMinimumSize(QtCore.QSize(260, 60))
-        self.sales_graphic_button.setMaximumSize(QtCore.QSize(260, 80))
-        self.sales_graphic_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.sales_graphic_button.setStyleSheet("QPushButton {\n"
-                                                "    background-color: white;\n"
-                                                "    color: black;\n"
-                                                "    border: 2px solid #214165;\n"
-                                                "}\n"
-                                                "\n"
-                                                "QPushButton:hover:!pressed {\n"
-                                                "    background-color: #214165;\n"
-                                                "    color: white;\n"
-                                                "    font-weight: bold;\n"
-                                                "}\n"
-                                                "\n"
-                                                "QPushButton:pressed {\n"
-                                                "    background-color: #214165;\n"
-                                                "    color: white;\n"
-                                                "    font-weight: bold;\n"
-                                                "}")
 
         self.enter_gmail_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_gmail_button.sizePolicy().hasHeightForWidth())
@@ -386,11 +362,15 @@ class InitialPage(QtWidgets.QWidget):
     def setup_spacers(self):
         self.operations_spacer.setMinimumSize(QtCore.QSize(0, 60))
         self.operations_spacer.setMaximumSize(QtCore.QSize(0, 70))
-        self.operations_spacer.setText("")
+        self.operations_spacer.setText('')
+
+        self.visualizations_spacer.setMinimumSize(QtCore.QSize(0, 60))
+        self.visualizations_spacer.setMaximumSize(QtCore.QSize(0, 70))
+        self.visualizations_spacer.setText('')
 
         self.others_spacer.setMinimumSize(QtCore.QSize(0, 60))
         self.others_spacer.setMaximumSize(QtCore.QSize(0, 70))
-        self.others_spacer.setText("")
+        self.others_spacer.setText('')
 
     def create_structure(self):
         self.operations_button_layout.addWidget(self.register_button, 0, QtCore.Qt.AlignHCenter)
@@ -402,9 +382,9 @@ class InitialPage(QtWidgets.QWidget):
         self.grid_layout.addWidget(self.operations_verticalWidget, 1, 0, 1, 1)
 
         self.visualizations_button_layout.addWidget(self.list_purchases_button, 0, QtCore.Qt.AlignHCenter)
-        self.visualizations_button_layout.addWidget(self.profit_graphic_button, 0, QtCore.Qt.AlignHCenter)
-        self.visualizations_button_layout.addWidget(self.purchases_graphic_button, 0, QtCore.Qt.AlignHCenter)
-        self.visualizations_button_layout.addWidget(self.sales_graphic_button, 0, QtCore.Qt.AlignHCenter)
+        self.visualizations_button_layout.addWidget(self.sales_list_button, 0, QtCore.Qt.AlignHCenter)
+        self.visualizations_button_layout.addWidget(self.purchases_list_button, 0, QtCore.Qt.AlignHCenter)
+        self.visualizations_button_layout.addWidget(self.visualizations_spacer, 0, QtCore.Qt.AlignHCenter)
 
         self.grid_layout.addWidget(self.visualizations_label, 0, 2, 1, 1, QtCore.Qt.AlignHCenter)
         self.grid_layout.addWidget(self.visualizations_verticalWidget, 1, 2, 1, 1)
@@ -448,14 +428,11 @@ class InitialPage(QtWidgets.QWidget):
         self.list_purchases_button.setToolTip(_translate("MainWindow", "Exibe lista de todas vendas e compras cadastradas"))
         self.list_purchases_button.setText(_translate("MainWindow", " Lista de Compras e Vendas "))
 
-        self.profit_graphic_button.setToolTip(_translate("MainWindow", "Exibe um gráfico de lucro por mes"))
-        self.profit_graphic_button.setText(_translate("MainWindow", "Gráfico do Lucro"))
+        self.sales_list_button.setToolTip(_translate("MainWindow", "Exibe uma lista de todas as vendas"))
+        self.sales_list_button.setText(_translate("MainWindow", "Lista de Vendas"))
 
-        self.purchases_graphic_button.setToolTip(_translate("MainWindow", "Exibe dois gráficos, um de valores de compras por mes e outro de quantidade de compras por mes"))
-        self.purchases_graphic_button.setText(_translate("MainWindow", "Gráfico de Compras"))
-
-        self.sales_graphic_button.setToolTip(_translate("MainWindow", "Exibe dois gráficos, um de valor de vendas por mes e outro de quantidade de vendas por mes"))
-        self.sales_graphic_button.setText(_translate("MainWindow", "Gráfico de Vendas"))
+        self.purchases_list_button.setToolTip(_translate("MainWindow", "Exibe uma lista de todas as compras"))
+        self.purchases_list_button.setText(_translate("MainWindow", "Lista de Compras"))
 
         self.enter_gmail_button.setToolTip(_translate("MainWindow", "Entra no Gmail"))
         self.enter_gmail_button.setText(_translate("MainWindow", "Acessar Gmail"))
@@ -472,9 +449,8 @@ class InitialPage(QtWidgets.QWidget):
         self.delete_button.clicked.connect((lambda: self.navigation.emit(3)))
 
         self.list_purchases_button.clicked.connect((lambda: self.navigation.emit(4)))
-        self.profit_graphic_button.clicked.connect((lambda: self.navigation.emit(5)))
-        self.purchases_graphic_button.clicked.connect((lambda: self.navigation.emit(6)))
-        self.sales_graphic_button.clicked.connect((lambda: self.navigation.emit(7)))
+        self.sales_list_button.clicked.connect((lambda: self.navigation.emit(5)))
+        self.purchases_list_button.clicked.connect((lambda: self.navigation.emit(6)))
 
         self.enter_gmail_button.clicked.connect(self.browser_controller.open_gmail)
         self.enter_facebook_button.clicked.connect(self.browser_controller.open_facebook)

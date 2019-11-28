@@ -50,11 +50,20 @@ class QRangeSlider(QtWidgets.QWidget):
         self.old_end_event(event)
         QtWidgets.QToolTip.showText(QtGui.QCursor.pos(), str(abs(self.end_slider.value())))
 
-    def setMinMax(self, min, max):
-        self.end_slider.setMaximum(max)
-        self.end_slider.setMinimum((max + min) // 2)
-        self.end_slider.setValue(max)
+    def min(self):
+        return self.start_slider.value()
 
-        self.start_slider.setMinimum(-(max + min) // 2)
-        self.start_slider.setMaximum(-min)
-        self.start_slider.setValue(-min)
+    def max(self):
+        return self.end_slider.value()
+
+    def setMinMax(self, min_value, max_value):
+        if min_value == max_value:
+            min_value = max(max_value - 5, 0)
+
+        self.end_slider.setMaximum(max_value)
+        self.end_slider.setMinimum((max_value + min_value) // 2)
+        self.end_slider.setValue(max_value)
+
+        self.start_slider.setMinimum(-(max_value + min_value) // 2)
+        self.start_slider.setMaximum(-min_value)
+        self.start_slider.setValue(-min_value)

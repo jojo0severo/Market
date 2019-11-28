@@ -1,6 +1,6 @@
-from datetime import datetime
 import locale
 locale.setlocale(locale.LC_MONETARY, '')
+from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from controller.consult_controller import ConsultController
 from resources.qtslider import QRangeSlider
@@ -54,7 +54,8 @@ class SaleListPage(QtWidgets.QWidget):
 
     def setup_ui(self):
         # Main
-        self.products_table.setMinimumSize(QtCore.QSize(500, 500))
+        self.products_table.setMinimumSize(QtCore.QSize(400, 400))
+        self.products_table.setMaximumSize(QtCore.QSize(1120, 1120))
         self.products_table.horizontalHeader().setVisible(True)
         self.products_table.verticalHeader().setVisible(False)
 
@@ -249,7 +250,10 @@ class SaleListPage(QtWidgets.QWidget):
 
     def clear(self):
         min_sale = self.controller.get_min_sale_value()
+        min_sale = 0 if min_sale is None else min_sale
+
         max_sale = self.controller.get_max_sale_value()
+        max_sale = 0 if max_sale is None else max_sale
 
         self.value_slider.setMinMax(min_sale, max_sale)
 
@@ -282,13 +286,3 @@ class SaleListPage(QtWidgets.QWidget):
                 date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.products_table.setItem(idx, 2, date_item)
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    s = SaleListPage(None)
-    s.show()
-    s.clear()
-    sys.exit(app.exec_())

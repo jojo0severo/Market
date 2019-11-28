@@ -258,8 +258,7 @@ class EditionPage(QtWidgets.QWidget):
             info['transaction_type'] = 'sale'
 
         else:
-            self.dialog.setText('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
             return
 
         info['transaction_date'] = self.date_option.text()
@@ -267,8 +266,7 @@ class EditionPage(QtWidgets.QWidget):
         old_value = self.old_value_option.toPlainText()
         old_value = re.sub('\A0*', '0', old_value.replace('.', '').replace(',', '.'))
         if not old_value or old_value == '0.0':
-            self.dialog.setText('\nNenhum valor antigo foi informado. Insira o valor cadastrado atualmente e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nNenhum valor antigo foi informado. Insira o valor cadastrado atualmente e tente novamente.\t\t\n')
             return
 
         info['transaction_old_value'] = float(old_value)
@@ -276,15 +274,12 @@ class EditionPage(QtWidgets.QWidget):
         new_value = self.new_value_option.toPlainText()
         new_value = re.sub('\A0*', '0', new_value.replace('.', '').replace(',', '.'))
         if not new_value or new_value == '0.0':
-            self.dialog.setText('\nNenhum valor novo foi informado. Insira o novo valor e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nNenhum valor novo foi informado. Insira o novo valor e tente novamente.\t\t\n')
             return
 
         info['transaction_new_value'] = float(new_value)
 
-        message = self.controller.edit(info)
-        self.dialog.setText('\n{}\t\t\n'.format(message))
-        self.dialog.exec()
+        self.show_message('\n{}\t\t\n'.format(self.controller.edit(info)))
 
     def clear(self):
         self.sale_option.setAutoExclusive(False)
@@ -299,3 +294,7 @@ class EditionPage(QtWidgets.QWidget):
         self.old_value_option.clear()
         self.new_value_option.clear()
         self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
+
+    def show_message(self, text):
+        self.dialog.setText(text)
+        self.dialog.exec()

@@ -220,8 +220,7 @@ class DeletionPage(QtWidgets.QWidget):
             info['transaction_type'] = 'sale'
 
         else:
-            self.dialog.setText('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
             return
 
         info['transaction_date'] = self.date_option.text()
@@ -229,15 +228,12 @@ class DeletionPage(QtWidgets.QWidget):
         value = self.value_option.toPlainText()
         value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
         if not value or value == '0.0':
-            self.dialog.setText('\nNenhum valor de transação foi informado. Insira um valor e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nNenhum valor de transação foi informado. Insira um valor e tente novamente.\t\t\n')
             return
 
         info['transaction_value'] = float(value)
 
-        message = self.controller.delete(info)
-        self.dialog.setText('\n{}\t\t\n'.format(message))
-        self.dialog.exec()
+        self.show_message('\n{}\t\t\n'.format(self.controller.delete(info)))
 
     def clear(self):
         self.sale_option.setAutoExclusive(False)
@@ -251,3 +247,7 @@ class DeletionPage(QtWidgets.QWidget):
 
         self.value_option.clear()
         self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
+
+    def show_message(self, text):
+        self.dialog.setText(text)
+        self.dialog.exec()

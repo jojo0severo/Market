@@ -4,6 +4,8 @@ from view.operations.registration_page import RegistrationPage
 from view.operations.edition_page import EditionPage
 from view.operations.deletion_page import DeletionPage
 from view.visualizations.lists_page import ListsPage
+from view.visualizations.purchase_list_with_filters import PurchaseListPage
+from view.visualizations.sale_list_with_filters import SaleListPage
 
 
 class AppMainWindow(QtWidgets.QMainWindow):
@@ -28,7 +30,9 @@ class AppMainWindow(QtWidgets.QMainWindow):
             RegistrationPage(self.back_signal),
             EditionPage(self.back_signal),
             DeletionPage(self.back_signal),
-            ListsPage(self.back_signal)
+            ListsPage(self.back_signal),
+            SaleListPage(self.back_signal),
+            PurchaseListPage(self.back_signal)
         ]
 
         # Building UI

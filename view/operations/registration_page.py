@@ -230,16 +230,14 @@ class RegistrationPage(QtWidgets.QWidget):
             info['transaction_type'] = 'sale'
 
         else:
-            self.dialog.setText('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
             return
 
         info['transaction_date'] = self.date_option.text()
 
         product_name = self.product_name_option.toPlainText()
         if not product_name.replace('\t', '').replace(' ', ''):
-            self.dialog.setText('\nNenhum nome foi dado para o produto comprado/vendido. Insira um nome e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nNenhum nome foi dado para o produto comprado/vendido. Insira um nome e tente novamente.\t\t\n')
             self.product_name_option.setFocus(True)
             return
 
@@ -248,8 +246,7 @@ class RegistrationPage(QtWidgets.QWidget):
         value = self.value_option.toPlainText()
         value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
         if not re.sub('\A0*', '', value.replace('.', '')):
-            self.dialog.setText('\nNenhum valor foi atribuído à transação. Insira um valor e tente novamente.\t\t\n')
-            self.dialog.exec()
+            self.show_message('\nNenhum valor foi atribuído à transação. Insira um valor e tente novamente.\t\t\n')
             self.value_option.setFocus(True)
             return
 
@@ -272,3 +269,7 @@ class RegistrationPage(QtWidgets.QWidget):
         self.product_name_option.clear()
         self.value_option.clear()
         self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
+
+    def show_message(self, text):
+        self.dialog.setText(text)
+        self.dialog.exec()
