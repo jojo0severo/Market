@@ -11,9 +11,9 @@ class QRangeSlider(QtWidgets.QWidget):
         self.start_slider = QtWidgets.QSlider(self)
         self.end_slider = QtWidgets.QSlider(self)
 
-        self.create_structure(min, max)
+        self.create_structure(max)
 
-    def create_structure(self, min, max):
+    def create_structure(self, max_value):
         self.setMinimumSize(QtCore.QSize(0, 45))
         self.setMaximumSize(QtCore.QSize(16777215, 55))
 
@@ -30,7 +30,7 @@ class QRangeSlider(QtWidgets.QWidget):
 
         self.end_slider.setMaximum(10)
         self.end_slider.setMinimum(5)
-        self.end_slider.setValue(max)
+        self.end_slider.setValue(max_value)
         self.end_slider.setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
         self.end_slider.setStyleSheet('border: 0px;')
         self.old_end_event = self.end_slider.mouseMoveEvent
@@ -57,8 +57,11 @@ class QRangeSlider(QtWidgets.QWidget):
         return self.end_slider.value()
 
     def setMinMax(self, min_value, max_value):
+        max_value += 1
         if min_value == max_value:
-            min_value = max(max_value - 5, 0)
+            min_value = max_value - 10
+            while min_value < 0:
+                min_value += 1
 
         self.end_slider.setMaximum(max_value)
         self.end_slider.setMinimum((max_value + min_value) // 2)

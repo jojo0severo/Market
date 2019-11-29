@@ -19,10 +19,18 @@ class ConsultController:
         return self.sale_recover.get_max_sale_value()[0][0]
 
     def get_sales_amount_by_value_and_date(self, min_value, max_value, from_date, to_date):
-        return self.sale_recover.get_sales_amount_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        result = self.sale_recover.get_sales_amount_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        if result:
+            return True, result, ''
+
+        return False, [], 'Erro recuperando compras'
 
     def get_sales_amount_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
-        return self.sale_recover.get_sales_amount_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        result = self.sale_recover.get_sales_amount_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        if result:
+            return True, result, ''
+
+        return False, [], 'Erro recuperando compras'
 
     def get_sales_by_value_and_date(self, min_value, max_value, from_date, to_date):
         result = self.sale_recover.get_sales_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
@@ -33,7 +41,12 @@ class ConsultController:
         return False, [], 'Erro recuperando vendas'
 
     def get_sales_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
-        return self.sale_recover.get_sales_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        result = self.sale_recover.get_sales_by_name_and_value_and_date(name, float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
+        if result:
+            result = [(name, value, '/'.join(map(str, [day, month, year]))) for name, value, day, month, year in result]
+            return True, result, ''
+
+        return False, [], 'Erro recuperando vendas'
 
     def get_total_sales_by_value_and_date(self, min_value, max_value, from_date, to_date):
         return self.sale_recover.get_total_sales_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))

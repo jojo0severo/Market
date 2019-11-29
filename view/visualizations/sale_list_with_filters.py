@@ -1,4 +1,5 @@
 import locale
+
 locale.setlocale(locale.LC_MONETARY, '')
 from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -51,10 +52,11 @@ class SaleListPage(QtWidgets.QWidget):
         self.setup_ui()
         self.translate_ui()
         self.create_structure()
+        self.define_actions()
 
     def setup_ui(self):
         # Main
-        self.products_table.setMinimumSize(QtCore.QSize(400, 400))
+        self.products_table.setMinimumSize(QtCore.QSize(500, 500))
         self.products_table.setMaximumSize(QtCore.QSize(1120, 1120))
         self.products_table.horizontalHeader().setVisible(True)
         self.products_table.verticalHeader().setVisible(False)
@@ -115,92 +117,96 @@ class SaleListPage(QtWidgets.QWidget):
         self.order_by_comboBox.setMinimumSize(QtCore.QSize(0, 35))
         self.order_by_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.order_by_comboBox.setSizeAdjustPolicy(QtWidgets.QComboBox.AdjustToContents)
-        for i in range(7):
-            self.order_by_comboBox.addItem("")
+        self.order_by_comboBox.setStyleSheet('''QComboBox:item {
+                                                    background-color: white;
+                                                    selection-background-color: transparent;
+                                                    color: black;
+                                                }''')
 
         # Buttons
         self.apply_filters_button.setMinimumSize(QtCore.QSize(130, 40))
         self.apply_filters_button.setMaximumSize(QtCore.QSize(130, 50))
         self.apply_filters_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.apply_filters_button.setStyleSheet("QPushButton {\n"
-                                                "    background-color: white;\n"
-                                                "    color: black;\n"
-                                                "    border: 2px solid #cffaff;\n"
-                                                "}\n"
-                                                "\n"
-                                                "QPushButton:hover:!pressed {\n"
-                                                "    background-color: #cffaff;\n"
-                                                "    font-weight: bold;\n"
-                                                "}\n"
-                                                "\n"
-                                                "QPushButton:pressed {\n"
-                                                "    background-color: #cffaff;\n"
-                                                "    font-weight: bold;\n"
-                                                "}")
+        self.apply_filters_button.setStyleSheet('''QPushButton {
+                                                    background-color: white;
+                                                    color: black;
+                                                    border: 2px solid #cffaff;
+                                                }
+
+                                                QPushButton:hover:!pressed {
+                                                    background-color: #cffaff;
+                                                    font-weight: bold;
+                                                }
+
+                                                QPushButton:pressed {
+                                                    background-color: #cffaff;
+                                                    font-weight: bold;
+                                                }''')
 
         self.clear_filters_button.setMinimumSize(QtCore.QSize(130, 40))
         self.clear_filters_button.setMaximumSize(QtCore.QSize(130, 50))
         self.clear_filters_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.clear_filters_button.setStyleSheet("QPushButton {\n"
-                                                "    background-color: white;\n"
-                                                "    color: black;\n"
-                                                "    border: 2px solid #f2bfbf;\n"
-                                                "}\n"
-                                                "\n"
-                                                "QPushButton:hover:!pressed {\n"
-                                                "    background-color: #f2bfbf;\n"
-                                                "    font-weight: bold;\n"
-                                                "}\n"
-                                                "\n"
-                                                "QPushButton:pressed {\n"
-                                                "    background-color: #f2bfbf;\n"
-                                                "    font-weight: bold;\n"
-                                                "}")
+        self.clear_filters_button.setStyleSheet('''QPushButton {
+                                                    background-color: white;
+                                                    color: black;
+                                                    border: 2px solid #f2bfbf;
+                                                }
+
+                                                QPushButton:hover:!pressed {
+                                                    background-color: #f2bfbf;
+                                                    font-weight: bold;
+                                                }
+
+                                                QPushButton:pressed {
+                                                    background-color: #f2bfbf;
+                                                    font-weight: bold;
+                                                }''')
 
         self.back_button.setMinimumSize(QtCore.QSize(180, 70))
         self.back_button.setMaximumSize(QtCore.QSize(180, 70))
         self.back_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.back_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #C1C0C0;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.back_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #C1C0C0;
+                                       }
+
+                                       QPushButton:hover:!pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+
+                                       QPushButton:pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.table_label.setText(_translate("MainWindow", "Vendas"))
-        self.total_sales_label.setText(_translate("MainWindow", "Total de vendas: R$ 0,00"))
+        self.table_label.setText(_translate("MainWindow", "Lista de Compras"))
+        self.total_sales_label.setText(_translate("MainWindow", "Total de compras: R$ 0,00"))
         self.back_button.setText(_translate("MainWindow", "Voltar"))
         self.product_name_input.setPlaceholderText(_translate("Form", "Nome do produto"))
         self.from_date_label.setText(_translate("MainWindow", "Desde"))
         self.to_date_label.setText(_translate("MainWindow", "Até"))
         self.value_interval_label.setText(_translate("MainWindow", "Intervalo de valor desejado"))
         self.comboBox_label.setText(_translate("MainWindow", "Ordenar por"))
-        self.order_by_comboBox.setItemText(0, _translate("MainWindow", "Data"))
-        self.order_by_comboBox.setItemText(1, _translate("MainWindow", "Valor"))
-        self.order_by_comboBox.setItemText(2, _translate("MainWindow", "Mais vendido"))
-        self.order_by_comboBox.setItemText(3, _translate("MainWindow", "Menos vendido"))
-        self.order_by_comboBox.setItemText(4, _translate("MainWindow", "Maior lucro"))
-        self.order_by_comboBox.setItemText(5, _translate("MainWindow", "Menor lucro"))
+        self.order_by_comboBox.addItem(_translate("MainWindow", "Data"))
+        self.order_by_comboBox.addItem(_translate("MainWindow", "Valor"))
+        self.order_by_comboBox.addItem(_translate("MainWindow", "Mais vendido"))
+        self.order_by_comboBox.addItem(_translate("MainWindow", "Menos vendido"))
+        self.order_by_comboBox.addItem(_translate("MainWindow", "Maior lucro"))
+        self.order_by_comboBox.addItem(_translate("MainWindow", "Menor lucro"))
         self.apply_filters_button.setText(_translate("MainWindow", "Aplicar Filtros"))
         self.clear_filters_button.setText(_translate("MainWindow", "Limpar Filtros"))
 
     def create_structure(self):
         self.filters_layout.addWidget(self.product_name_input, alignment=QtCore.Qt.AlignVCenter)
 
-        self.filters_layout.addItem(QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
+        self.filters_layout.addItem(
+            QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
 
         self.from_date_layout.addWidget(self.from_date_label, alignment=QtCore.Qt.AlignVCenter)
         self.from_date_layout.addWidget(self.from_date_input, alignment=QtCore.Qt.AlignVCenter)
@@ -209,30 +215,43 @@ class SaleListPage(QtWidgets.QWidget):
         self.filters_layout.addWidget(self.from_date_horizontalWidget, alignment=QtCore.Qt.AlignVCenter)
         self.filters_layout.addWidget(self.to_date_horizontalWidget, alignment=QtCore.Qt.AlignVCenter)
 
-        self.filters_layout.addItem(QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
+        self.filters_layout.addItem(
+            QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
 
         self.filters_layout.addWidget(self.value_interval_label, alignment=QtCore.Qt.AlignVCenter)
         self.filters_layout.addWidget(self.value_slider, alignment=QtCore.Qt.AlignVCenter)
 
-        self.filters_layout.addItem(QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
+        self.filters_layout.addItem(
+            QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
 
         self.filters_layout.addWidget(self.comboBox_label, alignment=QtCore.Qt.AlignVCenter)
         self.filters_layout.addWidget(self.order_by_comboBox, alignment=QtCore.Qt.AlignVCenter)
 
-        self.filters_layout.addItem(QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
+        self.filters_layout.addItem(
+            QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
 
         self.filter_buttons_layout.addWidget(self.apply_filters_button, alignment=QtCore.Qt.AlignVCenter)
         self.filter_buttons_layout.addWidget(self.clear_filters_button, alignment=QtCore.Qt.AlignVCenter)
         self.filters_layout.addLayout(self.filter_buttons_layout)
 
-        self.filters_layout.addItem(QtWidgets.QSpacerItem(20, 220, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding))
+        self.filters_layout.addItem(
+            QtWidgets.QSpacerItem(20, 220, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding))
 
         self.gridLayout.addWidget(self.table_label, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.products_table, 1, 0, 1, 1)
-        self.gridLayout.addWidget(self.total_sales_label, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.total_sales_label, 2, 0, alignment=QtCore.Qt.AlignHCenter)
 
         self.gridLayout.addWidget(self.filters_verticalWidget, 1, 1, 1, 1)
         self.gridLayout.addWidget(self.back_button, 3, 1, alignment=QtCore.Qt.AlignHCenter)
+
+    def define_actions(self):
+        self.back_button.clicked.connect(self.clear_and_go_back)
+        self.apply_filters_button.clicked.connect(self.apply_filters)
+        self.clear_filters_button.clicked.connect(self.clear)
+
+    def clear_and_go_back(self):
+        self.products_table.clear()
+        self.back_signal.emit()
 
     def format_value(self, value):
         return locale.currency(float(value), grouping=True).split(' ')[1]
@@ -249,6 +268,17 @@ class SaleListPage(QtWidgets.QWidget):
         return '/'.join(date)
 
     def clear(self):
+        year = datetime.now().year
+        month = datetime.now().month - 1
+        if month == 1:
+            year -= 1
+            month = 12
+
+        self.from_date_input.setDate(QtCore.QDate(year, month, datetime.now().day))
+        self.to_date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
+        self.order_by_comboBox.setCurrentIndex(0)
+        self.product_name_input.clear()
+
         min_sale = self.controller.get_min_sale_value()
         min_sale = 0 if min_sale is None else min_sale
 
@@ -257,10 +287,6 @@ class SaleListPage(QtWidgets.QWidget):
 
         self.value_slider.setMinMax(min_sale, max_sale)
 
-        if self.order_by_comboBox.currentText().lower() == 'data':
-            self.order_by_date(min_sale, max_sale)
-
-    def order_by_date(self, min_sale, max_sale):
         self.products_table.setColumnCount(3)
         self.products_table.setHorizontalHeaderLabels(('Nome', 'Preco', 'Data'))
         for i in range(self.products_table.columnCount()):
@@ -270,19 +296,101 @@ class SaleListPage(QtWidgets.QWidget):
                                                                              self.from_date_input.text(),
                                                                              self.to_date_input.text())
         if result and sales:
-            new_value_text = self.total_sales_label.text().split(':')[0] + ': R$ ' + self.format_value(sum([value for _, value, _ in sales]))
-            self.total_sales_label.setText(new_value_text)
+            self.populate_table(sales)
 
-            self.products_table.setRowCount(len(sales))
-            for idx, (name, value, date) in enumerate(sales):
-                name_item = QtWidgets.QTableWidgetItem(name)
+    def apply_filters(self):
+        min_value = self.value_slider.min()
+        max_value = self.value_slider.max()
+
+        name = self.product_name_input.text()
+
+        if self.order_by_comboBox.currentText().lower() == 'mais vendido':
+            if name:
+                result, sales, message = self.controller.get_sales_amount_by_name_and_value_and_date(name,
+                                                                                                     min_value,
+                                                                                                     max_value,
+                                                                                                     self.from_date_input.text(),
+                                                                                                     self.to_date_input.text())
+            else:
+                result, sales, message = self.controller.get_sales_amount_by_value_and_date(min_value,
+                                                                                            max_value,
+                                                                                            self.from_date_input.text(),
+                                                                                            self.to_date_input.text())
+
+        elif self.order_by_comboBox.currentText().lower() == 'menos vendido':
+            if name:
+                result, sales, message = self.controller.get_sales_amount_by_name_and_value_and_date(name,
+                                                                                                     min_value,
+                                                                                                     max_value,
+                                                                                                     self.from_date_input.text(),
+                                                                                                     self.to_date_input.text())
+            else:
+                result, sales, message = self.controller.get_sales_amount_by_value_and_date(min_value,
+                                                                                            max_value,
+                                                                                            self.from_date_input.text(),
+                                                                                            self.to_date_input.text())
+            sales.reverse()
+
+        elif self.order_by_comboBox.currentText().lower() == 'valor':
+            if name:
+                result, sales, message = self.controller.get_sales_by_name_and_value_and_date(name, min_value,
+                                                                                              max_value,
+                                                                                              self.from_date_input.text(),
+                                                                                              self.to_date_input.text())
+            else:
+                result, sales, message = self.controller.get_sales_by_value_and_date(min_value, max_value,
+                                                                                     self.from_date_input.text(),
+                                                                                     self.to_date_input.text())
+
+            sales = sorted(sales, key=lambda pur: pur[1])
+
+        else:
+            if name:
+                result, sales, message = self.controller.get_sales_by_name_and_value_and_date(name, min_value,
+                                                                                              max_value,
+                                                                                              self.from_date_input.text(),
+                                                                                              self.to_date_input.text())
+            else:
+                result, sales, message = self.controller.get_sales_by_value_and_date(min_value, max_value,
+                                                                                     self.from_date_input.text(),
+                                                                                     self.to_date_input.text())
+
+        self.populate_table(sales)
+
+    def populate_table(self, purchases):
+        if self.order_by_comboBox.currentText().lower() not in ['data', 'valor']:
+            self.products_table.setColumnCount(2)
+            self.products_table.setHorizontalHeaderLabels(('Nome', 'Quantidade'))
+            new_value_text = self.total_sales_label.text().split(':')[0] + ': R$ ' + self.format_value(0)
+        else:
+            self.products_table.setColumnCount(3)
+            self.products_table.setHorizontalHeaderLabels(('Nome', 'Preco', 'Data'))
+            new_value_text = self.total_sales_label.text().split(':')[0] + ': R$ ' + self.format_value(
+                sum([value for _, value, _ in purchases]))
+
+        self.total_sales_label.setText(new_value_text)
+        self.products_table.setRowCount(len(purchases))
+
+        for idx, (one, two, three) in enumerate(purchases):
+            if self.order_by_comboBox.currentText().lower() not in ['data', 'valor']:
+                name_item = QtWidgets.QTableWidgetItem(two)
                 name_item.setTextAlignment(QtCore.Qt.AlignCenter)
+
+                quantity_item = QtWidgets.QTableWidgetItem(str(one))
+                quantity_item.setTextAlignment(QtCore.Qt.AlignCenter)
+
                 self.products_table.setItem(idx, 0, name_item)
+                self.products_table.setItem(idx, 1, quantity_item)
+            else:
+                name_item = QtWidgets.QTableWidgetItem(one)
+                name_item.setTextAlignment(QtCore.Qt.AlignCenter)
 
-                value_item = QtWidgets.QTableWidgetItem(self.format_value(value))
+                value_item = QtWidgets.QTableWidgetItem(self.format_value(two))
                 value_item.setTextAlignment(QtCore.Qt.AlignCenter)
-                self.products_table.setItem(idx, 1, value_item)
 
-                date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
+                date_item = QtWidgets.QTableWidgetItem(self.format_date(three))
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
+
+                self.products_table.setItem(idx, 0, name_item)
+                self.products_table.setItem(idx, 1, value_item)
                 self.products_table.setItem(idx, 2, date_item)

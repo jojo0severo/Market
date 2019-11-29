@@ -299,23 +299,18 @@ class PurchaseListPage(QtWidgets.QWidget):
             self.populate_table(purchases)
 
     def apply_filters(self):
-        self.products_table.setHorizontalHeaderLabels(('Nome', 'Preco', 'Data'))
         min_value = self.value_slider.min()
         max_value = self.value_slider.max()
 
         name = self.product_name_input.text()
 
         if self.order_by_comboBox.currentText().lower() == 'mais vendido':
-            self.products_table.setColumnCount(2)
-            self.products_table.setHorizontalHeaderLabels(('Nome', 'Quantidade'))
             if name:
                 result, purchases, message = self.controller.get_purchases_amount_by_name_and_value_and_date(name, min_value, max_value, self.from_date_input.text(), self.to_date_input.text())
             else:
                 result, purchases, message = self.controller.get_purchases_amount_by_value_and_date(min_value, max_value, self.from_date_input.text(), self.to_date_input.text())
 
         elif self.order_by_comboBox.currentText().lower() == 'menos vendido':
-            self.products_table.setColumnCount(2)
-            self.products_table.setHorizontalHeaderLabels(('Nome', 'Quantidade'))
             if name:
                 result, purchases, message = self.controller.get_purchases_amount_by_name_and_value_and_date(name, min_value, max_value, self.from_date_input.text(), self.to_date_input.text())
             else:
@@ -340,19 +335,23 @@ class PurchaseListPage(QtWidgets.QWidget):
 
     def populate_table(self, purchases):
         if self.order_by_comboBox.currentText().lower() not in ['data', 'valor']:
+            self.products_table.setColumnCount(2)
+            self.products_table.setHorizontalHeaderLabels(('Nome', 'Quantidade'))
             new_value_text = self.total_purchases_label.text().split(':')[0] + ': R$ ' + self.format_value(0)
         else:
+            self.products_table.setColumnCount(3)
+            self.products_table.setHorizontalHeaderLabels(('Nome', 'Preco', 'Data'))
             new_value_text = self.total_purchases_label.text().split(':')[0] + ': R$ ' + self.format_value(sum([value for _, value, _ in purchases]))
 
         self.total_purchases_label.setText(new_value_text)
-
         self.products_table.setRowCount(len(purchases))
+
         for idx, (one, two, three) in enumerate(purchases):
             if self.order_by_comboBox.currentText().lower() not in ['data', 'valor']:
                 name_item = QtWidgets.QTableWidgetItem(two)
                 name_item.setTextAlignment(QtCore.Qt.AlignCenter)
 
-                quantity_item = QtWidgets.QTableWidgetItem(one)
+                quantity_item = QtWidgets.QTableWidgetItem(str(one))
                 quantity_item.setTextAlignment(QtCore.Qt.AlignCenter)
 
                 self.products_table.setItem(idx, 0, name_item)

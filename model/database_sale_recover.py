@@ -25,14 +25,14 @@ class DatabaseSaleRecover:
 
     def get_sales_amount_by_name(self, product_name):
         query = """
-            SELECT COUNT(SALE.product_name), SALE.product_name, SALE.value 
+            SELECT COUNT(SALE.product_name), SALE.product_name, SALE.value
                 FROM SALE 
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
-                GROUP BY
-                    SALE.product_name, SALE.value
                 WHERE 
-                    SALE.product_name = {}
+                    SALE.product_name = "{}"
+                GROUP BY
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(product_name)
@@ -43,14 +43,14 @@ class DatabaseSaleRecover:
 
     def get_sales_amount_by_value(self, min_value, max_value):
         query = """
-            SELECT COUNT(SALE.product_name), SALE.product_name, SALE.value 
+            SELECT COUNT(SALE.product_name), SALE.product_name, SALE.value
                 FROM SALE 
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
-                GROUP BY
-                    SALE.product_name, SALE.value
                 WHERE
                     SALE.value >= {} AND SALE.value <= {}
+                GROUP BY
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(min_value, max_value)
@@ -67,12 +67,12 @@ class DatabaseSaleRecover:
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
                 GROUP BY
-                    SALE.product_name, SALE.value
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
@@ -88,11 +88,11 @@ class DatabaseSaleRecover:
                 FROM SALE 
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
-                GROUP BY
-                    SALE.product_name, SALE.value
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     SALE.value >= {} AND SALE.value <= {}
+                GROUP BY
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(name, min_value, max_value)
@@ -108,14 +108,14 @@ class DatabaseSaleRecover:
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
                 GROUP BY
-                    SALE.product_name, SALE.value
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(name, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
@@ -134,12 +134,12 @@ class DatabaseSaleRecover:
                 WHERE
                     SALE.value >= {} AND SALE.value <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
                 GROUP BY
-                    SALE.product_name, SALE.value
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1],
@@ -156,15 +156,15 @@ class DatabaseSaleRecover:
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     SALE.value >= {} AND SALE.value <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
                 GROUP BY
-                    SALE.product_name, SALE.value
+                    SALE.product_name
                 ORDER BY
                     COUNT(SALE.product_name) DESC;
         """.format(name, min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2],
@@ -181,7 +181,7 @@ class DatabaseSaleRecover:
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
-                    SALE.product_name = {}
+                    SALE.product_name = "{}"
                 ORDER BY
                     YEAR_TABLE.year_number DESC,
                     MONTH_TABLE.month_number DESC,
@@ -218,10 +218,10 @@ class DatabaseSaleRecover:
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
 	            WHERE
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
 	            ORDER BY
 	                YEAR_TABLE.year_number DESC,
 		            MONTH_TABLE.month_number DESC,
@@ -240,7 +240,7 @@ class DatabaseSaleRecover:
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     SALE.value >= {} AND SALE.value <= {}
                 ORDER BY
                     YEAR_TABLE.year_number DESC,
@@ -259,12 +259,12 @@ class DatabaseSaleRecover:
 		            INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
 	            WHERE
-	                SALE.product_name = {} AND
+	                SALE.product_name = "{}" AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
 	            ORDER BY
 	                YEAR_TABLE.year_number DESC,
 		            MONTH_TABLE.month_number DESC,
@@ -285,10 +285,10 @@ class DatabaseSaleRecover:
 	            WHERE
 	                SALE.value >= {} AND SALE.value <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
 	            ORDER BY
 	                YEAR_TABLE.year_number DESC,
 		            MONTH_TABLE.month_number DESC,
@@ -307,13 +307,13 @@ class DatabaseSaleRecover:
 		            INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
 	            WHERE
-	                SALE.product_name = {} AND
+	                SALE.product_name = "{}" AND
 	                SALE.value >= {} AND SALE.value <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END)
 	            ORDER BY
 	                YEAR_TABLE.year_number DESC,
 		            MONTH_TABLE.month_number DESC,
@@ -331,7 +331,7 @@ class DatabaseSaleRecover:
                 FROM 
                     SALE 
                 WHERE
-                    SALE.product_name = {};
+                    SALE.product_name = "{}";
         """.format(name)
 
         cursor = self.conn.cursor()
@@ -361,10 +361,10 @@ class DatabaseSaleRecover:
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END;
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END);
         """.format(from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
@@ -380,12 +380,12 @@ class DatabaseSaleRecover:
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END;
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END);
         """.format(name, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
@@ -400,7 +400,7 @@ class DatabaseSaleRecover:
                 FROM 
                     SALE 
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     SALE.value >= {} AND SALE.value <= {};
         """.format(name, min_value, max_value)
 
@@ -418,10 +418,10 @@ class DatabaseSaleRecover:
                 WHERE
                     SALE.value >= {} AND SALE.value <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END;
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END);
         """.format(min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1],
                    from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
@@ -437,13 +437,13 @@ class DatabaseSaleRecover:
                     INNER JOIN MONTH_TABLE ON SALE.id_month = MONTH_TABLE.id_month 
                     INNER JOIN YEAR_TABLE ON YEAR_TABLE.year_number = MONTH_TABLE.year_number
                 WHERE
-                    SALE.product_name = {} AND
+                    SALE.product_name = "{}" AND
                     SALE.value >= {} AND SALE.value <= {} AND
                     YEAR_TABLE.year_number >= {} AND YEAR_TABLE.year_number <= {} AND
-                    MONTH_TABLE.month_number >=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    MONTH_TABLE.month_number <=  CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 13 END AND
-                    SALE.day >=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END AND
-                    SALE.day <=  CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 32 END;
+                    MONTH_TABLE.month_number >= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    MONTH_TABLE.month_number <= (CASE WHEN YEAR_TABLE.year_number = {} THEN {} ELSE 12 END) AND
+                    SALE.day >= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 0 END) AND
+                    SALE.day <= (CASE WHEN MONTH_TABLE.month_number = {} AND YEAR_TABLE.year_number = {} THEN {} ELSE 31 END);
         """.format(name, min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2],
                    to_date[1], from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
