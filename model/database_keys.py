@@ -10,8 +10,7 @@ class DatabaseKeys:
 
         cursor = self.conn.cursor()
         cursor.execute(query)
-
-        return cursor.fetchall()[0]
+        return cursor.fetchone() or ('Desconhecido', 'Desconhecido')
 
     def insert_username_password(self, enterprise, username, password):
         query = f'INSERT INTO USER_KEYS VALUES ("{enterprise}", "{username}", "{password}");'
