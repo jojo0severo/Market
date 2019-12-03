@@ -8,7 +8,13 @@ class RegistrationController:
         self.database_register = DatabaseRegister()
         self.last_registration = None
 
-    def register(self, info):
+    def register(self, transaction_type, transaction_name, transaction_value, transaction_date):
+        info = {
+            'transaction_type': transaction_type.lower(),
+            'transaction_name': transaction_name,
+            'transaction_value': float(transaction_value.replace(',', '.')),
+            'transaction_date': transaction_date
+        }
         try:
             self.database_register.register(info)
             self.last_registration = info
@@ -23,5 +29,5 @@ class RegistrationController:
             return 'Houve um erro interno na aplicação.\nPor favor contate o desenvolvedor.'
 
         except Exception as e:
-            logging.error(str(e))
+            logging.error('Unknown error on Registration\n ---> ' + str(e))
             return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
