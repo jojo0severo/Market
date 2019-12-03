@@ -65,17 +65,17 @@ class InitialPage(QtWidgets.QWidget):
 
     def setup_main_objects(self):
         font = QtGui.QFont()
-        font.setFamily("Helvetica")
+        font.setFamily('Helvetica')
         font.setPointSize(14)
 
         self.operations_verticalWidget.setMinimumSize(QtCore.QSize(200, 270))
-        self.operations_verticalWidget.setStyleSheet("background-color: rgb(243, 243, 243);")
+        self.operations_verticalWidget.setStyleSheet('background-color: rgb(243, 243, 243);')
 
         self.visualizations_verticalWidget.setMinimumSize(QtCore.QSize(200, 270))
-        self.visualizations_verticalWidget.setStyleSheet("background-color: rgb(243, 243, 243);")
+        self.visualizations_verticalWidget.setStyleSheet('background-color: rgb(243, 243, 243);')
 
         self.others_verticalWidget.setMinimumSize(QtCore.QSize(200, 270))
-        self.others_verticalWidget.setStyleSheet("background-color: rgb(243, 243, 243);")
+        self.others_verticalWidget.setStyleSheet('background-color: rgb(243, 243, 243);')
 
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         size_policy.setHorizontalStretch(0)
@@ -91,7 +91,7 @@ class InitialPage(QtWidgets.QWidget):
 
     def setup_buttons(self):
         font = QtGui.QFont()
-        font.setFamily("Helvetica")
+        font.setFamily('Helvetica')
         font.setPointSize(12)
 
         self.register_button.setFont(font)
@@ -101,23 +101,23 @@ class InitialPage(QtWidgets.QWidget):
         self.register_button.setMinimumSize(QtCore.QSize(260, 60))
         self.register_button.setMaximumSize(QtCore.QSize(260, 80))
         self.register_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.register_button.setStyleSheet("QPushButton {\n"
-                                           "    background-color: white;\n"
-                                           "    color: black;\n"
-                                           "    border: 2px solid #4CAF50;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QPushButton:hover:!pressed {\n"
-                                           "    background-color: #4CAF50;\n"
-                                           "    color: white;\n"
-                                           "    font-weight: bold;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QPushButton:pressed {\n"
-                                           "    background-color: #4CAF50;\n"
-                                           "    color: white;\n"
-                                           "    font-weight: bold;\n"
-                                           "}")
+        self.register_button.setStyleSheet('''QPushButton {
+                                               background-color: white;
+                                               color: black;
+                                               border: 2px solid #4CAF50;
+                                           }
+                                           
+                                           QPushButton:hover:!pressed {
+                                               background-color: #4CAF50;
+                                               color: white;
+                                               font-weight: bold;
+                                           }
+                                           
+                                           QPushButton:pressed {
+                                               background-color: #4CAF50;
+                                               color: white;
+                                               font-weight: bold;
+                                           }''')
 
         self.edit_button.setFont(font)
         size_policy.setHeightForWidth(self.edit_button.sizePolicy().hasHeightForWidth())
@@ -125,23 +125,23 @@ class InitialPage(QtWidgets.QWidget):
         self.edit_button.setMinimumSize(QtCore.QSize(260, 60))
         self.edit_button.setMaximumSize(QtCore.QSize(260, 80))
         self.edit_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.edit_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #E5C442;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #E5C442;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #E5C442;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.edit_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #E5C442;
+                                       }
+                                       
+                                       QPushButton:hover:!pressed {
+                                           background-color: #E5C442;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+                                       
+                                       QPushButton:pressed {
+                                           background-color: #E5C442;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
         self.delete_button.setFont(font)
         size_policy.setHeightForWidth(self.delete_button.sizePolicy().hasHeightForWidth())
@@ -149,23 +149,23 @@ class InitialPage(QtWidgets.QWidget):
         self.delete_button.setMinimumSize(QtCore.QSize(260, 60))
         self.delete_button.setMaximumSize(QtCore.QSize(260, 80))
         self.delete_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.delete_button.setStyleSheet("QPushButton {\n"
-                                         "    background-color: white;\n"
-                                         "    color: black;\n"
-                                         "    border: 2px solid #E25235;\n"
-                                         "}\n"
-                                         "\n"
-                                         "QPushButton:hover:!pressed {\n"
-                                         "    background-color: #E25235;\n"
-                                         "    color: white;\n"
-                                         "    font-weight: bold;\n"
-                                         "}\n"
-                                         "\n"
-                                         "QPushButton:pressed {\n"
-                                         "    background-color: #E25235;\n"
-                                         "    color: white;\n"
-                                         "    font-weight: bold;\n"
-                                         "}")
+        self.delete_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #E25235;
+                                         }
+                                         
+                                         QPushButton:hover:!pressed {
+                                           background-color: #E25235;
+                                           color: white;
+                                           font-weight: bold;
+                                         }
+                                         
+                                         QPushButton:pressed {
+                                           background-color: #E25235;
+                                           color: white;
+                                           font-weight: bold;
+                                         }''')
 
         self.list_purchases_button.setFont(font)
         size_policy.setHeightForWidth(self.list_purchases_button.sizePolicy().hasHeightForWidth())
@@ -173,23 +173,23 @@ class InitialPage(QtWidgets.QWidget):
         self.list_purchases_button.setMinimumSize(QtCore.QSize(260, 60))
         self.list_purchases_button.setMaximumSize(QtCore.QSize(260, 80))
         self.list_purchases_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.list_purchases_button.setStyleSheet("QPushButton {\n"
-                                                 "    background-color: white;\n"
-                                                 "    color: black;\n"
-                                                 "    border: 2px solid #7932A2;\n"
-                                                 "}\n"
-                                                 "\n"
-                                                 "QPushButton:hover:!pressed {\n"
-                                                 "    background-color: #7932A2;\n"
-                                                 "    color: white;\n"
-                                                 "    font-weight: bold;\n"
-                                                 "}\n"
-                                                 "\n"
-                                                 "QPushButton:pressed {\n"
-                                                 "    background-color: #7932A2;\n"
-                                                 "    color: white;\n"
-                                                 "    font-weight: bold;\n"
-                                                 "}")
+        self.list_purchases_button.setStyleSheet('''QPushButton {
+                                                   background-color: white;
+                                                   color: black;
+                                                   border: 2px solid #7932A2;
+                                                 }
+                                                 
+                                                 QPushButton:hover:!pressed {
+                                                   background-color: #7932A2;
+                                                   color: white;
+                                                   font-weight: bold;
+                                                 }
+                                                 
+                                                 QPushButton:pressed {
+                                                   background-color: #7932A2;
+                                                   color: white;
+                                                   font-weight: bold;
+                                                 }''')
 
         self.sales_list_button.setFont(font)
         size_policy.setHeightForWidth(self.sales_list_button.sizePolicy().hasHeightForWidth())
@@ -197,23 +197,23 @@ class InitialPage(QtWidgets.QWidget):
         self.sales_list_button.setMinimumSize(QtCore.QSize(260, 60))
         self.sales_list_button.setMaximumSize(QtCore.QSize(260, 80))
         self.sales_list_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.sales_list_button.setStyleSheet("QPushButton {\n"
-                                                 "    background-color: white;\n"
-                                                 "    color: black;\n"
-                                                 "    border: 2px solid #54A4FF;\n"
-                                                 "}\n"
-                                                 "\n"
-                                                 "QPushButton:hover:!pressed {\n"
-                                                 "    background-color: #54A4FF;\n"
-                                                 "    color: white;\n"
-                                                 "    font-weight: bold;\n"
-                                                 "}\n"
-                                                 "\n"
-                                                 "QPushButton:pressed {\n"
-                                                 "    background-color: #54A4FF;\n"
-                                                 "    color: white;\n"
-                                                 "    font-weight: bold;\n"
-                                                 "}")
+        self.sales_list_button.setStyleSheet('''QPushButton {
+                                                   background-color: white;
+                                                   color: black;
+                                                   border: 2px solid #54A4FF;
+                                                 }
+                                                 
+                                                 QPushButton:hover:!pressed {
+                                                   background-color: #54A4FF;
+                                                   color: white;
+                                                   font-weight: bold;
+                                                 }
+                                                 
+                                                 QPushButton:pressed {
+                                                   background-color: #54A4FF;
+                                                   color: white;
+                                                   font-weight: bold;
+                                                 }''')
 
         self.purchases_list_button.setFont(font)
         size_policy.setHeightForWidth(self.purchases_list_button.sizePolicy().hasHeightForWidth())
@@ -221,23 +221,23 @@ class InitialPage(QtWidgets.QWidget):
         self.purchases_list_button.setMinimumSize(QtCore.QSize(260, 60))
         self.purchases_list_button.setMaximumSize(QtCore.QSize(260, 80))
         self.purchases_list_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.purchases_list_button.setStyleSheet("QPushButton {\n"
-                                                    "    background-color: white;\n"
-                                                    "    color: black;\n"
-                                                    "    border: 2px solid #3E74B2;\n"
-                                                    "}\n"
-                                                    "\n"
-                                                    "QPushButton:hover:!pressed {\n"
-                                                    "    background-color: #3E74B2;\n"
-                                                    "    color: white;\n"
-                                                    "    font-weight: bold;\n"
-                                                    "}\n"
-                                                    "\n"
-                                                    "QPushButton:pressed {\n"
-                                                    "    background-color: #3E74B2;\n"
-                                                    "    color: white;\n"
-                                                    "    font-weight: bold;\n"
-                                                    "}")
+        self.purchases_list_button.setStyleSheet('''QPushButton {
+                                                        background-color: white;
+                                                        color: black;
+                                                        border: 2px solid #3E74B2;
+                                                    }
+                                                    
+                                                    QPushButton:hover:!pressed {
+                                                        background-color: #3E74B2;
+                                                        color: white;
+                                                        font-weight: bold;
+                                                    }
+                                                    
+                                                    QPushButton:pressed {
+                                                        background-color: #3E74B2;
+                                                        color: white;
+                                                        font-weight: bold;
+                                                    }''')
 
         self.enter_gmail_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_gmail_button.sizePolicy().hasHeightForWidth())
@@ -245,23 +245,23 @@ class InitialPage(QtWidgets.QWidget):
         self.enter_gmail_button.setMinimumSize(QtCore.QSize(260, 60))
         self.enter_gmail_button.setMaximumSize(QtCore.QSize(260, 80))
         self.enter_gmail_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.enter_gmail_button.setStyleSheet("QPushButton {\n"
-                                              "    background-color: white;\n"
-                                              "    color: black;\n"
-                                              "    border: 2px solid #B04949;\n"
-                                              "}\n"
-                                              "\n"
-                                              "QPushButton:hover:!pressed {\n"
-                                              "    background-color: #B04949;\n"
-                                              "    color: white;\n"
-                                              "    font-weight: bold;\n"
-                                              "}\n"
-                                              "\n"
-                                              "QPushButton:pressed {\n"
-                                              "    background-color: #B04949;\n"
-                                              "    color: white;\n"
-                                              "    font-weight: bold;\n"
-                                              "}")
+        self.enter_gmail_button.setStyleSheet('''QPushButton {
+                                                  background-color: white;
+                                                  color: black;
+                                                  border: 2px solid #B04949;
+                                              }
+                                              
+                                              QPushButton:hover:!pressed {
+                                                  background-color: #B04949;
+                                                  color: white;
+                                                  font-weight: bold;
+                                              }
+                                              
+                                              QPushButton:pressed {
+                                                  background-color: #B04949;
+                                                  color: white;
+                                                  font-weight: bold;
+                                              }''')
 
         self.enter_facebook_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_facebook_button.sizePolicy().hasHeightForWidth())
@@ -269,23 +269,23 @@ class InitialPage(QtWidgets.QWidget):
         self.enter_facebook_button.setMinimumSize(QtCore.QSize(260, 60))
         self.enter_facebook_button.setMaximumSize(QtCore.QSize(260, 80))
         self.enter_facebook_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.enter_facebook_button.setStyleSheet("QPushButton {\n"
-                                                 "    background-color: white;\n"
-                                                 "    color: black;\n"
-                                                 "    border: 2px solid #2C7AFF;\n"
-                                                 "}\n"
-                                                 "\n"
-                                                 "QPushButton:hover:!pressed {\n"
-                                                 "    background-color: #2C7AFF;\n"
-                                                 "    color: white;\n"
-                                                 "    font-weight: bold;\n"
-                                                 "}\n"
-                                                 "\n"
-                                                 "QPushButton:pressed {\n"
-                                                 "    background-color: #2C7AFF;\n"
-                                                 "    color: white;\n"
-                                                 "    font-weight: bold;\n"
-                                                 "}")
+        self.enter_facebook_button.setStyleSheet('''QPushButton {
+                                                     background-color: white;
+                                                     color: black;
+                                                     border: 2px solid #2C7AFF;
+                                                 }
+                                                 
+                                                 QPushButton:hover:!pressed {
+                                                     background-color: #2C7AFF;
+                                                     color: white;
+                                                     font-weight: bold;
+                                                 }
+                                                 
+                                                 QPushButton:pressed {
+                                                     background-color: #2C7AFF;
+                                                     color: white;
+                                                     font-weight: bold;
+                                                 }''')
 
         self.enter_google_button.setFont(font)
         size_policy.setHeightForWidth(self.enter_google_button.sizePolicy().hasHeightForWidth())
@@ -293,23 +293,23 @@ class InitialPage(QtWidgets.QWidget):
         self.enter_google_button.setMinimumSize(QtCore.QSize(260, 60))
         self.enter_google_button.setMaximumSize(QtCore.QSize(260, 80))
         self.enter_google_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.enter_google_button.setStyleSheet("QPushButton {\n"
-                                               "    background-color: white;\n"
-                                               "    color: black;\n"
-                                               "    border: 2px solid black;\n"
-                                               "}\n"
-                                               "\n"
-                                               "QPushButton:hover:!pressed {\n"
-                                               "    background-color: black;\n"
-                                               "    color: white;\n"
-                                               "    font-weight: bold;\n"
-                                               "}\n"
-                                               "\n"
-                                               "QPushButton:pressed {\n"
-                                               "    background-color: black;\n"
-                                               "    color: white;\n"
-                                               "    font-weight: bold;\n"
-                                               "}")
+        self.enter_google_button.setStyleSheet('''QPushButton {
+                                                   background-color: white;
+                                                   color: black;
+                                                   border: 2px solid black;
+                                               }
+                                               
+                                                QPushButton:hover:!pressed {
+                                                   background-color: black;
+                                                   color: white;
+                                                   font-weight: bold;
+                                               }
+                                               
+                                                QPushButton:pressed {
+                                                   background-color: black;
+                                                   color: white;
+                                                   font-weight: bold;
+                                               }''')
 
         self.quit_button.setFont(font)
         size_policy.setHeightForWidth(self.quit_button.sizePolicy().hasHeightForWidth())
@@ -317,23 +317,23 @@ class InitialPage(QtWidgets.QWidget):
         self.quit_button.setMinimumSize(QtCore.QSize(120, 60))
         self.quit_button.setMaximumSize(QtCore.QSize(190, 80))
         self.quit_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.quit_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #A63030;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #A63030;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #A63030;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.quit_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #A63030;
+                                       }
+                                       
+                                       QPushButton:hover:!pressed {
+                                           background-color: #A63030;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+                                       
+                                       QPushButton:pressed {
+                                           background-color: #A63030;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
         self.turn_off_button.setFont(font)
         size_policy.setHeightForWidth(self.turn_off_button.sizePolicy().hasHeightForWidth())
@@ -341,23 +341,23 @@ class InitialPage(QtWidgets.QWidget):
         self.turn_off_button.setMinimumSize(QtCore.QSize(100, 60))
         self.turn_off_button.setMaximumSize(QtCore.QSize(180, 70))
         self.turn_off_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.turn_off_button.setStyleSheet("QPushButton {\n"
-                                           "    background-color: white;\n"
-                                           "    color: black;\n"
-                                           "    border: 2px solid black;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QPushButton:hover:!pressed {\n"
-                                           "    background-color: black;\n"
-                                           "    color: white;\n"
-                                           "    font-weight: bold;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QPushButton:pressed {\n"
-                                           "    background-color: black;\n"
-                                           "    color: white;\n"
-                                           "    font-weight: bold;\n"
-                                           "}")
+        self.turn_off_button.setStyleSheet('''QPushButton {
+                                               background-color: white;
+                                               color: black;
+                                               border: 2px solid black;
+                                           }
+                                           
+                                           QPushButton:hover:!pressed {
+                                               background-color: black;
+                                               color: white;
+                                               font-weight: bold;
+                                           }
+                                           
+                                           QPushButton:pressed {
+                                               background-color: black;
+                                               color: white;
+                                               font-weight: bold;
+                                           }''')
 
     def setup_spacers(self):
         self.operations_spacer.setMinimumSize(QtCore.QSize(0, 60))
@@ -404,44 +404,45 @@ class InitialPage(QtWidgets.QWidget):
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.operations_label.setText(_translate("MainWindow", "Operações"))
+        self.operations_label.setText(_translate('MainWindow', 'Operações'))
 
-        self.visualizations_label.setText(_translate("MainWindow", "Visualizações"))
+        self.visualizations_label.setText(_translate('MainWindow', 'Visualizações'))
 
-        self.register_button.setToolTip(_translate("MainWindow", "Área para cadastrar vendas e compras"))
-        self.register_button.setText(_translate("MainWindow", "Cadastrar"))
+        self.register_button.setToolTip(_translate('MainWindow', 'Área para cadastrar vendas e compras'))
+        self.register_button.setText(_translate('MainWindow', 'Cadastrar'))
 
-        self.edit_button.setToolTip(_translate("MainWindow", "Área para editar vendas e compras cadastradas"))
-        self.edit_button.setText(_translate("MainWindow", "Editar"))
+        self.edit_button.setToolTip(_translate('MainWindow', 'Área para editar vendas e compras cadastradas'))
+        self.edit_button.setText(_translate('MainWindow', 'Editar'))
 
-        self.delete_button.setToolTip(_translate("MainWindow", "Área para excluir vendas e compras cadastradas"))
-        self.delete_button.setText(_translate("MainWindow", "Excluir"))
+        self.delete_button.setToolTip(_translate('MainWindow', 'Área para excluir vendas e compras cadastradas'))
+        self.delete_button.setText(_translate('MainWindow', 'Excluir'))
 
-        self.quit_button.setToolTip(_translate("MainWindow", "Sai do programa"))
-        self.quit_button.setText(_translate("MainWindow", "Sair"))
+        self.quit_button.setToolTip(_translate('MainWindow', 'Sai do programa'))
+        self.quit_button.setText(_translate('MainWindow', 'Sair'))
 
-        self.turn_off_button.setToolTip(_translate("MainWindow", "Desliga o computador"))
-        self.turn_off_button.setText(_translate("MainWindow", "Desligar"))
+        self.turn_off_button.setToolTip(_translate('MainWindow', 'Desliga o computador'))
+        self.turn_off_button.setText(_translate('MainWindow', 'Desligar'))
 
-        self.others_label.setText(_translate("MainWindow", "Outros"))
+        self.others_label.setText(_translate('MainWindow', 'Outros'))
 
-        self.list_purchases_button.setToolTip(_translate("MainWindow", "Exibe lista de todas vendas e compras cadastradas"))
-        self.list_purchases_button.setText(_translate("MainWindow", " Lista de Compras e Vendas "))
+        self.list_purchases_button.setToolTip(
+            _translate('MainWindow', 'Exibe lista de todas vendas e compras cadastradas'))
+        self.list_purchases_button.setText(_translate('MainWindow', ' Lista de Compras e Vendas '))
 
-        self.sales_list_button.setToolTip(_translate("MainWindow", "Exibe uma lista de todas as vendas"))
-        self.sales_list_button.setText(_translate("MainWindow", "Lista de Vendas"))
+        self.sales_list_button.setToolTip(_translate('MainWindow', 'Exibe uma lista de todas as vendas'))
+        self.sales_list_button.setText(_translate('MainWindow', 'Lista de Vendas'))
 
-        self.purchases_list_button.setToolTip(_translate("MainWindow", "Exibe uma lista de todas as compras"))
-        self.purchases_list_button.setText(_translate("MainWindow", "Lista de Compras"))
+        self.purchases_list_button.setToolTip(_translate('MainWindow', 'Exibe uma lista de todas as compras'))
+        self.purchases_list_button.setText(_translate('MainWindow', 'Lista de Compras'))
 
-        self.enter_gmail_button.setToolTip(_translate("MainWindow", "Entra no Gmail"))
-        self.enter_gmail_button.setText(_translate("MainWindow", "Acessar Gmail"))
+        self.enter_gmail_button.setToolTip(_translate('MainWindow', 'Entra no Gmail'))
+        self.enter_gmail_button.setText(_translate('MainWindow', 'Acessar Gmail'))
 
-        self.enter_facebook_button.setToolTip(_translate("MainWindow", "Entra no Facebook"))
-        self.enter_facebook_button.setText(_translate("MainWindow", "Acessar Facebook"))
+        self.enter_facebook_button.setToolTip(_translate('MainWindow', 'Entra no Facebook'))
+        self.enter_facebook_button.setText(_translate('MainWindow', 'Acessar Facebook'))
 
-        self.enter_google_button.setToolTip(_translate("MainWindow", "Entra no google"))
-        self.enter_google_button.setText(_translate("MainWindow", "Acessar Google"))
+        self.enter_google_button.setToolTip(_translate('MainWindow', 'Entra no google'))
+        self.enter_google_button.setText(_translate('MainWindow', 'Acessar Google'))
 
     def define_actions(self):
         self.register_button.clicked.connect((lambda: self.navigation.emit(1)))

@@ -44,9 +44,9 @@ class RegistrationPage(QtWidgets.QWidget):
         self.back_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
 
         # Declaring inputs
-        self.product_name_option = QtWidgets.QTextEdit(self.form)
-        self.date_option = QtWidgets.QDateEdit(self.form)
-        self.value_option = QtWidgets.QTextEdit(self.coin_input_horizontalWidget)
+        self.product_name_input = QtWidgets.QTextEdit(self.form)
+        self.date_input = QtWidgets.QDateEdit(self.form)
+        self.value_input = QtWidgets.QTextEdit(self.coin_input_horizontalWidget)
         self.purchase_option = QtWidgets.QRadioButton(self.purchase_sale_horizontalWidget)
         self.sale_option = QtWidgets.QRadioButton(self.purchase_sale_horizontalWidget)
 
@@ -72,69 +72,75 @@ class RegistrationPage(QtWidgets.QWidget):
 
         # Buttons
         font = QtGui.QFont()
-        font.setFamily("Helvetica")
+        font.setFamily('Helvetica')
         font.setPointSize(12)
         self.register_button.setFont(font)
         self.register_button.setMinimumSize(QtCore.QSize(150, 50))
         self.register_button.setMaximumSize(QtCore.QSize(180, 70))
-        self.register_button.setStyleSheet("QPushButton {\n"
-                                           "    background-color: white;\n"
-                                           "    color: black;\n"
-                                           "    border: 2px solid #4CAF50;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QPushButton:hover:!pressed {\n"
-                                           "    background-color: #4CAF50;\n"
-                                           "    color: white;\n"
-                                           "    font-weight: bold;\n"
-                                           "}\n"
-                                           "\n"
-                                           "QPushButton:pressed {\n"
-                                           "    background-color: #4CAF50;\n"
-                                           "    color: white;\n"
-                                           "    font-weight: bold;\n"
-                                           "}")
+        self.register_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.register_button.setStyleSheet('''QPushButton {
+                                               background-color: white;
+                                               color: black;
+                                               border: 2px solid #4CAF50;
+                                           }
+                                           
+                                           QPushButton:hover:!pressed {
+                                               background-color: #4CAF50;
+                                               color: white;
+                                               font-weight: bold;
+                                           }
+                                           
+                                           QPushButton:pressed {
+                                               background-color: #4CAF50;
+                                               color: white;
+                                               font-weight: bold;
+                                           }''')
 
         self.back_button.setFont(font)
         self.back_button.setMinimumSize(QtCore.QSize(160, 50))
         self.back_button.setMaximumSize(QtCore.QSize(180, 80))
-        self.back_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #C1C0C0;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.back_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.back_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #C1C0C0;
+                                       }
+                                       
+                                       QPushButton:hover:!pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+                                       
+                                       QPushButton:pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
         # Inputs
-        self.date_option.setMinimumSize(QtCore.QSize(120, 0))
-        self.date_option.setMaximumSize(QtCore.QSize(180, 50))
-        self.date_option.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.date_option.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(1990, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
-        self.date_option.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.date_input.setMinimumSize(QtCore.QSize(120, 0))
+        self.date_input.setMaximumSize(QtCore.QSize(180, 50))
+        self.date_input.setAlignment(QtCore.Qt.AlignCenter)
+        self.date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(1990, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
+        self.date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        size_policy.setHeightForWidth(self.product_name_option.sizePolicy().hasHeightForWidth())
-        self.product_name_option.setSizePolicy(size_policy)
-        self.product_name_option.setMaximumSize(QtCore.QSize(16777215, 50))
+        size_policy.setHeightForWidth(self.product_name_input.sizePolicy().hasHeightForWidth())
+        self.product_name_input.setSizePolicy(size_policy)
+        self.product_name_input.setMaximumSize(QtCore.QSize(16777215, 50))
+        self.product_name_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
 
-        size_policy.setHeightForWidth(self.value_option.sizePolicy().hasHeightForWidth())
-        self.value_option.setSizePolicy(size_policy)
-        self.value_option.setMinimumSize(QtCore.QSize(220, 35))
-        self.value_option.setMaximumSize(QtCore.QSize(260, 35))
-        self.value_option.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.value_option.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        size_policy.setHeightForWidth(self.value_input.sizePolicy().hasHeightForWidth())
+        self.value_input.setSizePolicy(size_policy)
+        self.value_input.setMinimumSize(QtCore.QSize(220, 35))
+        self.value_input.setMaximumSize(QtCore.QSize(260, 35))
+        self.value_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.value_input.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.value_input.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
         size_policy.setHeightForWidth(self.purchase_option.sizePolicy().hasHeightForWidth())
         self.purchase_option.setSizePolicy(size_policy)
@@ -147,32 +153,32 @@ class RegistrationPage(QtWidgets.QWidget):
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.page_title.setText(
-            _translate("MainWindow", "Nesta área você irá cadastrar uma Compra OU Venda referente ao dia informado"))
-        self.register_button.setText(_translate("MainWindow", "Cadastrar"))
-        self.back_button.setText(_translate("MainWindow", "Voltar"))
-        self.product_name_option.setPlaceholderText(_translate("MainWindow", "Nome do produto"))
-        self.transaction_label.setText(_translate("MainWindow", "Marque a opção correspondente à transação:"))
-        self.date_label.setText(_translate("MainWindow", "Informe a data da transação"))
-        self.value_label.setText(_translate("MainWindow", "Informe o valor da transação"))
-        self.product_name_label.setText(_translate("MainWindow", "Informe o nome do produto:"))
-        self.coin_label.setText(_translate("MainWindow", "R$"))
-        self.value_option.setPlaceholderText(_translate("MainWindow", "0,00"))
-        self.purchase_option.setText(_translate("MainWindow", "Compra"))
-        self.sale_option.setText(_translate("MainWindow", "Venda"))
+            _translate('MainWindow', 'Nesta área você irá cadastrar uma Compra OU Venda referente ao dia informado'))
+        self.register_button.setText(_translate('MainWindow', 'Cadastrar'))
+        self.back_button.setText(_translate('MainWindow', 'Voltar'))
+        self.product_name_input.setPlaceholderText(_translate('MainWindow', 'Nome do produto'))
+        self.transaction_label.setText(_translate('MainWindow', 'Marque a opção correspondente à transação:'))
+        self.date_label.setText(_translate('MainWindow', 'Informe a data da transação'))
+        self.value_label.setText(_translate('MainWindow', 'Informe o valor da transação'))
+        self.product_name_label.setText(_translate('MainWindow', 'Informe o nome do produto:'))
+        self.coin_label.setText(_translate('MainWindow', 'R$'))
+        self.value_input.setPlaceholderText(_translate('MainWindow', '0,00'))
+        self.purchase_option.setText(_translate('MainWindow', 'Compra'))
+        self.sale_option.setText(_translate('MainWindow', 'Venda'))
 
     def create_structure(self):
         self.purchase_sale_layout.addWidget(self.purchase_option)
         self.purchase_sale_layout.addWidget(self.sale_option)
 
         self.coin_input_layout.addWidget(self.coin_label)
-        self.coin_input_layout.addWidget(self.value_option)
+        self.coin_input_layout.addWidget(self.value_input)
 
         self.form_layout.addWidget(self.transaction_label, 0, 0, 1, 1)
         self.form_layout.addWidget(self.purchase_sale_horizontalWidget, 1, 0, 1, 1)
         self.form_layout.addWidget(self.date_label, 2, 0, 1, 1)
-        self.form_layout.addWidget(self.date_option, 4, 0, 1, 1, QtCore.Qt.AlignHCenter)
+        self.form_layout.addWidget(self.date_input, 4, 0, 1, 1, QtCore.Qt.AlignHCenter)
         self.form_layout.addWidget(self.product_name_label, 7, 0, 1, 1)
-        self.form_layout.addWidget(self.product_name_option, 8, 0, 1, 1)
+        self.form_layout.addWidget(self.product_name_input, 8, 0, 1, 1)
         self.form_layout.addWidget(self.value_label, 10, 0, 1, 1)
         self.form_layout.addWidget(self.coin_input_horizontalWidget, 11, 0, 1, 1)
         self.form_layout.addItem(QtWidgets.QSpacerItem(20, 110, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum), 12, 0, 1, 1)
@@ -186,12 +192,12 @@ class RegistrationPage(QtWidgets.QWidget):
         self.grid_layout.addWidget(self.bottom_buttons_horizontalWidget, 2, 1, 1, 1)
 
     def define_actions(self):
-        self.value_option.keyPressEvent = self.handle_key_pressed
+        self.value_input.keyPressEvent = self.handle_key_pressed
         self.register_button.clicked.connect(self.register_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
 
     def handle_key_pressed(self, event):
-        text = self.value_option.toPlainText().replace('.', '').replace(',', '')
+        text = self.value_input.toPlainText().replace('.', '').replace(',', '')
         text = re.sub('\A0*', '', text)
         key = event.key()
         if 57 >= key >= 48:
@@ -218,7 +224,7 @@ class RegistrationPage(QtWidgets.QWidget):
             text = text[:-2] + '.' + text[-2:]
 
         a = locale.currency(float(text), grouping=True).split(' ')[1]
-        self.value_option.setText(a)
+        self.value_input.setText(a)
 
     def register_transaction(self):
         info = {}
@@ -233,21 +239,21 @@ class RegistrationPage(QtWidgets.QWidget):
             self.show_message('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
             return
 
-        info['transaction_date'] = self.date_option.text()
+        info['transaction_date'] = self.date_input.text()
 
-        product_name = self.product_name_option.toPlainText()
+        product_name = self.product_name_input.toPlainText()
         if not product_name.replace('\t', '').replace(' ', ''):
             self.show_message('\nNenhum nome foi dado para o produto comprado/vendido. Insira um nome e tente novamente.\t\t\n')
-            self.product_name_option.setFocus(True)
+            self.product_name_input.setFocus(True)
             return
 
         info['product_name'] = product_name
 
-        value = self.value_option.toPlainText()
+        value = self.value_input.toPlainText()
         value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
         if not re.sub('\A0*', '', value.replace('.', '')):
             self.show_message('\nNenhum valor foi atribuído à transação. Insira um valor e tente novamente.\t\t\n')
-            self.value_option.setFocus(True)
+            self.value_input.setFocus(True)
             return
 
         info['transaction_value'] = float(value)
@@ -266,9 +272,9 @@ class RegistrationPage(QtWidgets.QWidget):
         self.sale_option.setAutoExclusive(True)
         self.purchase_option.setAutoExclusive(True)
 
-        self.product_name_option.clear()
-        self.value_option.clear()
-        self.date_option.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
+        self.product_name_input.clear()
+        self.value_input.clear()
+        self.date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
     def show_message(self, text):
         self.dialog.setText(text)

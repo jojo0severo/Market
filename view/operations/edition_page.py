@@ -85,49 +85,49 @@ class EditionPage(QtWidgets.QWidget):
 
         # Buttons
         font = QtGui.QFont()
-        font.setFamily("Helvetica")
+        font.setFamily('Helvetica')
         font.setPointSize(12)
         self.edit_button.setFont(font)
         self.edit_button.setMinimumSize(QtCore.QSize(160, 50))
         self.edit_button.setMaximumSize(QtCore.QSize(180, 80))
-        self.edit_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #E5C442;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #E5C442;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #E5C442;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.edit_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #E5C442;
+                                       }
+                                       
+                                       QPushButton:hover:!pressed {
+                                           background-color: #E5C442;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+                                       
+                                       QPushButton:pressed {
+                                           background-color: #E5C442;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
         self.back_button.setFont(font)
         self.back_button.setMinimumSize(QtCore.QSize(160, 50))
         self.back_button.setMaximumSize(QtCore.QSize(180, 80))
-        self.back_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #C1C0C0;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.back_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #C1C0C0;
+                                       }
+                                       
+                                       QPushButton:hover:!pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+                                       
+                                       QPushButton:pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
         # Inputs
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
@@ -158,19 +158,19 @@ class EditionPage(QtWidgets.QWidget):
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.purchase_sale_label.setText(_translate("MainWindow", "Marque a opção correspondente à transação:"))
-        self.purchase_option.setText(_translate("MainWindow", "Compra"))
-        self.sale_option.setText(_translate("MainWindow", "Venda"))
-        self.date_label.setText(_translate("MainWindow", "Informe a data da transação:"))
-        self.old_value_label.setText(_translate("MainWindow", "Informe o valor incorreto da transação (o valor registrado atualmente):"))
-        self.coin_label_1.setText(_translate("MainWindow", "R$"))
-        self.old_value_option.setPlaceholderText(_translate("MainWindow", "0,00"))
-        self.new_value_label.setText(_translate("MainWindow", "Informe o novo valor da transação (o valor correto):"))
-        self.coin_label_2.setText(_translate("MainWindow", "R$"))
-        self.new_value_option.setPlaceholderText(_translate("MainWindow", "0,00"))
-        self.edit_button.setText(_translate("MainWindow", "Editar"))
-        self.back_button.setText(_translate("MainWindow", "Voltar"))
-        self.page_title.setText(_translate("MainWindow", "Nesta área você irá alterar o valor de uma Compra OU Venda"))
+        self.purchase_sale_label.setText(_translate('MainWindow', 'Marque a opção correspondente à transação:'))
+        self.purchase_option.setText(_translate('MainWindow', 'Compra'))
+        self.sale_option.setText(_translate('MainWindow', 'Venda'))
+        self.date_label.setText(_translate('MainWindow', 'Informe a data da transação:'))
+        self.old_value_label.setText(_translate('MainWindow', 'Informe o valor incorreto da transação (o valor registrado atualmente):'))
+        self.coin_label_1.setText(_translate('MainWindow', 'R$'))
+        self.old_value_option.setPlaceholderText(_translate('MainWindow', '0,00'))
+        self.new_value_label.setText(_translate('MainWindow', 'Informe o novo valor da transação (o valor correto):'))
+        self.coin_label_2.setText(_translate('MainWindow', 'R$'))
+        self.new_value_option.setPlaceholderText(_translate('MainWindow', '0,00'))
+        self.edit_button.setText(_translate('MainWindow', 'Editar'))
+        self.back_button.setText(_translate('MainWindow', 'Voltar'))
+        self.page_title.setText(_translate('MainWindow', 'Nesta área você irá alterar o valor de uma Compra OU Venda'))
 
     def create_structure(self):
         self.purchase_sale_layout.addWidget(self.purchase_option)

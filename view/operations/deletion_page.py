@@ -1,8 +1,10 @@
 import locale
+
 locale.setlocale(locale.LC_MONETARY, '')
 from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from controller.consult_controller import ConsultController
+from controller.deletion_controller import DeletionController
 
 
 class DeletionPage(QtWidgets.QWidget):
@@ -10,7 +12,8 @@ class DeletionPage(QtWidgets.QWidget):
         super(DeletionPage, self).__init__(*args)
 
         self.back_signal = back_signal
-        self.controller = ConsultController()
+        self.consult_controller = ConsultController()
+        self.deletion_controller = DeletionController()
         self.dialog = QtWidgets.QMessageBox(self)
         self.dialog.setWindowTitle('Aviso')
         self.previous_sale_selection = None
@@ -61,6 +64,7 @@ class DeletionPage(QtWidgets.QWidget):
         self.purchases_table.verticalHeader().setVisible(False)
         self.purchases_table.horizontalHeader().setHighlightSections(False)
         self.purchases_table.cellClicked.connect(self.update_purchase_selection)
+        self.purchases_table.setFocusPolicy(QtCore.Qt.NoFocus)
         self.purchases_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.purchases_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.purchases_table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -74,6 +78,7 @@ class DeletionPage(QtWidgets.QWidget):
         self.sales_table.verticalHeader().setVisible(False)
         self.sales_table.horizontalHeader().setHighlightSections(False)
         self.sales_table.cellClicked.connect(self.update_sale_selection)
+        self.sales_table.setFocusPolicy(QtCore.Qt.NoFocus)
         self.sales_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.sales_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.sales_table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -91,49 +96,49 @@ class DeletionPage(QtWidgets.QWidget):
 
         # Buttons
         font = QtGui.QFont()
-        font.setFamily("Helvetica")
+        font.setFamily('Helvetica')
         font.setPointSize(12)
         self.back_button.setFont(font)
         self.back_button.setMinimumSize(QtCore.QSize(160, 50))
         self.back_button.setMaximumSize(QtCore.QSize(190, 80))
-        self.back_button.setStyleSheet("QPushButton {\n"
-                                       "    background-color: white;\n"
-                                       "    color: black;\n"
-                                       "    border: 2px solid #C1C0C0;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:hover:!pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}\n"
-                                       "\n"
-                                       "QPushButton:pressed {\n"
-                                       "    background-color: #C1C0C0;\n"
-                                       "    color: white;\n"
-                                       "    font-weight: bold;\n"
-                                       "}")
+        self.back_button.setStyleSheet('''QPushButton {
+                                           background-color: white;
+                                           color: black;
+                                           border: 2px solid #C1C0C0;
+                                       }
+                                       
+                                       QPushButton:hover:!pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }
+                                       
+                                       QPushButton:pressed {
+                                           background-color: #C1C0C0;
+                                           color: white;
+                                           font-weight: bold;
+                                       }''')
 
         self.delete_button.setFont(font)
         self.delete_button.setMinimumSize(QtCore.QSize(160, 50))
         self.delete_button.setMaximumSize(QtCore.QSize(180, 80))
-        self.delete_button.setStyleSheet("QPushButton {\n"
-                                         "    background-color: white;\n"
-                                         "    color: black;\n"
-                                         "    border: 2px solid #E25235;\n"
-                                         "}\n"
-                                         "\n"
-                                         "QPushButton:hover:!pressed {\n"
-                                         "    background-color: #E25235;\n"
-                                         "    color: white;\n"
-                                         "    font-weight: bold;\n"
-                                         "}\n"
-                                         "\n"
-                                         "QPushButton:pressed {\n"
-                                         "    background-color: #E25235;\n"
-                                         "    color: white;\n"
-                                         "    font-weight: bold;\n"
-                                         "}")
+        self.delete_button.setStyleSheet('''QPushButton {
+                                             background-color: white;
+                                             color: black;
+                                             border: 2px solid #E25235;
+                                         }
+                                         
+                                         QPushButton:hover:!pressed {
+                                             background-color: #E25235;
+                                             color: white;
+                                             font-weight: bold;
+                                         }
+                                         
+                                         QPushButton:pressed {
+                                             background-color: #E25235;
+                                             color: white;
+                                             font-weight: bold;
+                                         }''')
 
         self.update_list_button.setFont(font)
         self.update_list_button.setMinimumSize(QtCore.QSize(170, 50))
@@ -163,26 +168,29 @@ class DeletionPage(QtWidgets.QWidget):
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.to_date_label.setText(_translate("MainWindow", "Até"))
-        self.from_date_label.setText(_translate("MainWindow", "Desde"))
-        self.purchases_label.setText(_translate("MainWindow", "Compras"))
-        self.sales_label.setText(_translate("MainWindow", "Vendas"))
-        self.update_list_button.setText(_translate("MainWindow", "Atualizar Lista"))
-        self.back_button.setText(_translate("MainWindow", "Voltar"))
-        self.delete_button.setText(_translate("MainWindow", "Excluir"))
+        self.to_date_label.setText(_translate('MainWindow', 'Até'))
+        self.from_date_label.setText(_translate('MainWindow', 'Desde'))
+        self.purchases_label.setText(_translate('MainWindow', 'Compras'))
+        self.sales_label.setText(_translate('MainWindow', 'Vendas'))
+        self.update_list_button.setText(_translate('MainWindow', 'Atualizar Lista'))
+        self.back_button.setText(_translate('MainWindow', 'Voltar'))
+        self.delete_button.setText(_translate('MainWindow', 'Excluir'))
 
     def create_structure(self):
         self.date_input_layout.addWidget(self.to_date_label)
         self.date_input_layout.addWidget(self.to_date_option)
         self.date_input_layout.addWidget(self.from_date_label)
         self.date_input_layout.addWidget(self.from_date_option)
-        self.date_input_layout.addItem(QtWidgets.QSpacerItem(40, 60, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
+        self.date_input_layout.addItem(
+            QtWidgets.QSpacerItem(40, 60, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
         self.date_input_layout.addWidget(self.update_list_button)
-        self.date_input_layout.addItem(QtWidgets.QSpacerItem(20, 460, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred))
+        self.date_input_layout.addItem(
+            QtWidgets.QSpacerItem(20, 460, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred))
 
         self.tables_layout.addWidget(self.purchases_label, 0, 0, 1, 1)
         self.tables_layout.addWidget(self.purchases_table, 1, 0, 1, 1)
-        self.tables_layout.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum), 1, 1, 1, 1)
+        self.tables_layout.addItem(
+            QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum), 1, 1, 1, 1)
         self.tables_layout.addWidget(self.sales_label, 0, 2, 1, 1)
         self.tables_layout.addWidget(self.sales_table, 1, 2, 1, 1)
 
@@ -191,8 +199,11 @@ class DeletionPage(QtWidgets.QWidget):
 
         self.grid_layout.addWidget(self.tables_gridWidget, 0, 0, 1, 1)
         self.grid_layout.addWidget(self.date_input_verticalWidget, 0, 1, 1, 1)
-        self.grid_layout.addItem(QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred), 1, 0, 1, 1)
-        self.grid_layout.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred), 2, 0, 1, 1)
+        self.grid_layout.addItem(
+            QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred), 1, 0, 1,
+            1)
+        self.grid_layout.addItem(
+            QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred), 2, 0, 1, 1)
         self.grid_layout.addWidget(self.bottom_buttons_horizontalWidget, 2, 1, 1, 1)
 
     def define_actions(self):
@@ -234,6 +245,9 @@ class DeletionPage(QtWidgets.QWidget):
             self.previous_sale_selection = row
 
     def clear(self):
+        self.previous_sale_selection = None
+        self.previous_purchase_selection = None
+
         self.purchases_table.clear()
         self.purchases_table.setRowCount(0)
         self.purchases_table.setColumnCount(3)
@@ -241,16 +255,18 @@ class DeletionPage(QtWidgets.QWidget):
 
         self.sales_table.clear()
         self.sales_table.setRowCount(0)
-        self.sales_table.setRowCount(3)
+        self.sales_table.setColumnCount(3)
         self.sales_table.setHorizontalHeaderLabels(('Nome', 'Valor', 'Data'))
 
-        max_value = self.controller.get_max_purchase_value()
+        max_value = self.consult_controller.get_max_purchase_value()
         max_value = 0 if max_value is None else max_value
 
-        min_value = self.controller.get_min_purchase_value()
+        min_value = self.consult_controller.get_min_purchase_value()
         min_value = 0 if min_value is None else min_value
 
-        result, purchases, message = self.controller.get_purchases_by_value_and_date(min_value, max_value, self.from_date_option.text(), self.to_date_option.text())
+        result, purchases, message = self.consult_controller.get_purchases_by_value_and_date(min_value, max_value,
+                                                                                             self.from_date_option.text(),
+                                                                                             self.to_date_option.text())
         if result and purchases:
             self.purchases_table.setRowCount(len(purchases))
             for idx, (name, value, date) in enumerate(purchases):
@@ -266,13 +282,15 @@ class DeletionPage(QtWidgets.QWidget):
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.purchases_table.setItem(idx, 2, date_item)
 
-        max_value = self.controller.get_max_sale_value()
+        max_value = self.consult_controller.get_max_sale_value()
         max_value = 0 if max_value is None else max_value
 
-        min_value = self.controller.get_min_sale_value()
+        min_value = self.consult_controller.get_min_sale_value()
         min_value = 0 if min_value is None else min_value
 
-        result, sales, message = self.controller.get_sales_by_value_and_date(min_value, max_value, self.from_date_option.text(), self.to_date_option.text())
+        result, sales, message = self.consult_controller.get_sales_by_value_and_date(min_value, max_value,
+                                                                                     self.from_date_option.text(),
+                                                                                     self.to_date_option.text())
         if result and sales:
             self.sales_table.setRowCount(len(sales))
             for idx, (name, value, date) in enumerate(sales):
@@ -292,22 +310,42 @@ class DeletionPage(QtWidgets.QWidget):
         if self.previous_purchase_selection is not None:
             if self.previous_sale_selection is not None:
                 self.show_message('\tÉ permitido apenas uma transação por vez.\nDesmarque a compra ou a venda selecionada e tente novamente.\t')
+                return
             else:
-                deleted_register = ['PURCHASE']
-                for i in range(self.purchases_table.columnCount()):
-                    deleted_register.append(self.purchases_table.item(self.previous_purchase_selection, i))
-
-                self.clear()
+                transaction_type = 'purchase', 'compra'
+                deleted_register_name = self.purchases_table.item(self.previous_purchase_selection, 0).text()
+                deleted_register_value = self.purchases_table.item(self.previous_purchase_selection, 1).text()
+                deleted_register_date = self.purchases_table.item(self.previous_purchase_selection, 2).text()
 
         else:
             if self.previous_sale_selection is None:
                 self.show_message('\tNenhuma transação selecionada.\nMarque uma compra ou uma venda e tente novamente.\t')
+                return
             else:
-                deleted_register = ['SALE']
-                for i in range(self.sales_table.columnCount()):
-                    deleted_register.append(self.sales_table.item(self.previous_sale_selection, i))
+                transaction_type = 'sale', 'venda'
+                deleted_register_name = self.sales_table.item(self.previous_sale_selection, 0).text()
+                deleted_register_value = self.sales_table.item(self.previous_sale_selection, 1).text()
+                deleted_register_date = self.sales_table.item(self.previous_sale_selection, 2).text()
 
-                self.clear()
+        confirmation_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Confirmação',
+                                                 f'Tem certeza que deseja excluir esta {transaction_type[1]}?'
+                                                 f'\nDados da {transaction_type[1]}:\n'
+                                                 f'\n\t- Nome:  {deleted_register_name}'
+                                                 f'\n\t- Valor:   {deleted_register_value}'
+                                                 f'\n\t- Data:    {deleted_register_date}\n\n',
+                                                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+
+        confirmation_box.setStyleSheet('background-color: white;')
+        confirmation_box.exec()
+
+        if confirmation_box.result() == QtWidgets.QMessageBox.Yes:
+            info = {'transaction_type': transaction_type[0],
+                    'transaction_name': deleted_register_name,
+                    'transaction_value': float(deleted_register_value.replace(',', '.')),
+                    'transaction_date': deleted_register_date}
+
+            self.deletion_controller.delete(info)
+            self.clear()
 
     def show_message(self, text):
         self.dialog.setText(text)

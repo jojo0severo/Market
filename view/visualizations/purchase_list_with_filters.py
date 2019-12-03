@@ -56,10 +56,14 @@ class PurchaseListPage(QtWidgets.QWidget):
 
     def setup_ui(self):
         # Main
-        self.products_table.setMinimumSize(QtCore.QSize(500, 500))
-        self.products_table.setMaximumSize(QtCore.QSize(1120, 1120))
-        self.products_table.horizontalHeader().setVisible(True)
         self.products_table.verticalHeader().setVisible(False)
+        self.products_table.horizontalHeader().setHighlightSections(False)
+        self.products_table.setMinimumSize(QtCore.QSize(400, 400))
+        self.products_table.setMaximumSize(QtCore.QSize(1080, 1080))
+        self.products_table.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.products_table.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
+        self.products_table.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.products_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
         self.filters_verticalWidget.setMinimumSize(QtCore.QSize(290, 0))
         self.filters_verticalWidget.setMaximumSize(QtCore.QSize(300, 16777215))
@@ -90,13 +94,22 @@ class PurchaseListPage(QtWidgets.QWidget):
         # Inputs
         self.product_name_input.setMinimumSize(QtCore.QSize(0, 45))
         self.product_name_input.setMaximumSize(QtCore.QSize(16777215, 45))
+        self.product_name_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
+
+        self.to_date_input.setMinimumSize(QtCore.QSize(100, 35))
+        self.to_date_input.setAlignment(QtCore.Qt.AlignCenter)
+        self.to_date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
+        self.to_date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.to_date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.to_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
+        self.to_date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
         self.from_date_input.setMinimumSize(QtCore.QSize(100, 35))
-        self.from_date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.from_date_input.setAlignment(QtCore.Qt.AlignCenter)
-        self.from_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.from_date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.from_date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.from_date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
+        self.from_date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
+        self.from_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
 
         year = datetime.now().year
         month = datetime.now().month - 1
@@ -105,14 +118,6 @@ class PurchaseListPage(QtWidgets.QWidget):
             month = 12
 
         self.from_date_input.setDate(QtCore.QDate(year, month, datetime.now().day))
-
-        self.to_date_input.setMinimumSize(QtCore.QSize(100, 35))
-        self.to_date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
-        self.to_date_input.setAlignment(QtCore.Qt.AlignCenter)
-        self.to_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
-        self.to_date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.to_date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-        self.to_date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
         self.order_by_comboBox.setMinimumSize(QtCore.QSize(0, 35))
         self.order_by_comboBox.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -185,22 +190,22 @@ class PurchaseListPage(QtWidgets.QWidget):
 
     def translate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.table_label.setText(_translate("MainWindow", "Lista de Compras"))
-        self.total_purchases_label.setText(_translate("MainWindow", "Total de compras: R$ 0,00"))
-        self.back_button.setText(_translate("MainWindow", "Voltar"))
-        self.product_name_input.setPlaceholderText(_translate("Form", "Nome do produto"))
-        self.from_date_label.setText(_translate("MainWindow", "Desde"))
-        self.to_date_label.setText(_translate("MainWindow", "Até"))
-        self.value_interval_label.setText(_translate("MainWindow", "Intervalo de valor desejado"))
-        self.comboBox_label.setText(_translate("MainWindow", "Ordenar por"))
-        self.order_by_comboBox.addItem(_translate("MainWindow", "Data"))
-        self.order_by_comboBox.addItem(_translate("MainWindow", "Valor"))
-        self.order_by_comboBox.addItem(_translate("MainWindow", "Mais vendido"))
-        self.order_by_comboBox.addItem(_translate("MainWindow", "Menos vendido"))
-        self.order_by_comboBox.addItem(_translate("MainWindow", "Maior lucro"))
-        self.order_by_comboBox.addItem(_translate("MainWindow", "Menor lucro"))
-        self.apply_filters_button.setText(_translate("MainWindow", "Aplicar Filtros"))
-        self.clear_filters_button.setText(_translate("MainWindow", "Limpar Filtros"))
+        self.table_label.setText(_translate('MainWindow', 'Lista de Compras'))
+        self.total_purchases_label.setText(_translate('MainWindow', 'Total de compras: R$ 0,00'))
+        self.back_button.setText(_translate('MainWindow', 'Voltar'))
+        self.product_name_input.setPlaceholderText(_translate('Form', 'Nome do produto'))
+        self.from_date_label.setText(_translate('MainWindow', 'Desde'))
+        self.to_date_label.setText(_translate('MainWindow', 'Até'))
+        self.value_interval_label.setText(_translate('MainWindow', 'Intervalo de valor desejado'))
+        self.comboBox_label.setText(_translate('MainWindow', 'Ordenar por'))
+        self.order_by_comboBox.addItem(_translate('MainWindow', 'Data'))
+        self.order_by_comboBox.addItem(_translate('MainWindow', 'Valor'))
+        self.order_by_comboBox.addItem(_translate('MainWindow', 'Mais vendido'))
+        self.order_by_comboBox.addItem(_translate('MainWindow', 'Menos vendido'))
+        self.order_by_comboBox.addItem(_translate('MainWindow', 'Maior lucro'))
+        self.order_by_comboBox.addItem(_translate('MainWindow', 'Menor lucro'))
+        self.apply_filters_button.setText(_translate('MainWindow', 'Aplicar Filtros'))
+        self.clear_filters_button.setText(_translate('MainWindow', 'Limpar Filtros'))
 
     def create_structure(self):
         self.filters_layout.addWidget(self.product_name_input, alignment=QtCore.Qt.AlignVCenter)
