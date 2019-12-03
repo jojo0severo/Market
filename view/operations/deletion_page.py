@@ -309,7 +309,8 @@ class DeletionPage(QtWidgets.QWidget):
     def delete_register(self):
         if self.previous_purchase_selection is not None:
             if self.previous_sale_selection is not None:
-                self.show_message('\tÉ permitido apenas uma transação por vez.\nDesmarque a compra ou a venda selecionada e tente novamente.\t')
+                self.show_message(
+                    '\tÉ permitido apenas uma transação por vez.\nDesmarque a compra ou a venda selecionada e tente novamente.\t')
                 return
             else:
                 transaction_type = 'purchase', 'compra'
@@ -319,7 +320,8 @@ class DeletionPage(QtWidgets.QWidget):
 
         else:
             if self.previous_sale_selection is None:
-                self.show_message('\tNenhuma transação selecionada.\nMarque uma compra ou uma venda e tente novamente.\t')
+                self.show_message(
+                    '\tNenhuma transação selecionada.\nMarque uma compra ou uma venda e tente novamente.\t')
                 return
             else:
                 transaction_type = 'sale', 'venda'
@@ -327,26 +329,31 @@ class DeletionPage(QtWidgets.QWidget):
                 deleted_register_value = self.sales_table.item(self.previous_sale_selection, 1).text()
                 deleted_register_date = self.sales_table.item(self.previous_sale_selection, 2).text()
 
-        confirmation_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.NoIcon, 'Confirmação',
-                                                 f'Tem certeza que deseja excluir esta {transaction_type[1]}?'
-                                                 f'\nDados da {transaction_type[1]}:\n'
-                                                 f'\n\t- Nome:  {deleted_register_name}'
-                                                 f'\n\t- Valor:   {deleted_register_value}'
-                                                 f'\n\t- Data:    {deleted_register_date}\n\n',
-                                                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-
-        confirmation_box.setStyleSheet('background-color: white;')
+        confirmation_box = self.get_confirmation_box(transaction_type[1], deleted_register_name,
+                                                     deleted_register_value, deleted_register_date)
         confirmation_box.exec()
 
-        if confirmation_box.result() == QtWidgets.QMessageBox.Yes:
-            info = {'transaction_type': transaction_type[0],
-                    'transaction_name': deleted_register_name,
-                    'transaction_value': float(deleted_register_value.replace(',', '.')),
-                    'transaction_date': deleted_register_date}
-
-            self.deletion_controller.delete(info)
+        if confirmation_box.accepted == 1:
+            self.show_message(self.deletion_controller.delete(transaction_type[0], deleted_register_name,
+                                                              deleted_register_value, deleted_register_date))
             self.clear()
 
     def show_message(self, text):
-        self.dialog.setText(text)
+        self.dialog.setText('\n' + text + '\t\t\n')
         self.dialog.exec()
+
+    def get_confirmation_box(self, transaction_type, transaction_name, transaction_value, transaction_date):
+        confirm_box = QtWidgets.QMessageBox()
+        confirm_box.setWindowTitle('Confirmação')
+        confirm_box.setText(f'Tem certeza que deseja excluir esta {transaction_type}?\n'
+                            f'\nDados da {transaction_type}:'
+                            f'\n\t- Nome:  {transaction_name}'
+                            f'\n\t- Valor:   {transaction_value}'
+                            f'\n\t- Data:    {transaction_date}\n\n')
+
+        confirm_box.addButton('Sim', QtWidgets.QMessageBox.YesRole)
+        confirm_box.addButton('Não', QtWidgets.QMessageBox.NoRole)
+
+        confirm_box.setStyleSheet('background-color:white;')
+
+        return confirm_box

@@ -227,27 +227,23 @@ class RegistrationPage(QtWidgets.QWidget):
         self.value_input.setText(a)
 
     def register_transaction(self):
-        info = {}
+        transaction_type = None
 
         if self.purchase_option.isChecked():
-            info['transaction_type'] = 'purchase'
+            transaction_type = 'purchase'
 
         elif self.sale_option.isChecked():
-            info['transaction_type'] = 'sale'
+            transaction_type = 'sale'
 
         else:
             self.show_message('\nA transação não foi classificada em Compra ou Venda. Classifique e tente novamente.\t\t\n')
             return
-
-        info['transaction_date'] = self.date_input.text()
 
         product_name = self.product_name_input.toPlainText()
         if not product_name.replace('\t', '').replace(' ', ''):
             self.show_message('\nNenhum nome foi dado para o produto comprado/vendido. Insira um nome e tente novamente.\t\t\n')
             self.product_name_input.setFocus(True)
             return
-
-        info['product_name'] = product_name
 
         value = self.value_input.toPlainText()
         value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
@@ -256,11 +252,7 @@ class RegistrationPage(QtWidgets.QWidget):
             self.value_input.setFocus(True)
             return
 
-        info['transaction_value'] = float(value)
-
-        message = self.controller.register(info)
-        self.dialog.setText('\n{}\t\t\n'.format(message))
-        self.dialog.exec()
+        self.show_message(self.controller.register(transaction_type, product_name, value, self.date_input.text()))
 
     def clear(self):
         self.sale_option.setAutoExclusive(False)
@@ -277,5 +269,5 @@ class RegistrationPage(QtWidgets.QWidget):
         self.date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
     def show_message(self, text):
-        self.dialog.setText(text)
+        self.dialog.setText('\n' + text + '\t\t\n')
         self.dialog.exec()
