@@ -19,15 +19,13 @@ class DatabaseEditor:
         month = month[0][0]
 
         if info['transaction_type'] == 'purchase':
-            result = self.edit_purchase(info['transaction_old_value'], info['transaction_new_value'], date[0], month)
+            self.edit_purchase(info['transaction_old_value'], info['transaction_new_value'], date[0], month)
 
         elif info['transaction_type'] == 'sale':
-            result = self.edit_sale(info['transaction_old_value'], info['transaction_new_value'], date[0], month)
+            self.edit_sale(info['transaction_old_value'], info['transaction_new_value'], date[0], month)
 
         else:
             raise ValueError('Wrong information sent. Check the input formatting method')
-
-        return result[0]
 
     def get_month(self, date):
         month_number = date[1]
@@ -49,39 +47,29 @@ class DatabaseEditor:
         return cursor.fetchall()
 
     def edit_sale(self, old_value, new_value, day, month):
-        try:
-            cursor = self.conn.cursor()
+        cursor = self.conn.cursor()
 
-            get_query = f'SELECT id_sale FROM SALE WHERE value={old_value} AND day={day} AND id_month={month};'
-            resp = cursor.execute(get_query).fetchall()
-            if not resp:
-                return False, 'Value not found'
+        get_query = f'SELECT id_sale FROM SALE WHERE value={old_value} AND day={day} AND id_month={month};'
+        resp = cursor.execute(get_query).fetchall()
+        if not resp:
+            return False, 'Value not found'
 
-            id_sale = resp[0][0]
+        id_sale = resp[0][0]
 
-            update_query = f'UPDATE SALE SET value={new_value} WHERE id_sale={id_sale};'
-            cursor.execute(update_query)
-            self.conn.commit()
-            return True, None
-
-        except sqlite3.OperationalError as e:
-            return False, e
+        update_query = f'UPDATE SALE SET value={new_value} WHERE id_sale={id_sale};'
+        cursor.execute(update_query)
+        self.conn.commit()
 
     def edit_purchase(self, old_value, new_value, day, month):
-        try:
-            cursor = self.conn.cursor()
+        cursor = self.conn.cursor()
 
-            get_query = f'SELECT id_purchase FROM PURCHASE WHERE value={old_value} AND day={day} AND id_month={month};'
-            resp = cursor.execute(get_query).fetchall()
-            if not resp:
-                return False, 'Value not found'
+        get_query = f'SELECT id_purchase FROM PURCHASE WHERE value={old_value} AND day={day} AND id_month={month};'
+        resp = cursor.execute(get_query).fetchall()
+        if not resp:
+            return False, 'Value not found'
 
-            id_purchase = resp[0][0]
+        id_purchase = resp[0][0]
 
-            update_query = f'UPDATE PURCHASE SET value={new_value} WHERE id_purchase={id_purchase}'
-            cursor.execute(update_query)
-            self.conn.commit()
-            return True, None
-
-        except sqlite3.OperationalError as e:
-            return False, e
+        update_query = f'UPDATE PURCHASE SET value={new_value} WHERE id_purchase={id_purchase}'
+        cursor.execute(update_query)
+        self.conn.commit()

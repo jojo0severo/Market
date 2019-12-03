@@ -18,10 +18,10 @@ class DatabaseRegister:
 
         month = self.get_month(date)[0][0]
         if info['transaction_type'] == 'purchase':
-            self.insert_purchase(info['product_name'], info['transaction_value'], date[0], month)
+            self.insert_purchase(info['transaction_name'], info['transaction_value'], date[0], month)
 
         elif info['transaction_type'] == 'sale':
-            self.insert_sale(info['product_name'], info['transaction_value'], date[0], month)
+            self.insert_sale(info['transaction_name'], info['transaction_value'], date[0], month)
 
         else:
             raise ValueError('Wrong information sent. Check the input formatting method')
