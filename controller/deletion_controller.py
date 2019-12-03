@@ -15,7 +15,7 @@ class DeletionController:
             else:
                 return 'Transação não pode ser removida'
 
-        except Exception:
-            pass
+        except Exception as e:
+            print(e)
 
         return 'Erro na remoção da transação'

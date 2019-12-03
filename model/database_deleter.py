@@ -18,10 +18,10 @@ class DatabaseDeleter:
 
         month = month[0][0]
         if info['transaction_type'] == 'purchase':
-            result = self.delete_purchase(info['transaction_value'], date[0], month)
+            result = self.delete_purchase(info['transaction_name'], info['transaction_value'], date[0], month)
 
         elif info['transaction_type'] == 'sale':
-            result = self.delete_sale(info['transaction_value'], date[0], month)
+            result = self.delete_sale(info['transaction_name'], info['transaction_value'], date[0], month)
 
         else:
             raise ValueError('Wrong information sent. Check the input formatting method')
@@ -47,8 +47,8 @@ class DatabaseDeleter:
 
         return cursor.fetchall()
 
-    def delete_sale(self, value, day, month):
-        query = f'DELETE FROM SALE WHERE value={value} AND day={day} AND id_month={month};'
+    def delete_sale(self, name, value, day, month):
+        query = f'DELETE FROM SALE WHERE product_name="{name}" AND value={value} AND day={day} AND id_month={month};'
 
         try:
             cursor = self.conn.cursor()
@@ -59,8 +59,8 @@ class DatabaseDeleter:
         except sqlite3.OperationalError as e:
             return False, e
 
-    def delete_purchase(self, value, day, month):
-        query = f'DELETE FROM PURCHASE WHERE value={value} AND day={day} AND id_month={month};'
+    def delete_purchase(self, name, value, day, month):
+        query = f'DELETE FROM PURCHASE WHERE product_name="{name}" AND value={value} AND day={day} AND id_month={month};'
 
         try:
             cursor = self.conn.cursor()
