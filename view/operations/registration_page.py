@@ -31,6 +31,9 @@ class RegistrationPage(QtWidgets.QWidget):
         self.bottom_buttons_horizontalWidget = QtWidgets.QWidget(self, *args)
         self.bottom_buttons_layout = QtWidgets.QHBoxLayout(self.bottom_buttons_horizontalWidget)
 
+        self.register_back_buttons_widget = QtWidgets.QWidget(self, *args)
+        self.register_back_buttons = QtWidgets.QHBoxLayout(self.register_back_buttons_widget)
+
         # Declaring Labels
         self.page_title = QtWidgets.QLabel(self)
         self.transaction_label = QtWidgets.QLabel(self.form)
@@ -42,6 +45,7 @@ class RegistrationPage(QtWidgets.QWidget):
         # Declaring buttons
         self.register_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
         self.back_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
+        self.undo_button = QtWidgets.QPushButton(self)
 
         # Declaring inputs
         self.product_name_input = QtWidgets.QTextEdit(self.form)
@@ -62,6 +66,8 @@ class RegistrationPage(QtWidgets.QWidget):
         self.purchase_sale_horizontalWidget.setMaximumSize(QtCore.QSize(16777215, 50))
         self.coin_input_horizontalWidget.setMaximumSize(QtCore.QSize(270, 70))
         self.bottom_buttons_horizontalWidget.setMaximumSize(QtCore.QSize(16777215, 70))
+
+        self.register_back_buttons.setContentsMargins(0, 0, 0, 0)
 
         # Labels
         self.page_title.setMaximumSize(QtCore.QSize(16777215, 70))
@@ -118,6 +124,27 @@ class RegistrationPage(QtWidgets.QWidget):
                                            font-weight: bold;
                                        }''')
 
+        self.undo_button.setFont(font)
+        self.undo_button.setMinimumSize(QtCore.QSize(100, 50))
+        self.undo_button.setMaximumSize(QtCore.QSize(130, 80))
+        self.undo_button.setStyleSheet('''QPushButton {
+                                             background-color: white;
+                                             color: black;
+                                             border: 2px solid #c79ce6;
+                                         }
+                                         
+                                         QPushButton:hover:!pressed {
+                                             background-color: #c79ce6;
+                                             color: white;
+                                             font-weight: bold;
+                                         }
+                                         
+                                         QPushButton:pressed {
+                                             background-color: #c79ce6;
+                                             color: white;
+                                             font-weight: bold;
+                                         }''')
+
         # Inputs
         self.date_input.setMinimumSize(QtCore.QSize(120, 0))
         self.date_input.setMaximumSize(QtCore.QSize(180, 50))
@@ -156,6 +183,7 @@ class RegistrationPage(QtWidgets.QWidget):
             _translate('MainWindow', 'Nesta área você irá cadastrar uma Compra OU Venda referente ao dia informado'))
         self.register_button.setText(_translate('MainWindow', 'Cadastrar'))
         self.back_button.setText(_translate('MainWindow', 'Voltar'))
+        self.undo_button.setText(_translate('MainWindow', 'Desfazer'))
         self.product_name_input.setPlaceholderText(_translate('MainWindow', 'Nome do produto'))
         self.transaction_label.setText(_translate('MainWindow', 'Marque a opção correspondente à transação:'))
         self.date_label.setText(_translate('MainWindow', 'Informe a data da transação'))
@@ -183,9 +211,11 @@ class RegistrationPage(QtWidgets.QWidget):
         self.form_layout.addWidget(self.coin_input_horizontalWidget, 11, 0, 1, 1)
         self.form_layout.addItem(QtWidgets.QSpacerItem(20, 110, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum), 12, 0, 1, 1)
 
-        self.bottom_buttons_layout.addItem(QtWidgets.QSpacerItem(310, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
-        self.bottom_buttons_layout.addWidget(self.register_button)
-        self.bottom_buttons_layout.addWidget(self.back_button)
+        self.register_back_buttons.addWidget(self.register_button)
+        self.register_back_buttons.addWidget(self.back_button)
+        self.bottom_buttons_layout.addItem(QtWidgets.QSpacerItem(110, 20, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum))
+        self.bottom_buttons_layout.addWidget(self.undo_button)
+        self.bottom_buttons_layout.addWidget(self.register_back_buttons_widget, alignment=QtCore.Qt.AlignRight)
 
         self.grid_layout.addWidget(self.page_title, 0, 1, 1, 1)
         self.grid_layout.addWidget(self.form, 1, 1, 1, 1)
@@ -195,6 +225,7 @@ class RegistrationPage(QtWidgets.QWidget):
         self.value_input.keyPressEvent = self.handle_key_pressed
         self.register_button.clicked.connect(self.register_transaction)
         self.back_button.clicked.connect(self.back_signal.emit)
+        self.undo_button.clicked.connect(self.undo_action)
 
     def handle_key_pressed(self, event):
         text = self.value_input.toPlainText().replace(',', '.').replace('.', '')
@@ -226,6 +257,11 @@ class RegistrationPage(QtWidgets.QWidget):
         a = locale.currency(float(text), grouping=True).split(' ')[1]
         self.value_input.setText(a)
 
+    def undo_action(self):
+        message = self.controller.undo()
+        self.clear()
+        self.show_message(message)
+
     def register_transaction(self):
         if self.purchase_option.isChecked():
             transaction_type = 'purchase'
@@ -250,7 +286,9 @@ class RegistrationPage(QtWidgets.QWidget):
             self.value_input.setFocus(True)
             return
 
-        self.show_message(self.controller.register(transaction_type, product_name, value, self.date_input.text()))
+        message = self.controller.register(transaction_type, product_name, value, self.date_input.text())
+        self.clear()
+        self.show_message(message)
 
     def clear(self):
         self.sale_option.setAutoExclusive(False)

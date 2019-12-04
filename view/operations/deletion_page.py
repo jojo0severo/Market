@@ -34,6 +34,9 @@ class DeletionPage(QtWidgets.QWidget):
         self.bottom_buttons_horizontalWidget = QtWidgets.QWidget(self, *args)
         self.bottom_buttons_layout = QtWidgets.QHBoxLayout(self.bottom_buttons_horizontalWidget)
 
+        self.undo_button_horizontalWidget = QtWidgets.QWidget(self)
+        self.undo_button_layout = QtWidgets.QHBoxLayout(self.undo_button_horizontalWidget)
+
         # Labels
         self.to_date_label = QtWidgets.QLabel(self.date_input_verticalWidget)
         self.from_date_label = QtWidgets.QLabel(self.date_input_verticalWidget)
@@ -43,6 +46,7 @@ class DeletionPage(QtWidgets.QWidget):
 
         # Buttons
         self.update_list_button = QtWidgets.QPushButton(self)
+        self.undo_button = QtWidgets.QPushButton(self)
         self.back_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
         self.delete_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
 
@@ -144,6 +148,27 @@ class DeletionPage(QtWidgets.QWidget):
         self.update_list_button.setMinimumSize(QtCore.QSize(170, 50))
         self.update_list_button.setMaximumSize(QtCore.QSize(190, 70))
 
+        self.undo_button.setFont(font)
+        self.undo_button.setMinimumSize(QtCore.QSize(100, 50))
+        self.undo_button.setMaximumSize(QtCore.QSize(130, 80))
+        self.undo_button.setStyleSheet('''QPushButton {
+                                             background-color: white;
+                                             color: black;
+                                             border: 2px solid #c79ce6;
+                                         }
+                                         
+                                         QPushButton:hover:!pressed {
+                                             background-color: #c79ce6;
+                                             color: white;
+                                             font-weight: bold;
+                                         }
+                                         
+                                         QPushButton:pressed {
+                                             background-color: #c79ce6;
+                                             color: white;
+                                             font-weight: bold;
+                                         }''')
+
         # Inputs
         self.to_date_option.setMinimumSize(QtCore.QSize(170, 50))
         self.to_date_option.setMaximumSize(QtCore.QSize(190, 70))
@@ -175,6 +200,7 @@ class DeletionPage(QtWidgets.QWidget):
         self.update_list_button.setText(_translate('MainWindow', 'Atualizar Lista'))
         self.back_button.setText(_translate('MainWindow', 'Voltar'))
         self.delete_button.setText(_translate('MainWindow', 'Excluir'))
+        self.undo_button.setText(_translate('MainWindow', 'Desfazer'))
 
     def create_structure(self):
         self.date_input_layout.addWidget(self.to_date_label)
@@ -202,14 +228,21 @@ class DeletionPage(QtWidgets.QWidget):
         self.grid_layout.addItem(
             QtWidgets.QSpacerItem(20, 200, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred), 1, 0, 1,
             1)
-        self.grid_layout.addItem(
-            QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred), 2, 0, 1, 1)
+
+        self.tables_gridWidget.setMinimumSize(QtCore.QSize(900, 470))
+
+        self.undo_button_layout.addWidget(self.undo_button, QtCore.Qt.AlignRight)
+        self.undo_button_layout.addItem(
+            QtWidgets.QSpacerItem(980, 50, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
+
+        self.grid_layout.addWidget(self.undo_button_horizontalWidget, 2, 0, 1, 1)
         self.grid_layout.addWidget(self.bottom_buttons_horizontalWidget, 2, 1, 1, 1)
 
     def define_actions(self):
         self.back_button.clicked.connect(self.clear_and_go_back)
         self.delete_button.clicked.connect(self.delete_register)
         self.update_list_button.clicked.connect(self.clear)
+        self.undo_button.clicked.connect(self.undo_action)
 
     def clear_and_go_back(self):
         self.purchases_table.clear()
@@ -306,11 +339,15 @@ class DeletionPage(QtWidgets.QWidget):
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.sales_table.setItem(idx, 2, date_item)
 
+    def undo_action(self):
+        message = self.deletion_controller.undo()
+        self.clear()
+        self.show_message(message)
+
     def delete_register(self):
         if self.previous_purchase_selection is not None:
             if self.previous_sale_selection is not None:
-                self.show_message(
-                    '\tÉ permitido apenas uma transação por vez.\nDesmarque a compra ou a venda selecionada e tente novamente.\t')
+                self.show_message('É permitido apenas uma transação por vez.\nDesmarque a compra ou a venda selecionada e tente novamente.')
                 return
             else:
                 transaction_type = 'purchase', 'compra'
@@ -320,8 +357,7 @@ class DeletionPage(QtWidgets.QWidget):
 
         else:
             if self.previous_sale_selection is None:
-                self.show_message(
-                    '\tNenhuma transação selecionada.\nMarque uma compra ou uma venda e tente novamente.\t')
+                self.show_message('Nenhuma transação selecionada.\nMarque uma compra ou uma venda e tente novamente.')
                 return
             else:
                 transaction_type = 'sale', 'venda'
@@ -331,12 +367,13 @@ class DeletionPage(QtWidgets.QWidget):
 
         confirmation_box = self.get_confirmation_box(transaction_type[1], deleted_register_name,
                                                      deleted_register_value, deleted_register_date)
-        confirmation_box.exec()
+        result = confirmation_box.exec()
 
-        if confirmation_box.accepted == 1:
-            self.show_message(self.deletion_controller.delete(transaction_type[0], deleted_register_name,
-                                                              deleted_register_value, deleted_register_date))
+        if result == 0:
+            message = self.deletion_controller.delete(transaction_type[0], deleted_register_name,
+                                                      deleted_register_value, deleted_register_date)
             self.clear()
+            self.show_message(message)
 
     def show_message(self, text):
         self.dialog.setText('\n' + text + '\t\t\n')
