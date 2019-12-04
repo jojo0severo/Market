@@ -202,8 +202,8 @@ class PurchaseListPage(QtWidgets.QWidget):
         self.order_by_comboBox.addItem(_translate('MainWindow', 'Valor'))
         self.order_by_comboBox.addItem(_translate('MainWindow', 'Mais vendido'))
         self.order_by_comboBox.addItem(_translate('MainWindow', 'Menos vendido'))
-        self.order_by_comboBox.addItem(_translate('MainWindow', 'Maior lucro'))
-        self.order_by_comboBox.addItem(_translate('MainWindow', 'Menor lucro'))
+        # self.order_by_comboBox.addItem(_translate('MainWindow', 'Maior lucro'))
+        # self.order_by_comboBox.addItem(_translate('MainWindow', 'Menor lucro'))
         self.apply_filters_button.setText(_translate('MainWindow', 'Aplicar Filtros'))
         self.clear_filters_button.setText(_translate('MainWindow', 'Limpar Filtros'))
 
@@ -340,13 +340,17 @@ class PurchaseListPage(QtWidgets.QWidget):
 
     def populate_table(self, purchases):
         if self.order_by_comboBox.currentText().lower() not in ['data', 'valor']:
+            new_value_text = self.total_purchases_label.text().split(':')[0] + ': R$ ' + self.format_value(0)
             self.products_table.setColumnCount(2)
             self.products_table.setHorizontalHeaderLabels(('Nome', 'Quantidade'))
-            new_value_text = self.total_purchases_label.text().split(':')[0] + ': R$ ' + self.format_value(0)
+            for i in range(self.products_table.columnCount()):
+                self.products_table.horizontalHeader().setSectionResizeMode(i, QtWidgets.QHeaderView.Stretch)
         else:
+            new_value_text = self.total_purchases_label.text().split(':')[0] + ': R$ ' + self.format_value(sum([value for _, value, _ in purchases]))
             self.products_table.setColumnCount(3)
             self.products_table.setHorizontalHeaderLabels(('Nome', 'Preco', 'Data'))
-            new_value_text = self.total_purchases_label.text().split(':')[0] + ': R$ ' + self.format_value(sum([value for _, value, _ in purchases]))
+            for i in range(self.products_table.columnCount()):
+                self.products_table.horizontalHeader().setSectionResizeMode(i, QtWidgets.QHeaderView.Stretch)
 
         self.total_purchases_label.setText(new_value_text)
         self.products_table.setRowCount(len(purchases))
