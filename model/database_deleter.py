@@ -10,11 +10,11 @@ class DatabaseDeleter:
 
         year = self.get_year(date)
         if not year:
-            return False
+            raise ValueError('Year not found')
 
         month = self.get_month(date)
         if not month:
-            return False
+            raise ValueError('Month not found')
 
         month = month[0][0]
         if info['transaction_type'] == 'purchase':

@@ -30,8 +30,12 @@ class DeletionController:
             logging.error('OperationalError on Deletion\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
             return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
 
+        except ValueError as e:
+            logging.error('ValueError on Deletion (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
+            return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
+
         except Exception as e:
-            logging.error('Unknown error on Deletion\n ---> ' + str(e))
+            logging.error('Unknown error on Deletion\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
             return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
 
     def undo(self):
@@ -49,8 +53,12 @@ class DeletionController:
                 logging.error('OperationalError on Deletion (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(self.last_deletion))
                 return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
 
+            except ValueError as e:
+                logging.error('ValueError on Deletion (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(self.last_deletion))
+                return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
+
             except Exception as e:
-                logging.error('Unknown error on Deletion (UNDO)\n ---> ' + str(e))
+                logging.error('Unknown error on Deletion (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(self.last_deletion))
                 return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
 
         else:

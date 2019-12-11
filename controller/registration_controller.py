@@ -30,8 +30,12 @@ class RegistrationController:
             logging.error('OperationalError on Registration\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
             return 'Houve um erro interno na aplicação.\nPor favor contate o desenvolvedor.'
 
+        except ValueError as e:
+            logging.error('ValueError on Registration\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
+            return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
+
         except Exception as e:
-            logging.error('Unknown error on Registration\n ---> ' + str(e))
+            logging.error('Unknown error on Registration\n ---> ' + str(e) + '\nInformation sent: ' + str(info))
             return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
 
     def undo(self):
@@ -49,8 +53,12 @@ class RegistrationController:
                 logging.error('OperationalError on Registration (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(self.last_registration))
                 return 'Houve um erro interno na aplicação.\nPor favor contate o desenvolvedor.'
 
+            except ValueError as e:
+                logging.error('ValueError on Registration (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(self.last_registration))
+                return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
+
             except Exception as e:
-                logging.error('Unknown error on Registration (UNDO)\n ---> ' + str(e))
+                logging.error('Unknown error on Registration (UNDO)\n ---> ' + str(e) + '\nInformation sent: ' + str(self.last_registration))
                 return 'Houve um erro interno na aplicação\nPor favor contate o desenvolvedor.'
 
         else:

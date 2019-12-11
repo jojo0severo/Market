@@ -144,7 +144,7 @@ class ListsPage(QtWidgets.QWidget):
         self.to_date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.to_date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.to_date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.to_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
+        self.to_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(3000, 12, 31), QtCore.QTime(23, 59, 59)))
         self.to_date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
         self.from_date_input.setMinimumSize(QtCore.QSize(170, 50))
@@ -153,7 +153,7 @@ class ListsPage(QtWidgets.QWidget):
         self.from_date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.from_date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.from_date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(2000, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.from_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
+        self.from_date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(3000, 12, 31), QtCore.QTime(23, 59, 59)))
 
         year = datetime.now().year
         month = datetime.now().month - 1
