@@ -152,7 +152,7 @@ class RegistrationPage(QtWidgets.QWidget):
         self.date_input.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.date_input.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
         self.date_input.setMinimumDateTime(QtCore.QDateTime(QtCore.QDate(1990, 1, 1), QtCore.QTime(0, 0, 0)))
-        self.date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(2050, 12, 31), QtCore.QTime(23, 59, 59)))
+        self.date_input.setMaximumDateTime(QtCore.QDateTime(QtCore.QDate(3000, 12, 31), QtCore.QTime(23, 59, 59)))
         self.date_input.setDate(QtCore.QDate(datetime.now().year, datetime.now().month, datetime.now().day))
 
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
