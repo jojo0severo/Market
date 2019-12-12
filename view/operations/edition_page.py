@@ -1,3 +1,6 @@
+import re
+import locale
+locale.setlocale(locale.LC_MONETARY, '')
 from controller.edition_controller import EditionController
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -290,6 +293,37 @@ class EditionPage(QtWidgets.QWidget):
     def define_actions(self):
         self.edit_button.clicked.connect(self.edit)
         self.cancel_button.clicked.connect(self.go_back)
+        self.new_register_value_input.keyPressEvent = self.handle_key_pressed
+
+    def handle_key_pressed(self, event):
+        text = self.new_register_value_input.text().replace(',', '.').replace('.', '')
+        key = event.key()
+        if 57 >= key >= 48:
+            text = re.sub('\A0*', '', text)
+            new_char = chr(key)
+            self.format(text, new_char)
+
+        elif key == QtCore.Qt.Key_Backspace or key == QtCore.Qt.Key_Delete:
+            text = text[:-1]
+            self.format(text, '')
+
+    def format(self, text, new_char):
+        text = text + new_char
+
+        if len(text) == 0:
+            text = '0.0'
+
+        elif len(text) == 1:
+            text = '0.0' + text
+
+        elif len(text) == 2:
+            text = '0.' + text
+
+        else:
+            text = text[:-2] + '.' + text[-2:]
+
+        a = locale.currency(float(text), grouping=True).split(' ')[1]
+        self.new_register_value_input.setText(a)
 
     def go_back(self):
         self.back_signal.emit(2)
