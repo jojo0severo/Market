@@ -5,6 +5,9 @@ from view.main_window import AppMainWindow
 
 
 def setup_sql():
+    import os
+    os.makedirs('data/', exist_ok=True)
+
     try:
         db = sqlite3.connect('data/marketdb.db')
         db.executescript(open('resources/marketdb.sql', 'r').read())
