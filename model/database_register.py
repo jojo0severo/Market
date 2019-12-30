@@ -31,28 +31,28 @@ class DatabaseRegister:
         year_number = date[2]
         query = f'SELECT * FROM MONTH_TABLE WHERE month_number={month_number} AND year_number={year_number};'
 
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-
-        return cursor.fetchall()
+        with self.conn as con:
+            cursor = con.cursor()
+            cursor.execute(query)
+            return cursor.fetchall()
 
     def get_year(self, date):
         year_number = date[2]
         query = f'SELECT * FROM YEAR_TABLE WHERE year_number={year_number};'
 
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-
-        return cursor.fetchall()
+        with self.conn as con:
+            cursor = con.cursor()
+            cursor.execute(query)
+            return cursor.fetchall()
 
     def insert_year(self, date):
         year_number = date[2]
 
         query = f'INSERT INTO YEAR_TABLE (year_number) VALUES ("{year_number}");'
 
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-        self.conn.commit()
+        with self.conn as con:
+            cursor = con.cursor()
+            cursor.execute(query)
 
     def insert_month(self, date):
         month_number = date[1]
@@ -60,20 +60,20 @@ class DatabaseRegister:
 
         query = f'INSERT INTO MONTH_TABLE (month_number, year_number) VALUES ("{month_number}", "{year_number}");'
 
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-        self.conn.commit()
+        with self.conn as con:
+            cursor = con.cursor()
+            cursor.execute(query)
 
     def insert_sale(self, product_name, value, day, month):
         query = f'INSERT INTO SALE (product_name, value, day, id_month) VALUES ("{product_name}", {value}, {day}, {month});'
 
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-        self.conn.commit()
+        with self.conn as con:
+            cursor = con.cursor()
+            cursor.execute(query)
 
     def insert_purchase(self, product_name, value, day, month):
         query = f'INSERT INTO PURCHASE (product_name, value, day, id_month) VALUES ("{product_name}", {value}, {day}, {month});'
 
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-        self.conn.commit()
+        with self.conn as con:
+            cursor = con.cursor()
+            cursor.execute(query)
