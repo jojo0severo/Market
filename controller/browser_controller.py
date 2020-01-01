@@ -5,10 +5,11 @@ from model.database_keys import DatabaseKeys
 
 class BrowserController:
     def __init__(self):
-        self.executable = str((pathlib.Path(__file__).parents[1] / 'resources' / 'driver.exe').absolute())
+        self.executable = str((pathlib.Path(__file__).parents[1] / 'resources' / 'geckodriver').absolute())
         self.database_passwords_recover = DatabaseKeys()
 
     def open_gmail(self):
+        print(self.executable)
         username, password = self.database_passwords_recover.get_username_password('gmail')
 
         url = 'https://accounts.google.com/signin/v2/identifier?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin'

@@ -1,4 +1,3 @@
-import re
 import locale
 locale.setlocale(locale.LC_MONETARY, '')
 from controller.edition_controller import EditionController

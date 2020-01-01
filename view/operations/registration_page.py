@@ -279,13 +279,12 @@ class RegistrationPage(QtWidgets.QWidget):
             self.product_name_input.setFocus(True)
             return
 
-        value = self.value_input.toPlainText()
-        value = re.sub('\A0*', '0', value.replace('.', '').replace(',', '.'))
-        if not re.sub('\A0*', '', value.replace('.', '')):
+        value = self.value_input.toPlainText().replace('.', '').replace(',', '.')
+        if not re.sub('0*', '', value.replace('.', '')):
             self.show_message('\nNenhum valor foi atribuído à transação. Insira um valor e tente novamente.\t\t\n')
             self.value_input.setFocus(True)
             return
-
+        
         message = self.controller.register(transaction_type, product_name, value, self.date_input.text())
         self.clear()
         self.show_message(message)

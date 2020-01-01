@@ -1,9 +1,15 @@
+import sys
 import sqlite3
 
 
 class DatabaseSaleRecover:
     def __init__(self):
-        self.conn = sqlite3.connect('data/marketdb.db')
+        if sys.platform == 'win32':
+            database_path = 'E:/Database/marketdb.db'
+        else:
+            database_path = '/media/severo/Seagate Expansion Drive/Database/marketdb.db'
+
+        self.conn = sqlite3.connect(database_path)
 
     def get_min_sale_value(self):
         query = """

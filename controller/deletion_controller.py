@@ -14,7 +14,7 @@ class DeletionController:
         info = {
             'transaction_type': transaction_type.lower(),
             'transaction_name': transaction_name,
-            'transaction_value': float(transaction_value.replace(',', '.')),
+            'transaction_value': float(transaction_value.replace('.', '').replace(',', '.')),
             'transaction_date': transaction_date
         }
         try:

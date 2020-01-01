@@ -1,3 +1,4 @@
+import re
 import locale
 locale.setlocale(locale.LC_MONETARY, '')
 from datetime import datetime
@@ -46,7 +47,6 @@ class EditionSelectionPage(QtWidgets.QWidget):
 
         # Buttons
         self.update_list_button = QtWidgets.QPushButton(self)
-        self.undo_button = QtWidgets.QPushButton(self)
         self.back_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
         self.edit_button = QtWidgets.QPushButton(self.bottom_buttons_horizontalWidget)
 
@@ -148,27 +148,6 @@ class EditionSelectionPage(QtWidgets.QWidget):
         self.update_list_button.setMinimumSize(QtCore.QSize(170, 50))
         self.update_list_button.setMaximumSize(QtCore.QSize(190, 70))
 
-        self.undo_button.setFont(font)
-        self.undo_button.setMinimumSize(QtCore.QSize(100, 50))
-        self.undo_button.setMaximumSize(QtCore.QSize(130, 80))
-        self.undo_button.setStyleSheet('''QPushButton {
-                                             background-color: white;
-                                             color: black;
-                                             border: 2px solid #c79ce6;
-                                         }
-
-                                         QPushButton:hover:!pressed {
-                                             background-color: #c79ce6;
-                                             color: white;
-                                             font-weight: bold;
-                                         }
-
-                                         QPushButton:pressed {
-                                             background-color: #c79ce6;
-                                             color: white;
-                                             font-weight: bold;
-                                         }''')
-
         # Inputs
         self.to_date_option.setMinimumSize(QtCore.QSize(170, 50))
         self.to_date_option.setMaximumSize(QtCore.QSize(190, 70))
@@ -204,7 +183,6 @@ class EditionSelectionPage(QtWidgets.QWidget):
         self.update_list_button.setText(_translate('MainWindow', 'Atualizar Lista'))
         self.back_button.setText(_translate('MainWindow', 'Voltar'))
         self.edit_button.setText(_translate('MainWindow', 'Editar'))
-        self.undo_button.setText(_translate('MainWindow', 'Desfazer'))
 
     def create_structure(self):
         self.date_input_layout.addWidget(self.to_date_label)
@@ -230,7 +208,6 @@ class EditionSelectionPage(QtWidgets.QWidget):
 
         self.tables_gridWidget.setMinimumSize(QtCore.QSize(900, 470))
 
-        self.undo_button_layout.addWidget(self.undo_button, QtCore.Qt.AlignRight)
         self.undo_button_layout.addItem(QtWidgets.QSpacerItem(980, 50, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred))
 
         self.grid_layout.addWidget(self.undo_button_horizontalWidget, 2, 0, 1, 1)
@@ -240,7 +217,6 @@ class EditionSelectionPage(QtWidgets.QWidget):
         self.back_button.clicked.connect(self.clear_and_go_back)
         self.edit_button.clicked.connect(self.edit_register)
         self.update_list_button.clicked.connect(self.clear)
-        self.undo_button.clicked.connect(self.undo_action)
 
     def clear_and_go_back(self):
         self.purchases_table.clear()
@@ -336,13 +312,6 @@ class EditionSelectionPage(QtWidgets.QWidget):
                 date_item = QtWidgets.QTableWidgetItem(self.format_date(date))
                 date_item.setTextAlignment(QtCore.Qt.AlignCenter)
                 self.sales_table.setItem(idx, 2, date_item)
-
-    def undo_action(self):
-        message = self.edition_controller.undo()
-        if message == '':
-            self.clear()
-
-        self.show_message(message)
 
     def edit_register(self):
         if self.previous_purchase_selection is not None:

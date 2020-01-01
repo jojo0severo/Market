@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from PyQt5 import QtCore, QtGui, QtWidgets
 from controller.browser_controller import BrowserController
 
@@ -458,4 +459,12 @@ class InitialPage(QtWidgets.QWidget):
         self.enter_google_button.clicked.connect(self.browser_controller.open_google)
 
         self.quit_button.clicked.connect((lambda: sys.exit(0)))
-        self.turn_off_button.clicked.connect((lambda: sys.exit(0)))
+        self.turn_off_button.clicked.connect(self.turn_off_function)
+
+    def turn_off_function(self):
+        self.parent().close()
+
+        if sys.platform == 'win32':
+            subprocess.call(["shutdown", "/s", "/t", "0"])
+        else:
+            subprocess.call(["shutdown", "-h", "now"])

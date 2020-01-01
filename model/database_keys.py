@@ -1,9 +1,15 @@
+import sys
 import sqlite3
 
 
 class DatabaseKeys:
     def __init__(self):
-        self.conn = sqlite3.connect('data/webdb.db')
+        if sys.platform == 'win32':
+            database_path = 'E:/Database/webdb.db'
+        else:
+            database_path = '/media/severo/Seagate Expansion Drive/Database/webdb.db'
+
+        self.conn = sqlite3.connect(database_path)
 
     def get_username_password(self, enterprise):
         query = f'SELECT username, password FROM USER_KEYS WHERE enterprise="{enterprise}";'

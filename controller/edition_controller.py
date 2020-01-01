@@ -6,20 +6,19 @@ from model.database_editor import DatabaseEditor
 class EditionController:
     def __init__(self):
         self.database_editor = DatabaseEditor()
-        self.last_edition = None
 
     def edit(self, transaction_type, transaction_old_name, transaction_old_value, transaction_old_date,
              transaction_new_name, transaction_new_value, transaction_new_date):
         old_info = {
             'transaction_type': transaction_type.lower(),
             'transaction_name': transaction_old_name,
-            'transaction_value': float(transaction_old_value.replace(',', '.')),
+            'transaction_value': float(transaction_old_value.replace('.', '').replace(',', '.')),
             'transaction_date': str(transaction_old_date).split('/')
         }
 
         new_info = {
             'transaction_name': transaction_new_name,
-            'transaction_value': float(transaction_new_value.replace(',', '.')),
+            'transaction_value': float(transaction_new_value.replace('.', '').replace(',', '.')),
             'transaction_date': str(transaction_new_date,).split('/')
         }
 
