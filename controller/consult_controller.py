@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from model.database_purchase_recover import DatabasePurchaseRecover
 from model.database_sale_recover import DatabaseSaleRecover
 
@@ -13,10 +12,10 @@ class ConsultController:
     # =============================== Sales section ===============================
 
     def get_min_sale_value(self):
-        return self.sale_recover.get_min_sale_value()[0][0]
+        return self.sale_recover.get_min_sale_value()[0]
 
     def get_max_sale_value(self):
-        return self.sale_recover.get_max_sale_value()[0][0]
+        return self.sale_recover.get_max_sale_value()[0]
 
     def get_sales_amount_by_value_and_date(self, min_value, max_value, from_date, to_date):
         result = self.sale_recover.get_sales_amount_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))
@@ -57,10 +56,10 @@ class ConsultController:
     # =============================== Purchases section ===============================
 
     def get_min_purchase_value(self):
-        return self.purchase_recover.get_min_purchase_value()[0][0]
+        return self.purchase_recover.get_min_purchase_value()[0]
 
     def get_max_purchase_value(self):
-        return self.purchase_recover.get_max_purchase_value()[0][0]
+        return self.purchase_recover.get_max_purchase_value()[0]
 
     def get_purchases_amount_by_value_and_date(self, min_value, max_value, from_date, to_date):
         result = self.purchase_recover.get_purchases_amount_by_value_and_date(float(min_value), float(max_value), from_date.split('/'), to_date.split('/'))

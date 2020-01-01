@@ -16,18 +16,20 @@ class DatabasePurchaseRecover:
             SELECT MIN(PURCHASE.value) FROM PURCHASE;
         """
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp[0]
 
     def get_max_purchase_value(self):
         query = """
             SELECT MAX(PURCHASE.value) FROM PURCHASE;
         """
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp[0]
 
     def get_purchases_amount_by_name(self, product_name):
         query = """
@@ -43,9 +45,10 @@ class DatabasePurchaseRecover:
                     COUNT(PURCHASE.product_name) DESC;
         """.format(product_name)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_amount_by_value(self, min_value, max_value):
         query = """
@@ -61,9 +64,10 @@ class DatabasePurchaseRecover:
                     COUNT(PURCHASE.product_name) DESC;
         """.format(min_value, max_value)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_amount_by_date(self, from_date, to_date):
         query = """
@@ -84,9 +88,10 @@ class DatabasePurchaseRecover:
         """.format(from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_amount_by_name_and_value(self, name, min_value, max_value):
         query = """
@@ -103,9 +108,10 @@ class DatabasePurchaseRecover:
                     COUNT(PURCHASE.product_name) DESC;
         """.format(name, min_value, max_value)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_amount_by_name_and_date(self, name, from_date, to_date):
         query = """
@@ -127,9 +133,10 @@ class DatabasePurchaseRecover:
         """.format(name, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_amount_by_value_and_date(self, min_value, max_value, from_date, to_date):
         query = """
@@ -151,9 +158,10 @@ class DatabasePurchaseRecover:
         """.format(min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1],
                    from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_amount_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
         query = """
@@ -176,9 +184,10 @@ class DatabasePurchaseRecover:
         """.format(name, min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2],
                    to_date[1], from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_by_name(self, name):
         query = """
@@ -194,9 +203,10 @@ class DatabasePurchaseRecover:
                     PURCHASE.day DESC;
         """.format(name)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_by_value(self, min_value, max_value):
         query = """
@@ -212,9 +222,10 @@ class DatabasePurchaseRecover:
                     PURCHASE.day DESC;
         """.format(min_value, max_value)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_by_date(self, from_date, to_date):
         query = """
@@ -235,9 +246,10 @@ class DatabasePurchaseRecover:
         """.format(from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
     
     def get_purchases_by_name_and_value(self, name, min_value, max_value):
         query = """
@@ -254,9 +266,10 @@ class DatabasePurchaseRecover:
                     PURCHASE.day DESC;
         """.format(name, min_value, max_value)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_by_name_and_date(self, name, from_date, to_date):
         query = """
@@ -278,9 +291,10 @@ class DatabasePurchaseRecover:
         """.format(name, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_by_value_and_date(self, min_value, max_value, from_date, to_date):
         query = """
@@ -302,9 +316,10 @@ class DatabasePurchaseRecover:
         """.format(min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1],
                    from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_purchases_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
         query = """
@@ -327,9 +342,10 @@ class DatabasePurchaseRecover:
         """.format(name, min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2],
                    to_date[1], from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-        return resp
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_total_purchases_by_name(self, name):
         query = """
@@ -340,10 +356,10 @@ class DatabasePurchaseRecover:
                     PURCHASE.product_name = {};
         """.format(name)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_total_purchases_by_value(self, min_value, max_value):
         query = """
@@ -354,10 +370,10 @@ class DatabasePurchaseRecover:
                     PURCHASE.value >= {} AND PURCHASE.value <= {};
         """.format(min_value, max_value)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_total_purchases_by_date(self, from_date, to_date):
         query = """
@@ -374,10 +390,10 @@ class DatabasePurchaseRecover:
         """.format(from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_total_purchases_by_name_and_date(self, name, from_date, to_date):
         query = """
@@ -395,10 +411,10 @@ class DatabasePurchaseRecover:
         """.format(name, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1], from_date[1],
                    from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
     
     def get_total_purchases_by_name_and_value(self, name, min_value, max_value):
         query = """
@@ -410,10 +426,10 @@ class DatabasePurchaseRecover:
                     PURCHASE.value >= {} AND PURCHASE.value <= {};
         """.format(name, min_value, max_value)
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_total_purchases_by_value_and_date(self, min_value, max_value, from_date, to_date):
         query = """
@@ -431,10 +447,10 @@ class DatabasePurchaseRecover:
         """.format(min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2], to_date[1],
                    from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
 
     def get_total_purchases_by_name_and_value_and_date(self, name, min_value, max_value, from_date, to_date):
         query = """
@@ -453,7 +469,7 @@ class DatabasePurchaseRecover:
         """.format(name, min_value, max_value, from_date[2], to_date[2], from_date[2], from_date[1], to_date[2],
                    to_date[1], from_date[1], from_date[2], from_date[0], to_date[1], to_date[2], to_date[0])
 
-        cursor = self.conn.cursor()
-        resp = cursor.execute(query).fetchall()
-
-        return resp[0]
+        with self.conn as con:
+            cursor = con.cursor()
+            resp = cursor.execute(query).fetchall()
+            return resp
