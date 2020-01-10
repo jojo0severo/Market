@@ -4,7 +4,9 @@ import sqlite3
 
 class DatabaseRegister:
     def __init__(self):
-        if sys.platform == 'win32':
+        if len(sys.argv) > 1:
+            database_path = 'data/marketdb.db'
+        elif sys.platform == 'win32':
             database_path = 'E:/Database/marketdb.db'
         else:
             database_path = '/media/severo/Seagate Expansion Drive/Database/marketdb.db'

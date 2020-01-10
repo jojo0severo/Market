@@ -4,7 +4,9 @@ import sqlite3
 
 class DatabaseKeys:
     def __init__(self):
-        if sys.platform == 'win32':
+        if len(sys.argv) > 1:
+            database_path = 'data/webdb.db'
+        elif sys.platform == 'win32':
             database_path = 'E:/Database/webdb.db'
         else:
             database_path = '/media/severo/Seagate Expansion Drive/Database/webdb.db'
