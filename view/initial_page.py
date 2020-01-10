@@ -468,3 +468,6 @@ class InitialPage(QtWidgets.QWidget):
             subprocess.call(["shutdown", "/s", "/t", "0"])
         else:
             subprocess.call(["shutdown", "-h", "now"])
+
+        sys.exit()
+
